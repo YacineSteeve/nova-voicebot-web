@@ -1,11 +1,11 @@
 {
-  "include": [
-    "vite.config.ts"
-  ],
-  "compilerOptions": {
-    "composite": true,
-    "types": [
-      "node"
-    ]
-  }
+    "include": [
+        "vite.config.ts"
+    ],
+    "compilerOptions": {
+        "composite": true,
+        "types": [
+            "node"
+        ]
+    }
 }

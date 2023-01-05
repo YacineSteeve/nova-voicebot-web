@@ -12,6 +12,7 @@
         "format": "yarn prettier --write src/ '!**/*.{vue}'"
     },
     "dependencies": {
+        "@types/node": "^18.11.18",
         "@vitejs/plugin-vue": "^4.0.0",
         "vite": "^4.0.4",
         "vue": "^3.2.13",
