@@ -1,0 +1,13 @@
+:root {
+    --palette-electric-violet: #9013fe;
+    --palette-blue-gem: #460db2;
+    --palette-fog: #d8c4ff;
+    --palette-heliotrope: #b289ff;
+    --palette-white: #ffffff;
+}
+
+@font-face {
+    font-family: Allerta;
+    src: url("@/assets/fonts/AllertaStencil-Regular.woff") format("woff"),
+    url("@/assets/fonts/AllertaStencil-Regular.ttf") format("truetype");
+}
