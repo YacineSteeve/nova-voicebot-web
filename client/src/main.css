@@ -4,10 +4,58 @@
     --palette-fog: #d8c4ff;
     --palette-heliotrope: #b289ff;
     --palette-white: #ffffff;
+    --palette-black: #1a1a1a;
+    --palette-darker-black: #101010;
+    --main-scroll-overflow-height: 20px;
 }
 
 @font-face {
     font-family: Allerta;
     src: url("@/assets/fonts/AllertaStencil-Regular.woff") format("woff"),
     url("@/assets/fonts/AllertaStencil-Regular.ttf") format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+    width: 7px;
+    height: 100%;
+    background: var(--palette-white);
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: var(--palette-heliotrope);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: var(--palette-electric-violet);
+}
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: white;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    position: relative;
+    background: white;
+}
+
+.total-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
