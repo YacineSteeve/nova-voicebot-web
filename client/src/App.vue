@@ -42,8 +42,13 @@ main {
         width: 150vw;
         height: 150vw;
         background: rgb(119, 17, 229);
-        background: linear-gradient(38deg, rgba(119, 17, 229, 1) 0%, rgba(178, 137, 255, 1) 7%, rgba(144, 19, 254, 1) 39%, rgba(119, 17, 229, 1) 50%, rgba(70, 13, 178, 1) 77%);
-        @include animate(rotation, 12s, linear, infinite);
+        background: linear-gradient(38deg,
+            rgba(119, 17, 229, 1) 5%,
+            rgba(178, 137, 255, 1) 10%,
+            rgba(144, 19, 254, 1) 40%,
+            rgba(119, 17, 229, 1) 50%,
+            rgba(70, 13, 178, 1) 77%);
+        @include animate(rotation, 10s, linear, infinite);
     }
     
     @include keyframes(rotation) {
@@ -55,7 +60,6 @@ main {
         }
     }
 }
-
 
 .main-scroll-overflow {
     position: sticky;
