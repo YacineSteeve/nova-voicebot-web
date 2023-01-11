@@ -1,6 +1,24 @@
 <script setup
         lang="ts">
+    import { ref } from 'vue';
+    import type { Ref } from 'vue';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
+    
+    const userText: Ref<string> = ref('');
+    const apiResponse: Ref = ref();
+    
+    function doFetch() {
+        fetch('http://localhost:8000/api/')
+            .then(response => {
+                response.json().then(
+                    json => apiResponse.value = json
+                );
+            })
+            .catch(error => {
+                apiResponse.value = error;
+                console.log(error);
+            });
+    }
 </script>
 
 <template>
@@ -12,7 +30,10 @@
             </ButtonWithIcon>
         </div>
         <div class="glass-card">
-        
+            <input type="text"
+                   v-model="userText">
+            <button @click="doFetch">Send</button>
+            <p>{{ apiResponse }}</p>
         </div>
         <div class="button-section right">
             <ButtonWithIcon icon="fa-solid fa-moon"
