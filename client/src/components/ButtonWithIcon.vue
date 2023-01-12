@@ -10,7 +10,9 @@
 
 <template>
     <div class="button">
-        <font-awesome-icon :icon="props.icon"></font-awesome-icon>
+        <div class="icon total-center">
+            <v-icon :name="props.icon"></v-icon>
+        </div>
         <p>
             <slot></slot>
         </p>
@@ -23,19 +25,26 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    width: v-bind('props.width');
-    min-width: fit-content;
-    height: 40px;
-    padding-left: 8%;
+    justify-content: space-evenly;
+    width: fit-content;
+    min-width: v-bind('props.width');
+    height: var(--button-height);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     
+    .icon {
+        width: fit-content;
+        height: 100%;
+        
+        > * {
+            width: 100%;
+        }
+    }
+    
     p {
-        flex: 1;
-        min-width: fit-content;
+        width: fit-content;
         height: fit-content;
-        margin-left: 10%;
+        text-align: center;
     }
 }
 

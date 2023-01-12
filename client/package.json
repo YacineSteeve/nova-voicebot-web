@@ -12,14 +12,11 @@
         "format": "yarn prettier --write src/ '!**/*.{vue}'"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.2.1",
-        "@fortawesome/free-brands-svg-icons": "^6.2.1",
-        "@fortawesome/free-regular-svg-icons": "^6.2.1",
-        "@fortawesome/free-solid-svg-icons": "^6.2.1",
-        "@fortawesome/vue-fontawesome": "^3.0.2",
         "@types/node": "^18.11.18",
         "@vitejs/plugin-vue": "^4.0.0",
         "axios": "^1.2.2",
+        "is-mobile": "^3.1.1",
+        "oh-vue-icons": "^1.0.0-rc3",
         "vite": "^4.0.4",
         "vue": "^3.2.13",
         "vue-router": "^4.0.3",

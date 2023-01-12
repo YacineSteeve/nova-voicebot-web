@@ -1,10 +1,12 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import '@/lib/font-awesome-icons';
+import { OhVueIcon } from 'oh-vue-icons';
+import { isMobile } from 'is-mobile';
+import '@/lib/icons-loader';
 
 createApp(App)
     .use(router)
-    .component('font-awesome-icon', FontAwesomeIcon)
+    .provide('isMobile', isMobile())
+    .component('v-icon', OhVueIcon)
     .mount('#app');

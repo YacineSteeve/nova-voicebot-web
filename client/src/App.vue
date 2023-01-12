@@ -1,14 +1,57 @@
 <script setup
         lang="ts">
-    import FooterSection from '@/components/FooterSection.vue';</script>
+    import { inject, onMounted } from 'vue';
+    import FooterSection from '@/components/FooterSection.vue';
+    
+    const isMobile: boolean = inject('isMobile') || false;
+    
+    function getMediaPreference() {
+        const hasDarkPreference = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+        if (hasDarkPreference) {
+            return 'dark';
+        } else {
+            return 'light';
+        }
+    }
+    
+    onMounted(() => {
+        document.documentElement.className = getMediaPreference();
+    });
+</script>
 
 <template>
-    <main class="total-center">
-        <router-view></router-view>
-    </main>
-    <div class="main-scroll-overflow">
+    <div v-if="isMobile"
+         class="mobile-devices">
+        <main>
+            <img src="/logo.svg"
+                 alt="Logo">
+            <p>
+                Sorry !
+                <br>
+                <br>
+                Nova Web is not available on mobile devices
+                <br>
+                <br>
+                <a href="https://github.com/YacineSteeve/nova-voicebot-mobile"
+                   target="_blank"
+                   title="Download Nova Mobile">Download
+                </a>
+                &nbsp;<b>Nova Mobile</b>
+                now !
+            </p>
+        </main>
     </div>
-    <FooterSection />
+    <div v-else
+         class="other-devices">
+        <main class="total-center">
+            <router-view></router-view>
+        </main>
+        <div class="main-scroll-overflow">
+        </div>
+        <FooterSection />
+    </div>
 </template>
 
 <style scoped
@@ -24,48 +67,78 @@
 }
 
 main {
-    position: relative;
     z-index: 1;
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
+    width: 100%;
     overflow: hidden;
-    
-    > * {
-        z-index: 2;
-    }
-    
-    &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 150vw;
-        height: 150vw;
-        background: rgb(119, 17, 229);
-        background: linear-gradient(38deg,
-            rgba(119, 17, 229, 1) 5%,
-            rgba(178, 137, 255, 1) 10%,
-            rgba(144, 19, 254, 1) 40%,
-            rgba(119, 17, 229, 1) 50%,
-            rgba(70, 13, 178, 1) 77%);
-        @include animate(rotation, 10s, linear, infinite);
-    }
-    
-    @include keyframes(rotation) {
-        from {
-            transform: rotate(0deg);
+}
+
+.mobile-devices {
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10vh;
+        color: black;
+        height: 100vh;
+        
+        img {
+            width: 50%;
         }
-        to {
-            transform: rotate(360deg);
+        
+        p {
+            text-align: center;
+            
+            a {
+                text-decoration: underline;
+            }
         }
     }
 }
 
-.main-scroll-overflow {
-    position: sticky;
-    top: 0;
-    height: var(--main-scroll-overflow-height);
-    box-shadow: 0 1px 15px 5px black;
-    background-color: var(--palette-electric-violet);
+.other-devices {
+    main {
+        position: relative;
+        color: white;
+        min-height: 100vh;
+        height: auto;
+        
+        > * {
+            z-index: 2;
+        }
+        
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 150vw;
+            height: 150vw;
+            background: rgb(119, 17, 229);
+            background: linear-gradient(38deg,
+                rgba(119, 17, 229, 1) 5%,
+                rgba(178, 137, 255, 1) 10%,
+                rgba(144, 19, 254, 1) 40%,
+                rgba(119, 17, 229, 1) 50%,
+                rgba(70, 13, 178, 1) 77%);
+            @include animate(rotation, 10s, linear, infinite);
+        }
+        
+        @include keyframes(rotation) {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    }
+    
+    .main-scroll-overflow {
+        position: sticky;
+        top: 0;
+        height: var(--main-scroll-overflow-height);
+        box-shadow: 0 1px 15px 5px black;
+        background-color: var(--palette-electric-violet);
+    }
 }
 </style>

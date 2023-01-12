@@ -16,7 +16,7 @@
             <button @click="goToNova">Go back</button>
         </div>
         <div class="footer-footer total-center">
-            @copyright
+            &copy; Copyright - Yacine BOUKARI - Nova Voice Bot
         </div>
     </footer>
 </template>
@@ -33,7 +33,8 @@ footer {
     z-index: -1;
     width: 100%;
     height: $f-height;
-    background: var(--palette-black);
+    color: var(--text-primary);
+    background: var(--background-primary);
     
     .footer-container {
         position: absolute;
@@ -47,7 +48,7 @@ footer {
         bottom: 0;
         width: 100%;
         height: $ff-height;
-        background-color: var(--palette-darker-black);
+        background-color: var(--background-secondary);
     }
 }
 </style>

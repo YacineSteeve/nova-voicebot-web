@@ -1,8 +1,9 @@
 <script setup
         lang="ts">
-    import { ref } from 'vue';
+    import { ref, computed } from 'vue';
     import type { Ref } from 'vue';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
+    import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
     
     const userText: Ref<string> = ref('');
     const apiResponse: Ref = ref();
@@ -24,10 +25,12 @@
 <template>
     <div class="nova-view">
         <div class="button-section left">
-            <ButtonWithIcon icon="fa-solid fa-chevron-left"
-                            width="40%">
-                Exit
-            </ButtonWithIcon>
+            <router-link to="/">
+                <ButtonWithIcon icon="pr-chevron-left"
+                                width="100%">
+                    Exit
+                </ButtonWithIcon>
+            </router-link>
         </div>
         <div class="glass-card">
             <input type="text"
@@ -36,11 +39,8 @@
             <p>{{ apiResponse }}</p>
         </div>
         <div class="button-section right">
-            <ButtonWithIcon icon="fa-solid fa-moon"
-                            width="60%">
-                Dark Mode
-            </ButtonWithIcon>
-            <ButtonWithIcon icon="fa-solid fa-sliders"
+            <ThemeToggleButton width="60%" />
+            <ButtonWithIcon icon="pr-sliders-h"
                             width="60%">
                 Settings
             </ButtonWithIcon>
@@ -51,7 +51,7 @@
 <style scoped
        lang="scss">
 
-$view-height: calc(100vh - 10vh);
+$view-height: 90vh;
 
 .nova-view {
     display: flex;
@@ -62,11 +62,17 @@ $view-height: calc(100vh - 10vh);
     .button-section {
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: flex-start;
         gap: 5vh;
-        align-items: center;
         width: 15%;
         height: $view-height;
+        
+        &.left {
+            > * {
+                min-width: 35%;
+            }
+        }
     }
     
     .glass-card {
