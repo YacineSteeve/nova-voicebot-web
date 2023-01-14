@@ -1,6 +1,7 @@
 <script setup
         lang="ts">
     import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
+
 </script>
 
 <template>

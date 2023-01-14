@@ -1,19 +1,11 @@
 <script setup
         lang="ts">
-    import { useRouter } from 'vue-router';
-    
-    const router = useRouter();
-    
-    function goToNova() {
-        router.push('/');
-    }
 </script>
 
 <template>
     <footer>
         <div class="footer-container total-center">
             <h1>Hello</h1>
-            <button @click="goToNova">Go back</button>
         </div>
         <div class="footer-footer total-center">
             &copy; Copyright - Yacine BOUKARI - Nova Voice Bot

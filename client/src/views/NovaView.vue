@@ -1,14 +1,19 @@
 <script setup
         lang="ts">
-    import { ref, computed } from 'vue';
+    import { ref } from 'vue';
     import type { Ref } from 'vue';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
     import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
+    import NovaEye from '@/components/NovaEye.vue';
+    import ContextBloc from '@/components/ContextBloc.vue';
     
     const userText: Ref<string> = ref('');
-    const apiResponse: Ref = ref();
+    const apiResponse: Ref = ref(null);
+    const novaState: Ref<string> = ref('active');
+    const userName: string = 'YacineSteeve';
     
     function doFetch() {
+        novaState.value = ['active', 'sleeping', 'loading', 'warning'][Math.floor(Math.random() * 4)];
         fetch('http://localhost:8000/api/')
             .then(response => {
                 response.json().then(
@@ -25,7 +30,8 @@
 <template>
     <div class="nova-view">
         <div class="button-section left">
-            <router-link to="/">
+            <router-link to="/"
+                         title="Close Nova">
                 <ButtonWithIcon icon="pr-chevron-left"
                                 width="100%">
                     Exit
@@ -33,15 +39,30 @@
             </router-link>
         </div>
         <div class="glass-card">
-            <input type="text"
-                   v-model="userText">
-            <button @click="doFetch">Send</button>
-            <p>{{ apiResponse }}</p>
+            <div class="nova-face">
+                <NovaEye :state="novaState"
+                         :userName="userName" />
+                <NovaEye :state="novaState"
+                         :userName="userName" />
+            </div>
+            <div class="nova-mouth total-center">
+                <input type="text"
+                       v-model="userText">
+                <button @click="doFetch">Send</button>
+                <p>{{ apiResponse }}</p>
+            </div>
+            <div class="nova-context">
+                <context-bloc>
+                
+                </context-bloc>
+                <context-bloc></context-bloc>
+            </div>
         </div>
         <div class="button-section right">
             <ThemeToggleButton width="60%" />
             <ButtonWithIcon icon="pr-sliders-h"
-                            width="60%">
+                            width="60%"
+                            title="Settings">
                 Settings
             </ButtonWithIcon>
         </div>
@@ -84,6 +105,26 @@ $view-height: 90vh;
         -webkit-backdrop-filter: blur(1px);
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.18);
+        
+        .nova-face {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 100px;
+            width: 100%;
+            height: 30%;
+        }
+        
+        .nova-mouth {
+            width: 100%;
+            height: 30%;
+        }
+        
+        .nova-context {
+            display: flex;
+            width: 100%;
+            height: 40%;
+        }
     }
 }
 </style>

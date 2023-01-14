@@ -25,13 +25,15 @@
         <ButtonWithIcon v-if="isDarkTheme"
                         icon="pr-sun"
                         width="100%"
-                        @click="toggleTheme">
+                        @click="toggleTheme"
+                        title="Light Mode">
             Light Mode
         </ButtonWithIcon>
         <ButtonWithIcon v-else
                         icon="fa-moon"
                         width="100%"
-                        @click="toggleTheme">
+                        @click="toggleTheme"
+                        title="Dark Mode">
             Dark Mode
         </ButtonWithIcon>
     </div>
