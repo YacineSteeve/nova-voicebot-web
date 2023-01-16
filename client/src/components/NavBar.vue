@@ -35,6 +35,10 @@
         img {
             height: 80%;
         }
+        
+        h1 {
+            font-size: 3em;
+        }
     }
     
     .menu {

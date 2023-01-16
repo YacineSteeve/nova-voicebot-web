@@ -13,7 +13,7 @@
         <div class="icon total-center">
             <v-icon :name="props.icon"></v-icon>
         </div>
-        <p>
+        <p class="total-center">
             <slot></slot>
         </p>
     </div>
@@ -44,7 +44,6 @@
     p {
         width: fit-content;
         height: fit-content;
-        text-align: center;
     }
 }
 

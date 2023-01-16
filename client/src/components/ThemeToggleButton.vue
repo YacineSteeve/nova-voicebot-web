@@ -1,6 +1,6 @@
 <script setup
         lang="ts">
-    import { ref, computed } from 'vue';
+    import { computed, inject, ref } from 'vue';
     import type { Ref } from 'vue';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
     
@@ -8,7 +8,9 @@
         width: string;
     }
     
-    const userTheme: Ref<'light' | 'dark'> = ref('light');
+    type Theme = 'dark' | 'light';
+    const preferredTheme: Theme = inject('preferredTheme') || 'light';
+    const userTheme: Ref<Theme> = ref(preferredTheme);
     const props = defineProps<ThemeToggleButtonProps>();
     const isDarkTheme = computed(() => userTheme.value === 'dark');
     

@@ -16,14 +16,7 @@ app.get('/api', (request: Request, response: Response) => {
     sendRequest(s).then(
         res => {
             console.log(res.data);
-            response.send({
-                request: res.request,
-                headers: res.headers,
-                config: res.config,
-                status: res.status,
-                statusText: res.statusText,
-                data: res.data
-            });
+            response.send(res.data);
         }
     );
 });

@@ -39,25 +39,28 @@ a {
 }
 
 body {
-    font-size: 0.75em;
+    font-size: .75em;
     width: calc(100vw - 6px);
     height: 100vh;
-    overflow-y: scroll;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+.scrolled::-webkit-scrollbar {
     width: 7px;
     height: 100%;
     background: var(--background-primary);
 }
 
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+.scrolled::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: var(--palette-heliotrope);
 }
 
-body::-webkit-scrollbar-thumb:hover {
+body::-webkit-scrollbar-thumb:hover,
+.scrolled::-webkit-scrollbar-thumb:hover {
     background: var(--palette-electric-violet);
 }
 

@@ -40,7 +40,7 @@ footer {
         bottom: 0;
         width: 100%;
         height: $ff-height;
-        background-color: var(--background-secondary);
+        background: var(--background-secondary);
     }
 }
 </style>

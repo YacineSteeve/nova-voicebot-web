@@ -4,20 +4,10 @@
     import FooterSection from '@/components/FooterSection.vue';
     
     const isMobile: boolean = inject('isMobile') || false;
-    
-    function getMediaPreference() {
-        const hasDarkPreference = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        ).matches;
-        if (hasDarkPreference) {
-            return 'dark';
-        } else {
-            return 'light';
-        }
-    }
+    const preferredTheme: string = inject('preferredTheme') || 'light';
     
     onMounted(() => {
-        document.documentElement.className = getMediaPreference();
+        document.documentElement.className = preferredTheme;
     });
 </script>
 
@@ -57,6 +47,7 @@
 <style scoped
        lang="scss">
 @mixin animate($animation,$duration,$method,$times) {
+    -webkit-animation: $animation $duration $method $times;
     animation: $animation $duration $method $times;
 }
 
@@ -65,6 +56,8 @@
         @content;
     }
 }
+
+$bg-radius: calc(100vh + 100vw);
 
 main {
     z-index: 1;
@@ -111,8 +104,9 @@ main {
             content: '';
             display: block;
             position: absolute;
-            width: 150vw;
-            height: 150vw;
+            width: $bg-radius;
+            height: $bg-radius;
+            border-radius: 50%;
             background: rgb(119, 17, 229);
             background: linear-gradient(38deg,
                 rgba(119, 17, 229, 1) 5%,
@@ -138,7 +132,7 @@ main {
         top: 0;
         height: var(--main-scroll-overflow-height);
         box-shadow: 0 1px 15px 5px black;
-        background-color: var(--palette-electric-violet);
+        background: var(--palette-electric-violet);
     }
 }
 </style>

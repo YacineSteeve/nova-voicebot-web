@@ -5,6 +5,7 @@ import {
     GiSpeaker, // Enable speaking
     GiSpeakerOff, // Disable speaking
     IoWarning, // When forbidden request
+    MdPanoramafisheyeTwotone,
     PrChevronLeft,
     PrSlidersH,  // Settings
     PrSun,  // Enable light mode
@@ -20,7 +21,8 @@ addIcons(
     FaMoon,
     GiSpeaker,
     GiSpeakerOff,
-    IoWarning, // When forbidden request
+    IoWarning,
+    MdPanoramafisheyeTwotone,
     PrChevronLeft,
     PrSlidersH,
     PrSun,

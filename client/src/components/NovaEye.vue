@@ -14,13 +14,19 @@
     <div class="nova-eye">
         <v-icon v-show="props.state === 'active'"
                 :title="`Hey ${props.userName} !`"
-                name="ri-eye-2-line"
-                scale="6"
-                animation="float"
-                flip="vertical"></v-icon>
+                animation="float">
+            <v-icon name="md-panoramafisheye-twotone"
+                    fill="#ffffff"
+                    scale="5.5">
+            </v-icon>
+            <v-icon name="ri-eye-2-line"
+                    fill="#000000"
+                    scale="6"></v-icon>
+        </v-icon>
         <v-icon v-show="props.state === 'sleeping'"
                 title="zzZ"
                 name="ri-eye-close-line"
+                fill="#000000"
                 scale="6"
                 animation="float"></v-icon>
         <v-icon v-show="props.state === 'loading'"
@@ -31,10 +37,10 @@
         <v-icon v-show="props.state === 'warning'"
                 title="I don't do this !"
                 name="io-warning"
+                fill="#EF3625"
                 scale="6"
                 animation="ring"
-                speed="slow"
-                fill="#EF3625"></v-icon>
+                speed="slow"></v-icon>
     </div>
 </template>
 
