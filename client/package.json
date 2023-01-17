@@ -8,13 +8,13 @@
         "build": "vue-cli-service build",
         "build-only": "vite build",
         "type-check": "vue-tsc --noEmit",
-        "lint": "eslint src/ --fix",
-        "format": "yarn prettier --write src/ '!**/*.{vue}'"
+        "lint": "eslint src/ --fix"
     },
     "dependencies": {
         "@types/node": "^18.11.18",
         "@vitejs/plugin-vue": "^4.0.0",
         "axios": "^1.2.2",
+        "eslint": "^8.32.0",
         "is-mobile": "^3.1.1",
         "oh-vue-icons": "^1.0.0-rc3",
         "vite": "^4.0.4",
@@ -31,12 +31,8 @@
         "@vue/cli-plugin-typescript": "~5.0.0",
         "@vue/cli-service": "~5.0.0",
         "@vue/eslint-config-typescript": "^9.1.0",
-        "eslint": "^7.32.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-vue": "^8.0.3",
         "lint-staged": "^11.1.2",
-        "prettier": "^2.4.1",
         "sass": "^1.32.7",
         "sass-loader": "^12.0.0",
         "typescript": "~4.5.5"
@@ -49,8 +45,7 @@
         "extends": [
             "plugin:vue/vue3-essential",
             "eslint:recommended",
-            "@vue/typescript/recommended",
-            "plugin:prettier/recommended"
+            "@vue/typescript/recommended"
         ],
         "parserOptions": {
             "ecmaVersion": 2020

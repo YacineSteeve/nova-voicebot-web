@@ -1,18 +1,23 @@
 type EventHandler = {
     eventName:
-        | 'onaudiostart'
-        | 'onaudioend'
-        | 'onspeechstart'
-        | 'onspeechend'
-        | 'onsoundstart'
-        | 'onsoundend'
-        | 'onstart'
-        | 'onend'
-        | 'onerror'
-        | 'onnomatch'
-        | 'onresult';
-    callback: (this: SpeechRecognition, e: Event) => any
+        | 'audiostart'
+        | 'audioend'
+        | 'speechstart'
+        | 'speechend'
+        | 'soundstart'
+        | 'soundend'
+        | 'start'
+        | 'end'
+        | 'error'
+        | 'nomatch'
+        | 'result';
+    callback: <T>(
+        this: SpeechRecognition,
+        e: T
+    ) => void
 }
+
+export type RecognitionEvent = Event | SpeechRecognitionEvent | SpeechRecognitionErrorEvent;
 
 export type SttParams = {
     continuous: boolean;
@@ -25,7 +30,7 @@ export type SttParams = {
 export type SttInstance = SpeechRecognition;
 
 export function useStt(params: SttParams): SttInstance {
-    const instance = new SpeechRecognition() || new webkitSpeechRecognition();
+    const instance = new webkitSpeechRecognition();
 
     instance.continuous = params.continuous || true;
     instance.interimResults = params.interimResults || false;
@@ -34,7 +39,7 @@ export function useStt(params: SttParams): SttInstance {
 
     if (params.eventHandlers) {
         for (const eventHandler of params.eventHandlers) {
-            instance[eventHandler.eventName] = eventHandler.callback;
+            instance['on' + eventHandler.eventName] = eventHandler.callback;
         }
     }
 

@@ -14,7 +14,6 @@ export async function sendRequest(prompt: string) {
         max_tokens: 150,
         top_p: 1,
         frequency_penalty: 0.0,
-        presence_penalty: 0.6,
-        stop: [' Human:', ' AI:']
+        presence_penalty: 0.6
     });
 }

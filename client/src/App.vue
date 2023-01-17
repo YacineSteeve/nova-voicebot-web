@@ -3,7 +3,7 @@
     import { inject, onMounted } from 'vue';
     import FooterSection from '@/components/FooterSection.vue';
     
-    const isMobile: boolean = inject('isMobile') || false;
+    const isMobile = inject<boolean>('isMobile', false);
     const preferredTheme: string = inject('preferredTheme') || 'light';
     
     onMounted(() => {

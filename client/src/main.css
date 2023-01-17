@@ -5,6 +5,7 @@
     --palette-heliotrope: #b289ff;
     --main-scroll-overflow-height: 20px;
     --button-height: 40px;
+    --text-grey: #a9a9a9;
 }
 
 :root.light {
@@ -12,7 +13,6 @@
     --background-secondary: #dfdfdf;
     --text-primary: #1a1a1a;
     --text-secondary: #ffffff;
-
 }
 
 :root.dark {

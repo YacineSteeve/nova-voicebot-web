@@ -9,7 +9,7 @@
     }
     
     type Theme = 'dark' | 'light';
-    const preferredTheme: Theme = inject('preferredTheme') || 'light';
+    const preferredTheme = inject<Theme>('preferredTheme', 'light');
     const userTheme: Ref<Theme> = ref(preferredTheme);
     const props = defineProps<ThemeToggleButtonProps>();
     const isDarkTheme = computed(() => userTheme.value === 'dark');
