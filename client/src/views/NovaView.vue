@@ -11,21 +11,34 @@
     import ResponseText from '@/components/ResponseText.vue';
     
     const userText: Ref<string> = ref('');
+    const novaText: Ref<string> = ref('');
     const novaState: Ref<string> = ref('sleeping');
+    let awaken = false;
     
     // To be changed (coming feature)
     const userName: string = 'YacineSteeve';
     
     function wakeUpNova() {
         novaState.value = 'active';
+        awaken = true;
     }
     
     function updateUserText(newText: string) {
-        userText.value = newText;
+        if (newText != '') {
+            userText.value = newText + ' ?';
+        }
     }
     
     function changeFetchStatus(state: boolean) {
-        novaState.value = state ? 'loading' : 'active';
+        novaState.value = awaken
+            ? state
+                ? 'loading'
+                : 'active'
+            : 'sleeping';
+    }
+    
+    function readResponse(text: string) {
+        novaText.value = text;
     }
 </script>
 
@@ -48,7 +61,10 @@
                          :userName="userName" />
             </div>
             <div class="nova-face mouth total-center">
-                <NovaMouth />
+                <Suspense>
+                    <NovaMouth :message="novaText"
+                               :key="novaText" />
+                </Suspense>
             </div>
             <div class="nova-context">
                 <context-bloc>
@@ -56,9 +72,12 @@
                                     @update-user-text="updateUserText" />
                 </context-bloc>
                 <context-bloc class="total-center">
-                    <ResponseText :prompt="userText"
-                                  @change-fetch-status="changeFetchStatus"
-                                  :key="userText" />
+                    <Suspense>
+                        <ResponseText :prompt="userText"
+                                      @change-fetch-status="changeFetchStatus"
+                                      @response-fetched="readResponse"
+                                      :key="userText" />
+                    </Suspense>
                 </context-bloc>
             </div>
         </div>

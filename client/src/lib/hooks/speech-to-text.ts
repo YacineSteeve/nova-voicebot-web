@@ -1,4 +1,6 @@
-type EventHandler = {
+export type SttInstance = SpeechRecognition;
+
+type SttEventHandler = {
     eventName:
         | 'audiostart'
         | 'audioend'
@@ -12,7 +14,7 @@ type EventHandler = {
         | 'nomatch'
         | 'result';
     callback: <T>(
-        this: SpeechRecognition,
+        this: SttInstance,
         e: T
     ) => void
 }
@@ -24,17 +26,15 @@ export type SttParams = {
     interimResults: boolean;
     lang: string;
     maxAlternatives?: number;
-    eventHandlers?: EventHandler[]
+    eventHandlers?: SttEventHandler[]
 }
-
-export type SttInstance = SpeechRecognition;
 
 export function useStt(params: SttParams): SttInstance {
     const instance = new webkitSpeechRecognition();
 
     instance.continuous = params.continuous || true;
     instance.interimResults = params.interimResults || false;
-    instance.lang = params.lang || 'en-US';
+    instance.lang = params.lang || navigator.language;
     instance.maxAlternatives = params.maxAlternatives || 1;
 
     if (params.eventHandlers) {

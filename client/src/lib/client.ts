@@ -1,11 +1,12 @@
 import axios from 'axios';
+import type { AxiosInstance, AxiosResponse } from 'axios';
 
-const novaApi = axios.create({
+export const novaApi: AxiosInstance = axios.create({
     baseURL: 'http://localhost:8000/api',
-    timeout: 10000,
+    timeout: 5000,
     maxBodyLength: 2000,
     xsrfHeaderName: 'X-CSRFTOKEN',
     xsrfCookieName: 'csrftoken'
 });
 
-export default novaApi;
+export type ApiResponse = AxiosResponse;
