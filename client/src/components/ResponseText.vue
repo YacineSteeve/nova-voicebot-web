@@ -1,7 +1,7 @@
 <script setup
         lang="ts">
     import { computed, ref, watch } from 'vue';
-    import type { ComputedRef, Ref } from 'vue';
+    import type { ComputedRef } from 'vue';
     import { useFetch } from '@/lib/hooks/fetch';
     import type { FetchOptions } from '@/lib/hooks/fetch';
     
@@ -22,7 +22,7 @@
         type: 'completion',
         prompt: ref(props.prompt)
     };
-    const {data, error, isFetching} = await useFetch<string>(apiRequest);
+    const {data, error, isFetching} = await useFetch(apiRequest);
     const apiResponseData: ComputedRef<string> = computed(() => {
         return data.value ? data.value.toString().trim() : '';
     });

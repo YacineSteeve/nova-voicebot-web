@@ -1,4 +1,4 @@
-const languages = [
+const rawLanguages = [
     ['Afrikaans', ['af-ZA']],
     ['Bahasa Indonesia', ['id-ID']],
     ['Bahasa Melayu', ['ms-MY']],
@@ -34,7 +34,8 @@ const languages = [
         ['es-DO', 'República Dominicana'],
         ['es-UY', 'Uruguay'],
         ['es-VE', 'Venezuela']],
-    ['Euskara', ['eu-ES']], ['Français', ['fr-FR']],
+    ['Euskara', ['eu-ES']],
+    ['Français', ['fr-FR']],
     ['Galego', ['gl-ES']],
     ['Hrvatski', ['hr_HR']],
     ['IsiZulu', ['zu-ZA']],
@@ -66,4 +67,18 @@ const languages = [
     ['日本語', ['ja-JP']],
     ['Lingua latīna', ['la']]];
 
-export default languages;
+export const languages = rawLanguages.map((lang) => {
+    const obj = {
+        language: lang[0],
+        variants: []
+    };
+
+    for (let i = 1; i < lang.length; i++) {
+        obj.variants.push({
+            code: lang[i][0],
+            country: lang[i][1]
+        });
+    }
+
+    return obj;
+});

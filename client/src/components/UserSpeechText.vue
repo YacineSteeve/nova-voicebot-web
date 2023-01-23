@@ -17,7 +17,7 @@
     const recognition = useStt({
         continuous: true,
         interimResults: true,
-        lang: 'fr-FR',
+        lang: 'en-US',
         eventHandlers: [
             {
                 eventName: 'result',
