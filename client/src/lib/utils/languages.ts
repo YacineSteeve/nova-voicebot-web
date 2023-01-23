@@ -67,18 +67,24 @@ const rawLanguages = [
     ['日本語', ['ja-JP']],
     ['Lingua latīna', ['la']]];
 
-export const languages = rawLanguages.map((lang) => {
-    const obj = {
-        language: lang[0],
-        variants: []
-    };
+export type Language = {
+    name: string;
+    code: string;
+    country: string | null;
+}
 
-    for (let i = 1; i < lang.length; i++) {
-        obj.variants.push({
-            code: lang[i][0],
-            country: lang[i][1]
-        });
-    }
+export const getLanguages = (): Language[] => {
+    const formattedLanguages: Language[] = [];
 
-    return obj;
-});
+    rawLanguages.forEach((lang) => {
+        for (let i = 1; i < lang.length; i++) {
+            formattedLanguages.push({
+                name: lang[0] as string,
+                code: lang[i][0],
+                country: lang[i][1] || null
+            });
+        }
+    });
+
+    return formattedLanguages;
+};

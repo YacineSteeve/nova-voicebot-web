@@ -146,7 +146,6 @@
             min-height: fit-content;
             max-height: 100%;
             margin-block: 15px;
-            overflow-x: hidden;
             
             span {
                 display: inline-block;

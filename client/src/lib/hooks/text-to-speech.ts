@@ -22,8 +22,9 @@ export type TtsInstance = HTMLAudioElement;
 
 export function useTts(params: TtsParams): TtsInstance {
     const audio = new Audio(params.url);
-    audio.type = 'audio/mp3';
     audio.playbackRate = 1.2;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     audio.preservesPitch = false;
 
     if (params.eventHandlers) {

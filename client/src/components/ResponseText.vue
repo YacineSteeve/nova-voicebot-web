@@ -63,7 +63,6 @@
         line-height: 1.5em;
         width: 90%;
         height: 90%;
-        overflow-x: hidden;
         background: var(--background-secondary-transparent);
     }
 }
