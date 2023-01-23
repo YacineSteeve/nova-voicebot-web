@@ -44,6 +44,10 @@ body {
     font-size: .75em;
     width: calc(100vw - 6px);
     height: 100vh;
+}
+
+body,
+.scrolled {
     overflow-x: hidden;
     scroll-behavior: smooth;
 }

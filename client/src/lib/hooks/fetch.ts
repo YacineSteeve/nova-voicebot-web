@@ -1,12 +1,12 @@
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { novaApi } from '@/lib/client';
 import type { ApiResponse } from '@/lib/client';
 
 type ApiEndPoint = 'completion' | 'speech';
 
-export interface FetchResponse<T> {
-    data: Ref<T | null>;
+export interface FetchResponse {
+    data: Ref<string | null>;
     error: Ref;
     isFetching: Ref<boolean>;
 }
@@ -21,22 +21,13 @@ function parseResponse(response: ApiResponse, type: ApiEndPoint) {
     if (type === 'completion') {
         return response.data.choices[0].text;
     } else if (type === 'speech') {
-        return response.data;
+        return response.data.speech;
     }
     return null;
 }
 
-function responseType(type: ApiEndPoint) {
-    if (type === 'completion') {
-        return 'json';
-    } else if (type === 'speech') {
-        return 'arraybuffer';
-    }
-    return '';
-}
-
-export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<T>> {
-    const state: FetchResponse<T> = {
+export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
+    const state: FetchResponse = {
         data: ref(null),
         error: ref(null),
         isFetching: ref(false)
@@ -52,8 +43,7 @@ export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<
                     params: {
                         prompt: request.prompt?.value,
                         text: request.text?.value
-                    },
-                    responseType: responseType(request.type)
+                    }
                 })
                 .then(response => {
                     state.isFetching.value = false;

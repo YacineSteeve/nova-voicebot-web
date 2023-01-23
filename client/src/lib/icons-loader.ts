@@ -2,12 +2,15 @@ import {
     FaMicrophone,  // Enable listening
     FaMicrophoneSlash, // Disable listening
     FaMoon, // Enable dark mode
+    FaSlidersH,  // Settings
     GiSpeaker, // Enable speaking
     GiSpeakerOff, // Disable speaking
+    HiChevronDown,
+    HiChevronLeft,
+    IoLanguage,
     IoWarning, // When forbidden request
     MdPanoramafisheyeTwotone,
-    PrChevronLeft,
-    PrSlidersH,  // Settings
+    MdReportRound,
     PrSun,  // Enable light mode
     RiEye2Line, // While running, after hearing 'Hey Nova'
     RiEyeCloseLine, // Sleeping, before hearing 'Hey Nova'
@@ -19,12 +22,15 @@ addIcons(
     FaMicrophone,
     FaMicrophoneSlash,
     FaMoon,
+    FaSlidersH,
     GiSpeaker,
     GiSpeakerOff,
+    HiChevronDown,
+    HiChevronLeft,
+    IoLanguage,
     IoWarning,
     MdPanoramafisheyeTwotone,
-    PrChevronLeft,
-    PrSlidersH,
+    MdReportRound,
     PrSun,
     RiEye2Line,
     RiEyeCloseLine,

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import axios from 'axios';
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
 import * as process from 'process';
 
 const openaiConfiguration = new Configuration({
@@ -8,15 +8,7 @@ const openaiConfiguration = new Configuration({
 });
 const openai = new OpenAIApi(openaiConfiguration);
 
-const voiceRssConfiguration = {
-    baseURL: 'https://voicerss-text-to-speech.p.rapidapi.com/',
-    headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'voicerss-text-to-speech.p.rapidapi.com'
-    }
-};
-
-export async function getCompletion(prompt: string) {
+export async function getCompletion(prompt: string): Promise<AxiosResponse> {
     return await openai.createCompletion({
         model: 'text-davinci-003',
         prompt: prompt,
@@ -29,12 +21,18 @@ export async function getCompletion(prompt: string) {
 }
 
 export async function getSpeech(text: string): Promise<AxiosResponse> {
-    return await axios.create(voiceRssConfiguration).request({
-        params: {
-            key: process.env.VOICERSS_API_KEY,
-            src: text,
-            hl: 'fr-fr',
-            c: 'mp3'
-        }
+    return await axios.request({
+        url: 'https://text-to-speech53.p.rapidapi.com/',
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+            'X-RapidAPI-Host': 'text-to-speech53.p.rapidapi.com'
+        },
+        data: JSON.stringify({
+            text: text,
+            lang: 'en',
+            format: 'mp3'
+        })
     });
 }

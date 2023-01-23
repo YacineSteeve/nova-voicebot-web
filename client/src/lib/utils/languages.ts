@@ -1,4 +1,4 @@
-const languages = [
+const rawLanguages = [
     ['Afrikaans', ['af-ZA']],
     ['Bahasa Indonesia', ['id-ID']],
     ['Bahasa Melayu', ['ms-MY']],
@@ -34,7 +34,8 @@ const languages = [
         ['es-DO', 'República Dominicana'],
         ['es-UY', 'Uruguay'],
         ['es-VE', 'Venezuela']],
-    ['Euskara', ['eu-ES']], ['Français', ['fr-FR']],
+    ['Euskara', ['eu-ES']],
+    ['Français', ['fr-FR']],
     ['Galego', ['gl-ES']],
     ['Hrvatski', ['hr_HR']],
     ['IsiZulu', ['zu-ZA']],
@@ -66,4 +67,24 @@ const languages = [
     ['日本語', ['ja-JP']],
     ['Lingua latīna', ['la']]];
 
-export default languages;
+export type Language = {
+    name: string;
+    code: string;
+    country: string | null;
+}
+
+export const getLanguages = (): Language[] => {
+    const formattedLanguages: Language[] = [];
+
+    rawLanguages.forEach((lang) => {
+        for (let i = 1; i < lang.length; i++) {
+            formattedLanguages.push({
+                name: lang[0] as string,
+                code: lang[i][0],
+                country: lang[i][1] || null
+            });
+        }
+    });
+
+    return formattedLanguages;
+};

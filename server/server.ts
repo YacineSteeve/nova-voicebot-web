@@ -23,11 +23,11 @@ app.get('/api/completion', (request: Request, response: Response) => {
 
 app.get('/api/speech', (request: Request, response: Response) => {
     request.accepts('text/plain');
-    response.type('audio/mpeg');
+    response.type('application/json');
 
     getSpeech(request.query['text'] as string)
         .then(res => {
-            console.log(res.data);
+            console.log(res.request, res.data);
             response.send(res.data);
         });
 });

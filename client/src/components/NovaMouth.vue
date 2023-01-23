@@ -1,6 +1,7 @@
 <script setup
         lang="ts">
-    import { computed, ref } from 'vue';
+    import { computed, ref, watch } from 'vue';
+    import type { ComputedRef } from 'vue';
     import { useTts } from '@/lib/hooks/text-to-speech';
     import { FetchOptions, useFetch } from '@/lib/hooks/fetch';
     
@@ -14,21 +15,21 @@
         type: 'speech',
         text: ref(props.message)
     };
-    const {data, error, isFetching} = await useFetch<ArrayBuffer>(apiRequest);
-    const apiResponseData: ComputedRef<ArrayBuffer | null> = computed(() => {
-        return data.value ? data.value : null;
+    const {data, error, isFetching} = await useFetch(apiRequest);
+    const apiResponseData: ComputedRef<string> = computed(() => {
+        return data.value ? data.value : '';
     });
     
-    function playSound() {
-        if (!isFetching.value) {
-            const speech = useTts({data: apiResponseData.value});
-            
-            console.log('apiResponseData', apiResponseData);
-            console.log('speech', speech);
-            
-            speech.start();
+    watch(isFetching, async () => {
+        if (!isFetching.value && apiResponseData.value) {
+            const speech = useTts({url: apiResponseData.value});
+            try {
+                await speech.play();
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }
+    });
 </script>
 
 <template>

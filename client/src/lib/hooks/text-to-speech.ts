@@ -14,28 +14,24 @@ type TtsEventHandler = {
 }
 
 export type TtsParams = {
-    data: ArrayBuffer;
+    url: string;
     eventHandlers: TtsEventHandler[];
 }
 
-export type TtsInstance = AudioBufferSourceNode;
+export type TtsInstance = HTMLAudioElement;
 
 export function useTts(params: TtsParams): TtsInstance {
-    const context = new AudioContext();
-    const source = context.createBufferSource();
+    const audio = new Audio(params.url);
+    audio.playbackRate = 1.2;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    audio.preservesPitch = false;
 
-    console.log('context', context);
-    console.log('params', params.data);
-
-    source.buffer = params.data;
-    source.connect(context.destination);
-
-    /*
     if (params.eventHandlers) {
         for (const eventHandler of params.eventHandlers) {
             audio['on' + eventHandler.eventName] = eventHandler.callback;
         }
     }
-    */
-    return source;
+
+    return audio;
 }

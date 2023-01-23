@@ -9,14 +9,16 @@
     import NovaMouth from '@/components/NovaMouth.vue';
     import UserSpeechText from '@/components/UserSpeechText.vue';
     import ResponseText from '@/components/ResponseText.vue';
+    import LanguagePicker from '@/components/LanguagePicker.vue';
     
     const userText: Ref<string> = ref('');
     const novaText: Ref<string> = ref('');
     const novaState: Ref<string> = ref('sleeping');
+    const languagesVisible: Ref<boolean> = ref(false);
     let awaken = false;
     
     // To be changed (coming feature)
-    const userName: string = 'YacineSteeve';
+    const userName = 'YacineSteeve';
     
     function wakeUpNova() {
         novaState.value = 'active';
@@ -40,6 +42,10 @@
     function readResponse(text: string) {
         novaText.value = text;
     }
+    
+    function hideLanguages() {
+        languagesVisible.value = false;
+    }
 </script>
 
 <template>
@@ -47,7 +53,7 @@
         <div class="button-section left">
             <router-link to="/"
                          title="Close Nova">
-                <ButtonWithIcon icon="pr-chevron-left"
+                <ButtonWithIcon icon="hi-chevron-left"
                                 width="100%">
                     Exit
                 </ButtonWithIcon>
@@ -83,10 +89,27 @@
         </div>
         <div class="button-section right">
             <ThemeToggleButton width="60%" />
-            <ButtonWithIcon icon="pr-sliders-h"
+            <ButtonWithIcon icon="fa-sliders-h"
                             width="60%"
                             title="Settings">
                 Settings
+            </ButtonWithIcon>
+            <ButtonWithIcon icon="io-language"
+                            width="60%"
+                            title="Language"
+                            @click="languagesVisible = !languagesVisible">
+                Language
+            </ButtonWithIcon>
+            <div class="languages"
+                 :class="{invisible: !languagesVisible}">
+                <v-icon name="hi-chevron-down"></v-icon>
+                <LanguagePicker width="100%"
+                                @language-picked="hideLanguages" />
+            </div>
+            <ButtonWithIcon icon="md-report-round"
+                            width="60%"
+                            title="Report">
+                Report abuse
             </ButtonWithIcon>
         </div>
     </div>
@@ -94,13 +117,13 @@
 
 <style scoped
        lang="scss">
+
 $view-height: 90vh;
 
 .nova-view {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 100vh;
     
     .button-section {
         display: flex;
@@ -114,6 +137,25 @@ $view-height: 90vh;
         &.left {
             > * {
                 min-width: 35%;
+            }
+        }
+        
+        &.right {
+            .languages {
+                display: flex;
+                flex-direction: column;
+                visibility: visible;
+                gap: 1vh;
+                align-items: center;
+                width: 80%;
+                
+                &.invisible {
+                    display: none;
+                }
+            }
+            
+            > *:last-child {
+                margin-top: auto;
             }
         }
     }

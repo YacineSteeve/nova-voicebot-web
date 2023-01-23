@@ -17,7 +17,7 @@
     const recognition = useStt({
         continuous: true,
         interimResults: true,
-        lang: 'fr-FR',
+        lang: 'en-US',
         eventHandlers: [
             {
                 eventName: 'result',
@@ -146,7 +146,6 @@
             min-height: fit-content;
             max-height: 100%;
             margin-block: 15px;
-            overflow-x: hidden;
             
             span {
                 display: inline-block;
