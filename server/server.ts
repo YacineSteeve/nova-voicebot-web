@@ -25,7 +25,10 @@ app.get('/api/speech', (request: Request, response: Response) => {
     request.accepts('text/plain');
     response.type('application/json');
 
-    getSpeech(request.query['text'] as string)
+    getSpeech(
+        request.query['text'] as string,
+        request.query['lang'] as string
+    )
         .then(res => {
             console.log(res.request, res.data);
             response.send(res.data);

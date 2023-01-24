@@ -1,6 +1,8 @@
 <script setup
         lang="ts">
     import { getLanguages } from '@/lib/utils/languages';
+    import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     
     interface LanguagePickerProps {
         width: string;
@@ -12,9 +14,11 @@
     
     const props = defineProps<LanguagePickerProps>();
     const emit = defineEmits<LanguagePickerEmits>();
+    const store = useStore();
+    const languages = getLanguages();
     
-    function selectLanguage(index) {
-        console.log(getLanguages()[index]);
+    function selectLanguage(index: number) {
+        store.commit(MutationTypes.CHANGE_LANGUAGE, languages[index].code);
         emit('languagePicked');
     }
 </script>

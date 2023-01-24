@@ -4,20 +4,27 @@
     import { useStt } from '@/lib/hooks/speech-to-text';
     import type { RecognitionEvent } from '@/lib/hooks/speech-to-text';
     
-    interface UserTextSpeechEmits {
+    interface UserSpeechTextProps {
+        language: string;
+    }
+    
+    interface UserSpeechTextEmits {
         (e: 'updateUserText', value: string): void;
         
         (e: 'wakeUpNova'): void;
     }
     
-    const emit = defineEmits<UserTextSpeechEmits>();
+    const props = defineProps<UserSpeechTextProps>();
+    const emit = defineEmits<UserSpeechTextEmits>();
+    
     const isRecording = ref<boolean>(false);
     const finalTranscript = ref<string>('');
     const interimTranscript = ref<string>('');
+    
     const recognition = useStt({
         continuous: true,
         interimResults: true,
-        lang: 'en-US',
+        lang: props.language,
         eventHandlers: [
             {
                 eventName: 'result',

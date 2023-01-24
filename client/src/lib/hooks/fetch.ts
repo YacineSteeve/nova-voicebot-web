@@ -15,6 +15,7 @@ export interface FetchOptions {
     type: ApiEndPoint,
     prompt?: Ref<string>;
     text?: Ref<string>
+    lang?: Ref<string>
 }
 
 function parseResponse(response: ApiResponse, type: ApiEndPoint) {
@@ -42,7 +43,8 @@ export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
             novaApi.get(`/${request.type}`, {
                     params: {
                         prompt: request.prompt?.value,
-                        text: request.text?.value
+                        text: request.text?.value,
+                        lang: request.lang?.value
                     }
                 })
                 .then(response => {

@@ -20,7 +20,7 @@ export async function getCompletion(prompt: string): Promise<AxiosResponse> {
     });
 }
 
-export async function getSpeech(text: string): Promise<AxiosResponse> {
+export async function getSpeech(text: string, lang: string): Promise<AxiosResponse> {
     return await axios.request({
         url: 'https://text-to-speech53.p.rapidapi.com/',
         method: 'POST',
@@ -31,7 +31,7 @@ export async function getSpeech(text: string): Promise<AxiosResponse> {
         },
         data: JSON.stringify({
             text: text,
-            lang: 'en',
+            lang: lang,
             format: 'mp3'
         })
     });

@@ -15,7 +15,7 @@ type TtsEventHandler = {
 
 export type TtsParams = {
     url: string;
-    eventHandlers: TtsEventHandler[];
+    eventHandlers?: TtsEventHandler[];
 }
 
 export type TtsInstance = HTMLAudioElement;
