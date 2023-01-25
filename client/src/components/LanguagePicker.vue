@@ -29,7 +29,8 @@
             <div v-for="(language, index) in getLanguages()"
                  :key="language"
                  @click="selectLanguage(index)"
-                 class="language">
+                 class="language"
+                 :class="{current: language.code === store.state.language}">
                 <p>
                     {{ language.name }}
                     <span v-if="language.country">
@@ -68,7 +69,8 @@ $height: 300px;
             min-height: calc($height / 6);
             padding-left: calc($height / 18);
             
-            &:hover {
+            &:hover,
+            &.current {
                 background: var(--background-secondary);
             }
             

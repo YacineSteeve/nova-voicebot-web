@@ -151,7 +151,6 @@ $view-height: 90vh;
             .languages {
                 display: flex;
                 flex-direction: column;
-                visibility: visible;
                 gap: 1vh;
                 align-items: center;
                 width: 80%;
