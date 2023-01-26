@@ -2,22 +2,31 @@
         lang="ts">
     import { ref } from 'vue';
     import { useStt } from '@/lib/hooks/speech-to-text';
+    import { useStore } from '@/store/store';
     import type { RecognitionEvent } from '@/lib/hooks/speech-to-text';
     
-    interface UserTextSpeechEmits {
+    interface UserSpeechTextProps {
+        language: string;
+    }
+    
+    interface UserSpeechTextEmits {
         (e: 'updateUserText', value: string): void;
         
         (e: 'wakeUpNova'): void;
     }
     
-    const emit = defineEmits<UserTextSpeechEmits>();
+    const props = defineProps<UserSpeechTextProps>();
+    const emit = defineEmits<UserSpeechTextEmits>();
+    const store = useStore();
+    
     const isRecording = ref<boolean>(false);
     const finalTranscript = ref<string>('');
     const interimTranscript = ref<string>('');
+    
     const recognition = useStt({
         continuous: true,
         interimResults: true,
-        lang: 'en-US',
+        lang: props.language,
         eventHandlers: [
             {
                 eventName: 'result',
@@ -69,6 +78,10 @@
                     @click="startRecording"></v-icon>
         </div>
         <div class="transcript-container">
+            <div class="call-to-talk"
+                 :class="{hidden: isRecording || finalTranscript !== '' || interimTranscript !== ''}">
+                <i>{{ store.getters.translationsDictionary.callToTalk }}</i>
+            </div>
             <p class="scrolled">
                 {{ finalTranscript }}
                 <span class="interim">{{ interimTranscript }}</span>
@@ -130,6 +143,7 @@
     }
     
     .transcript-container {
+        position: relative;
         display: flex;
         justify-content: center;
         color: var(--text-primary);
@@ -138,6 +152,21 @@
         max-height: 50%;
         border-radius: 8px;
         background: var(--background-secondary);
+        
+        .call-to-talk {
+            position: absolute;
+            text-align: center;
+            opacity: 0.7;
+            width: 100%;
+            height: fit-content;
+            top: 50%;
+            bottom: 50%;
+            transform: translateY(-50%);
+            
+            &.hidden {
+                opacity: 0;
+            }
+        }
         
         p {
             display: inline-block;

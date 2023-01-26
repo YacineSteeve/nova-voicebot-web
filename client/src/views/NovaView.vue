@@ -1,6 +1,6 @@
 <script setup
         lang="ts">
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import type { Ref } from 'vue';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
     import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
@@ -10,11 +10,16 @@
     import UserSpeechText from '@/components/UserSpeechText.vue';
     import ResponseText from '@/components/ResponseText.vue';
     import LanguagePicker from '@/components/LanguagePicker.vue';
+    import { useStore } from '@/store/store';
+    
+    const store = useStore();
     
     const userText: Ref<string> = ref('');
     const novaText: Ref<string> = ref('');
     const novaState: Ref<string> = ref('sleeping');
     const languagesVisible: Ref<boolean> = ref(false);
+    const currentLanguage = computed(() => store.state.language);
+    
     let awaken = false;
     
     // To be changed (coming feature)
@@ -74,7 +79,9 @@
             </div>
             <div class="nova-context">
                 <context-bloc>
-                    <UserSpeechText @wake-up-nova="wakeUpNova"
+                    <UserSpeechText :language="currentLanguage"
+                                    :key="currentLanguage"
+                                    @wake-up-nova="wakeUpNova"
                                     @update-user-text="updateUserText" />
                 </context-bloc>
                 <context-bloc class="total-center">
@@ -144,7 +151,6 @@ $view-height: 90vh;
             .languages {
                 display: flex;
                 flex-direction: column;
-                visibility: visible;
                 gap: 1vh;
                 align-items: center;
                 width: 80%;

@@ -4,16 +4,19 @@
     import type { ComputedRef } from 'vue';
     import { useTts } from '@/lib/hooks/text-to-speech';
     import { FetchOptions, useFetch } from '@/lib/hooks/fetch';
+    import { useStore } from '@/store/store';
     
     interface NovaMouthProps {
         message: string;
     }
     
     const props = defineProps<NovaMouthProps>();
+    const store = useStore();
     
     const apiRequest: FetchOptions = {
         type: 'speech',
-        text: ref(props.message)
+        text: ref(props.message),
+        lang: computed(() => store.getters.truncatedLanguageCode)
     };
     const {data, error, isFetching} = await useFetch(apiRequest);
     const apiResponseData: ComputedRef<string> = computed(() => {
@@ -33,8 +36,7 @@
 </script>
 
 <template>
-    <div class="nova-mouth"
-         @click="playSound">
+    <div class="nova-mouth">
         <div class="lip left"></div>
         <div v-for="i of 20"
              class="tooth"

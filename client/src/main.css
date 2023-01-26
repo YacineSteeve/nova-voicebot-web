@@ -17,9 +17,9 @@
 }
 
 :root.dark {
-    --background-primary: #1a1a1a;
-    --background-secondary: #101010;
-    --background-secondary-transparent: #101010e5;
+    --background-primary: #2d2e2f;
+    --background-secondary: #202122;
+    --background-secondary-transparent: #202122e5;
     --text-primary: #ffffff;
     --text-secondary: #1a1a1a;
 }

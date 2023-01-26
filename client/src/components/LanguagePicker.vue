@@ -1,6 +1,8 @@
 <script setup
         lang="ts">
     import { getLanguages } from '@/lib/utils/languages';
+    import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     
     interface LanguagePickerProps {
         width: string;
@@ -12,9 +14,11 @@
     
     const props = defineProps<LanguagePickerProps>();
     const emit = defineEmits<LanguagePickerEmits>();
+    const store = useStore();
+    const languages = getLanguages();
     
-    function selectLanguage(index) {
-        console.log(getLanguages()[index]);
+    function selectLanguage(index: number) {
+        store.commit(MutationTypes.CHANGE_LANGUAGE, languages[index].code);
         emit('languagePicked');
     }
 </script>
@@ -25,7 +29,8 @@
             <div v-for="(language, index) in getLanguages()"
                  :key="language"
                  @click="selectLanguage(index)"
-                 class="language">
+                 class="language"
+                 :class="{current: language.code === store.state.language}">
                 <p>
                     {{ language.name }}
                     <span v-if="language.country">
@@ -64,7 +69,8 @@ $height: 300px;
             min-height: calc($height / 6);
             padding-left: calc($height / 18);
             
-            &:hover {
+            &:hover,
+            &.current {
                 background: var(--background-secondary);
             }
             

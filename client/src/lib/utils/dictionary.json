@@ -1,0 +1,130 @@
+{
+    "af": {
+        "callToTalk": "Klik op die mikrofoon en vra jou vraag",
+        "novaGreeting": ""
+    },
+    "id": {
+        "callToTalk": "Klik pada mikrofon dan ajukan pertanyaan Anda",
+        "novaGreeting": ""
+    },
+    "ms": {
+        "callToTalk": "Klik pada mikrofon dan tanya soalan anda",
+        "novaGreeting": ""
+    },
+    "ca": {
+        "callToTalk": "Feu clic al micròfon i feu la vostra pregunta",
+        "novaGreeting": ""
+    },
+    "cs": {
+        "callToTalk": "Klikněte na mikrofon a položte otázku",
+        "novaGreeting": ""
+    },
+    "de": {
+        "callToTalk": "Klicken Sie auf das Mikrofon und stellen Sie Ihre Frage",
+        "novaGreeting": ""
+    },
+    "en": {
+        "callToTalk": "Click on the microphone and ask your question",
+        "novaGreeting": "Hello, I'm Nova"
+    },
+    "es": {
+        "callToTalk": "Haz clic en el micrófono y formula tu pregunta",
+        "novaGreeting": ""
+    },
+    "eu": {
+        "callToTalk": "Egin klik mikrofonoan eta egin zure galdera",
+        "novaGreeting": ""
+    },
+    "fr": {
+        "callToTalk": "Cliquez sur le microphone et posez votre question",
+        "novaGreeting": ""
+    },
+    "gl": {
+        "callToTalk": "Fai clic no micrófono e fai a túa pregunta",
+        "novaGreeting": ""
+    },
+    "hr": {
+        "callToTalk": "Kliknite na mikrofon i postavite svoje pitanje",
+        "novaGreeting": ""
+    },
+    "zu": {
+        "callToTalk": "Chofoza imakrofoni bese ubuza umbuzo wakho",
+        "novaGreeting": ""
+    },
+    "is": {
+        "callToTalk": "Smelltu á hljóðnemann og spurðu spurningar þinnar",
+        "novaGreeting": ""
+    },
+    "it": {
+        "callToTalk": "Clicca sul microfono e fai la tua domanda",
+        "novaGreeting": ""
+    },
+    "hu": {
+        "callToTalk": "Kattintson a mikrofonra, és tegye fel kérdését",
+        "novaGreeting": ""
+    },
+    "nl": {
+        "callToTalk": "Klik op de microfoon en stel uw vraag",
+        "novaGreeting": ""
+    },
+    "nb": {
+        "callToTalk": "\nKlikk på mikrofonen og still spørsmålet ditt",
+        "novaGreeting": ""
+    },
+    "pl": {
+        "callToTalk": "Kliknij na mikrofon i zadaj swoje pytanie",
+        "novaGreeting": ""
+    },
+    "pt": {
+        "callToTalk": "Clique no microfone e faça a sua pergunta",
+        "novaGreeting": ""
+    },
+    "ro": {
+        "callToTalk": "Faceți clic pe microfon și puneți întrebarea",
+        "novaGreeting": ""
+    },
+    "sk": {
+        "callToTalk": "Kliknite na mikrofón a položte otázku",
+        "novaGreeting": ""
+    },
+    "fi": {
+        "callToTalk": "Klikkaa mikrofonia ja esitä kysymyksesi",
+        "novaGreeting": ""
+    },
+    "sv": {
+        "callToTalk": "Klicka på mikrofonen och ställ din fråga",
+        "novaGreeting": ""
+    },
+    "tr": {
+        "callToTalk": "Mikrofona tıklayın ve sorunuzu sorun",
+        "novaGreeting": ""
+    },
+    "bg": {
+        "callToTalk": "Кликнете върху микрофона и задайте въпроса си",
+        "novaGreeting": ""
+    },
+    "ru": {
+        "callToTalk": "Нажмите на микрофон и задайте свой вопрос",
+        "novaGreeting": ""
+    },
+    "sr": {
+        "callToTalk": "Кликните на микрофон и поставите своје питање",
+        "novaGreeting": ""
+    },
+    "ko": {
+        "callToTalk": "마이크를 클릭하고 질문하세요",
+        "novaGreeting": ""
+    },
+    "zh": {
+        "callToTalk": "点击麦克风，提出你的问题",
+        "novaGreeting": ""
+    },
+    "ja": {
+        "callToTalk": "マイクをクリックし、質問をする",
+        "novaGreeting": ""
+    },
+    "la": {
+        "callToTalk": "Preme tortor ligula, et quaeras",
+        "novaGreeting": ""
+    }
+}
