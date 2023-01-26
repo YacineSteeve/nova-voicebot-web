@@ -1,39 +1,33 @@
 <script setup
         lang="ts">
-    import { computed, ref, watch } from 'vue';
-    import type { ComputedRef } from 'vue';
+    import { computed, watch } from 'vue';
     import { useFetch } from '@/lib/hooks/fetch';
-    import type { FetchOptions } from '@/lib/hooks/fetch';
+    import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     
-    interface ResponseTextProps {
-        prompt: string;
-    }
+    const store = useStore();
     
-    interface ResponseTextEmits {
-        (e: 'changeFetchStatus', value: boolean): void;
-        
-        (e: 'responseFetched', text: string): void;
-    }
+    const apiRequestPrompt = computed(() => store.state.userText);
     
-    const props = defineProps<ResponseTextProps>();
-    const emit = defineEmits<ResponseTextEmits>();
-    
-    const apiRequest: FetchOptions = {
+    const {data, error, isFetching} = await useFetch({
         type: 'completion',
-        prompt: ref(props.prompt)
-    };
-    const {data, error, isFetching} = await useFetch(apiRequest);
-    const apiResponseData: ComputedRef<string> = computed(() => {
-        return data.value ? data.value.toString().trim() : '';
+        prompt: apiRequestPrompt
     });
     
-    watch(isFetching, () => {
-        emit('changeFetchStatus', isFetching.value);
-        
-        if (!isFetching.value && apiResponseData.value) {
-            emit('responseFetched', apiResponseData.value);
+    const apiResponseData = computed(() => {
+        return data.value ? data.value.toString().trim() : '';
+    });
+    const apiResponseFetchStatus = computed(() => isFetching.value);
+    
+    watch(apiResponseFetchStatus, () => {
+        store.commit(MutationTypes.UPDATE_FETCH_STATUS, isFetching.value);
+    });
+    
+    watch(apiResponseData, () => {
+        if (apiResponseData.value) {
+            store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, apiResponseData.value);
         }
-    }, {immediate: true});
+    });
 </script>
 
 <template>

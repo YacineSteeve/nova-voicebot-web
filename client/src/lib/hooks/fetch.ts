@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import type { Ref } from 'vue';
 import { novaApi } from '@/lib/client';
 import type { ApiResponse } from '@/lib/client';
@@ -58,7 +58,20 @@ export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
         }
     }
 
-    await doFetch();
+    if (request.type === 'completion') {
+        watch(
+            [request.prompt],
+            doFetch,
+            {immediate: true}
+        );
+    } else if (request.type === 'speech') {
+        watch(
+            [request.text, request.lang],
+            doFetch,
+            {immediate: true}
+        );
+    }
+
 
     return state;
 }

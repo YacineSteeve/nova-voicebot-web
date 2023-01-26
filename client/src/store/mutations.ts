@@ -3,19 +3,39 @@ import type { State } from '@/store/state';
 
 export enum MutationTypes {
     CHANGE_LANGUAGE = 'CHANGE_LANGUAGE',
-    CHANGE_NOVA_STATE = 'CHANGE_NOVA_STATE',
+    CHANGE_NOVA_STATUS = 'CHANGE_NOVA_STATUS',
+    UPDATE_FETCH_STATUS = 'UPDATE_FETCH_STATUS',
+    CHANGE_USER_TEXT = 'CHANGE_USER_TEXT',
+    CHANGE_RESPONSE_TEXT = 'CHANGE_RESPONSE_TEXT'
 }
 
 export type Mutations<S = State> = {
     [MutationTypes.CHANGE_LANGUAGE](state: S, newLanguage: string): void;
-    [MutationTypes.CHANGE_NOVA_STATE](state: S, newNovaState: string): void;
+    [MutationTypes.CHANGE_NOVA_STATUS](state: S, newNovaStatus: string): void;
+    [MutationTypes.UPDATE_FETCH_STATUS](state: S, newFetchStatus: boolean): void;
+    [MutationTypes.CHANGE_USER_TEXT](state: S, newUserText: string): void;
+    [MutationTypes.CHANGE_RESPONSE_TEXT](state: S, newResponseText: string): void;
 }
 
 export const mutations: MutationTree<State> & Mutations = {
     [MutationTypes.CHANGE_LANGUAGE](state, newLanguage: string) {
         state.language = newLanguage;
     },
-    [MutationTypes.CHANGE_NOVA_STATE](state, newNovaState: string) {
-        state.novaState = newNovaState;
+    [MutationTypes.CHANGE_NOVA_STATUS](state, newNovaStatus: string) {
+        state.novaStatus = newNovaStatus;
+    },
+    [MutationTypes.UPDATE_FETCH_STATUS](state, newFetchStatus: boolean) {
+        state.novaStatus = state.novaStatus !== 'sleeping'
+            ? newFetchStatus
+                ? 'loading'
+                : 'active'
+            : 'sleeping';
+        state.fetchStatus = newFetchStatus;
+    },
+    [MutationTypes.CHANGE_USER_TEXT](state, newUserText: string) {
+        state.userText = newUserText;
+    },
+    [MutationTypes.CHANGE_RESPONSE_TEXT](state, newResponseText: string) {
+        state.responseText = newResponseText;
     }
 };
