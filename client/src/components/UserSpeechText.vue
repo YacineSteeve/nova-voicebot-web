@@ -3,6 +3,7 @@
     import { ref } from 'vue';
     import { useStt } from '@/lib/hooks/speech-to-text';
     import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     import type { RecognitionEvent } from '@/lib/hooks/speech-to-text';
     
     interface UserSpeechTextProps {
@@ -11,8 +12,6 @@
     
     interface UserSpeechTextEmits {
         (e: 'updateUserText', value: string): void;
-        
-        (e: 'wakeUpNova'): void;
     }
     
     const props = defineProps<UserSpeechTextProps>();
@@ -65,7 +64,7 @@
     
     function startRecording() {
         recognition.start();
-        emit('wakeUpNova');
+        store.commit(MutationTypes.CHANGE_NOVA_STATE, 'active');
     }
 </script>
 

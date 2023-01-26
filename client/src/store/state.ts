@@ -1,6 +1,6 @@
 export const state = {
     language: navigator.language,
-    languagesVisible: false
+    novaState: 'sleeping'
 };
 
 export type State = typeof state

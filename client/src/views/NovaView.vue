@@ -11,12 +11,13 @@
     import ResponseText from '@/components/ResponseText.vue';
     import LanguagePicker from '@/components/LanguagePicker.vue';
     import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     
     const store = useStore();
     
     const userText: Ref<string> = ref('');
     const novaText: Ref<string> = ref('');
-    const novaState: Ref<string> = ref('sleeping');
+    const novaState = computed(() => store.state.novaState);
     const languagesVisible: Ref<boolean> = ref(false);
     const currentLanguage = computed(() => store.state.language);
     
@@ -25,11 +26,6 @@
     // To be changed (coming feature)
     const userName = 'YacineSteeve';
     
-    function wakeUpNova() {
-        novaState.value = 'active';
-        awaken = true;
-    }
-    
     function updateUserText(newText: string) {
         if (newText != '') {
             userText.value = newText + ' ?';
@@ -37,11 +33,13 @@
     }
     
     function changeFetchStatus(state: boolean) {
-        novaState.value = awaken
-            ? state
-                ? 'loading'
-                : 'active'
-            : 'sleeping';
+        store.commit(MutationTypes.CHANGE_NOVA_STATE,
+            awaken
+                ? state
+                    ? 'loading'
+                    : 'active'
+                : 'sleeping'
+        );
     }
     
     function readResponse(text: string) {
@@ -81,7 +79,6 @@
                 <context-bloc>
                     <UserSpeechText :language="currentLanguage"
                                     :key="currentLanguage"
-                                    @wake-up-nova="wakeUpNova"
                                     @update-user-text="updateUserText" />
                 </context-bloc>
                 <context-bloc class="total-center">
