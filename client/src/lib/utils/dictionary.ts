@@ -1,4 +1,5 @@
 import dictionary from '@/lib/utils/dictionary.json';
+import type { ShortLanguageCode } from '@/lib/types';
 
 export interface DictionaryEntry {
     callToTalk: string;
@@ -6,11 +7,11 @@ export interface DictionaryEntry {
 }
 
 export interface Dictionary {
-    [code: string]: DictionaryEntry;
+    [code: ShortLanguageCode]: DictionaryEntry;
 }
 
 export const getAllDictionary = (): Dictionary => dictionary;
 
-export const getDictionaryEntry = (language: string): DictionaryEntry => {
+export const getDictionaryEntry = (language: ShortLanguageCode): DictionaryEntry => {
     return dictionary[language];
 };

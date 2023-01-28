@@ -8,6 +8,7 @@ import {
     HiChevronDown,
     HiChevronLeft,
     IoLanguage,
+    IoPlayCircle,
     IoWarning, // When forbidden request
     MdPanoramafisheyeTwotone,
     MdReportRound,
@@ -28,6 +29,7 @@ addIcons(
     HiChevronDown,
     HiChevronLeft,
     IoLanguage,
+    IoPlayCircle,
     IoWarning,
     MdPanoramafisheyeTwotone,
     MdReportRound,

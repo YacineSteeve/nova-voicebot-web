@@ -1,12 +1,18 @@
 <script setup
         lang="ts">
     import { inject, onMounted } from 'vue';
+    import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
+    import type { Theme } from '@/lib/types';
     import FooterSection from '@/components/FooterSection.vue';
     
+    const store = useStore();
+    
     const isMobile = inject<boolean>('isMobile', false);
-    const preferredTheme: string = inject('preferredTheme') || 'light';
+    const preferredTheme: Theme = inject('preferredTheme') || 'light';
     
     onMounted(() => {
+        store.commit(MutationTypes.CHANGE_USER_THEME, preferredTheme);
         document.documentElement.className = preferredTheme;
     });
 </script>

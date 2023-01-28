@@ -31,6 +31,7 @@
                             finalTranscript.value += event.results[i][0].transcript;
                             
                             event.target.stop();
+                            
                             if (finalTranscript.value !== '') {
                                 store.commit(MutationTypes.CHANGE_USER_TEXT, finalTranscript.value + ' ?');
                             }
@@ -60,8 +61,9 @@
     });
     
     function startRecording() {
-        recognition.start();
+        store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, '');
         store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
+        recognition.start();
     }
 </script>
 

@@ -1,23 +1,26 @@
 <script setup
         lang="ts">
-    import { computed, inject, ref } from 'vue';
-    import type { Ref } from 'vue';
+    import { computed } from 'vue';
+    import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
     
     interface ThemeToggleButtonProps {
         width: string;
     }
     
-    type Theme = 'dark' | 'light';
-    const preferredTheme = inject<Theme>('preferredTheme', 'light');
-    const userTheme: Ref<Theme> = ref(preferredTheme);
     const props = defineProps<ThemeToggleButtonProps>();
+    const store = useStore();
+    
+    const userTheme = computed(() => store.state.userTheme);
     const isDarkTheme = computed(() => userTheme.value === 'dark');
     
     function toggleTheme() {
-        userTheme.value = userTheme.value === 'dark'
-            ? 'light'
-            : 'dark';
+        store.commit(MutationTypes.CHANGE_USER_THEME,
+            userTheme.value === 'dark'
+                ? 'light'
+                : 'dark'
+        );
         document.documentElement.className = userTheme.value;
     }
 </script>

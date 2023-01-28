@@ -26,7 +26,18 @@
     
     watch(apiResponseData, async () => {
         if (apiResponseData.value) {
-            const speech = useTts({url: apiResponseData.value});
+            const speech = useTts({
+                url: apiResponseData.value,
+                eventHandlers: [
+                    {
+                        eventName: 'error',
+                        callback: function () {
+                            console.log();
+                        }
+                    }
+                ]
+            });
+            
             try {
                 await speech.play();
             } catch (error) {
