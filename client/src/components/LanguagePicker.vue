@@ -15,6 +15,7 @@
     const props = defineProps<LanguagePickerProps>();
     const emit = defineEmits<LanguagePickerEmits>();
     const store = useStore();
+    
     const languages = getLanguages();
     
     function selectLanguage(index: number) {

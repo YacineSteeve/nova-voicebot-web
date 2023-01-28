@@ -5,6 +5,7 @@
     --palette-heliotrope: #b289ff;
     --main-scroll-overflow-height: 20px;
     --button-height: 40px;
+    --navbar-height: calc(5vh + 2px + var(--button-height));
     --text-grey: #a9a9a9;
 }
 

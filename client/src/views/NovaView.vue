@@ -14,38 +14,16 @@
     
     const store = useStore();
     
-    const userText: Ref<string> = ref('');
-    const novaText: Ref<string> = ref('');
-    const novaState: Ref<string> = ref('sleeping');
-    const languagesVisible: Ref<boolean> = ref(false);
+    const novaStatus = computed(() => store.state.novaStatus);
     const currentLanguage = computed(() => store.state.language);
     
-    let awaken = false;
+    const languagesVisible: Ref<boolean> = ref(false);
     
     // To be changed (coming feature)
     const userName = 'YacineSteeve';
     
-    function wakeUpNova() {
-        novaState.value = 'active';
-        awaken = true;
-    }
-    
-    function updateUserText(newText: string) {
-        if (newText != '') {
-            userText.value = newText + ' ?';
-        }
-    }
-    
-    function changeFetchStatus(state: boolean) {
-        novaState.value = awaken
-            ? state
-                ? 'loading'
-                : 'active'
-            : 'sleeping';
-    }
-    
-    function readResponse(text: string) {
-        novaText.value = text;
+    function toggleLanguagesVisibility() {
+        languagesVisible.value = !languagesVisible.value;
     }
     
     function hideLanguages() {
@@ -66,30 +44,24 @@
         </div>
         <div class="glass-card">
             <div class="nova-face eyes">
-                <NovaEye :state="novaState"
+                <NovaEye :state="novaStatus"
                          :userName="userName" />
-                <NovaEye :state="novaState"
+                <NovaEye :state="novaStatus"
                          :userName="userName" />
             </div>
             <div class="nova-face mouth total-center">
                 <Suspense>
-                    <NovaMouth :message="novaText"
-                               :key="novaText" />
+                    <NovaMouth />
                 </Suspense>
             </div>
             <div class="nova-context">
                 <context-bloc>
                     <UserSpeechText :language="currentLanguage"
-                                    :key="currentLanguage"
-                                    @wake-up-nova="wakeUpNova"
-                                    @update-user-text="updateUserText" />
+                                    :key="currentLanguage" />
                 </context-bloc>
                 <context-bloc class="total-center">
                     <Suspense>
-                        <ResponseText :prompt="userText"
-                                      @change-fetch-status="changeFetchStatus"
-                                      @response-fetched="readResponse"
-                                      :key="userText" />
+                        <ResponseText />
                     </Suspense>
                 </context-bloc>
             </div>
@@ -104,7 +76,7 @@
             <ButtonWithIcon icon="io-language"
                             width="60%"
                             title="Language"
-                            @click="languagesVisible = !languagesVisible">
+                            @click="toggleLanguagesVisibility">
                 Language
             </ButtonWithIcon>
             <div class="languages"

@@ -1,12 +1,27 @@
 type TtsEventHandler = {
     eventName:
-        | 'boundary'
-        | 'end'
+        | 'abort'
+        | 'canplay'
+        | 'canplaythrough'
+        | 'durationchange'
+        | 'emptied'
+        | 'ended'
         | 'error'
-        | 'mark'
+        | 'loadeddata'
+        | 'loadedmetadata'
+        | 'loadstart'
         | 'pause'
-        | 'resume'
-        | 'start';
+        | 'play'
+        | 'playing'
+        | 'progress'
+        | 'ratechange'
+        | 'seeked'
+        | 'seeking'
+        | 'stalled'
+        | 'suspend'
+        | 'timeupdate'
+        | 'volumechange'
+        | 'waiting';
     callback: <T>(
         this: TtsInstance,
         e: T
@@ -22,10 +37,13 @@ export type TtsInstance = HTMLAudioElement;
 
 export function useTts(params: TtsParams): TtsInstance {
     const audio = new Audio(params.url);
-    audio.playbackRate = 1.1;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    audio.preservesPitch = false;
+
+    if ('preservesPitch' in audio) {
+        audio.playbackRate = 1.1;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        audio.preservesPitch = false;
+    }
 
     if (params.eventHandlers) {
         for (const eventHandler of params.eventHandlers) {

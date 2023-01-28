@@ -1,31 +1,43 @@
 <script setup
         lang="ts">
-    import { computed, ref, watch } from 'vue';
-    import type { ComputedRef } from 'vue';
+    import { computed, watch } from 'vue';
     import { useTts } from '@/lib/hooks/text-to-speech';
-    import { FetchOptions, useFetch } from '@/lib/hooks/fetch';
+    import { useFetch } from '@/lib/hooks/fetch';
     import { useStore } from '@/store/store';
+    import { MutationTypes } from '@/store/mutations';
     
-    interface NovaMouthProps {
-        message: string;
-    }
-    
-    const props = defineProps<NovaMouthProps>();
     const store = useStore();
     
-    const apiRequest: FetchOptions = {
+    const apiRequestText = computed(() => store.state.responseText);
+    const apiRequestLanguage = computed(() => store.getters.truncatedLanguageCode);
+    
+    const {data, error, isFetching} = await useFetch({
         type: 'speech',
-        text: ref(props.message),
-        lang: computed(() => store.getters.truncatedLanguageCode)
-    };
-    const {data, error, isFetching} = await useFetch(apiRequest);
-    const apiResponseData: ComputedRef<string> = computed(() => {
-        return data.value ? data.value : '';
+        text: apiRequestText,
+        lang: apiRequestLanguage
     });
     
-    watch(isFetching, async () => {
-        if (!isFetching.value && apiResponseData.value) {
-            const speech = useTts({url: apiResponseData.value});
+    const apiResponseData = computed(() => data.value);
+    const apiResponseFetchStatus = computed(() => isFetching.value);
+    
+    watch(apiResponseFetchStatus, () => {
+        store.commit(MutationTypes.UPDATE_FETCH_STATUS, isFetching.value);
+    });
+    
+    watch(apiResponseData, async () => {
+        if (apiResponseData.value) {
+            const speech = useTts({
+                url: apiResponseData.value,
+                eventHandlers: [
+                    {
+                        eventName: 'error',
+                        callback: function () {
+                            console.log();
+                        }
+                    }
+                ]
+            });
+            
             try {
                 await speech.play();
             } catch (error) {

@@ -2,6 +2,7 @@
         lang="ts">
     interface ButtonWithIconProps {
         icon: string;
+        iconScale?: string;
         width: string;
     }
     
@@ -11,9 +12,10 @@
 <template>
     <div class="button">
         <div class="icon total-center">
-            <v-icon :name="props.icon"></v-icon>
+            <v-icon :name="props.icon"
+                    :scale="props.iconScale || '1'"></v-icon>
         </div>
-        <p class="total-center">
+        <p>
             <slot></slot>
         </p>
     </div>
@@ -28,7 +30,8 @@
     justify-content: space-evenly;
     width: fit-content;
     min-width: v-bind('props.width');
-    height: var(--button-height);
+    min-height: var(--button-height);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     
@@ -48,7 +51,7 @@
 }
 
 .button:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: blur(1px);
