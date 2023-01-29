@@ -24,11 +24,15 @@ export type Mutations<S = State> = {
 export const mutations: MutationTree<State> & Mutations = {
     [MutationTypes.CHANGE_LANGUAGE](state, newLanguage: LanguageCode) {
         state.language = newLanguage;
-        cookies.set('nova-language', newLanguage);
+        if (cookies.isKey('nova-use-cookies')) {
+            cookies.set('nova-language', newLanguage);
+        }
     },
     [MutationTypes.CHANGE_USER_THEME](state, newUserTheme: Theme) {
         state.userTheme = newUserTheme;
-        cookies.set('nova-theme', newUserTheme);
+        if (cookies.isKey('nova-use-cookies')) {
+            cookies.set('nova-theme', newUserTheme);
+        }
     },
     [MutationTypes.CHANGE_NOVA_STATUS](state, newNovaStatus: NovaStatus) {
         state.novaStatus = newNovaStatus;

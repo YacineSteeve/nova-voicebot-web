@@ -7,6 +7,7 @@ import {
     GiSpeakerOff, // Disable speaking
     HiChevronDown,
     HiChevronLeft,
+    IoClose,
     IoLanguage,
     IoPlayCircle,
     IoWarning, // When forbidden request
@@ -28,6 +29,7 @@ addIcons(
     GiSpeakerOff,
     HiChevronDown,
     HiChevronLeft,
+    IoClose,
     IoLanguage,
     IoPlayCircle,
     IoWarning,

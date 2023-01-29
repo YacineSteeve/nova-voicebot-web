@@ -6,6 +6,7 @@
     import cookies from '@/lib/cookies';
     import type { Theme } from '@/lib/types';
     import FooterSection from '@/components/FooterSection.vue';
+    import CookieLaw from '@/components/CookieLaw.vue';
     
     const store = useStore();
     
@@ -27,12 +28,15 @@
             ? cookies.get('nova-theme') as Theme
             : getPreferredTheme();
         
-        cookies.set('nova-theme', preferredTheme);
+        if (cookies.isKey('nova-use-cookies')) {
+            cookies.set('nova-theme', preferredTheme);
+        }
+        
         document.documentElement.className = `${preferredTheme}`;
         store.commit(MutationTypes.CHANGE_USER_THEME, preferredTheme);
         
         if (cookies.isKey('nova-language')) {
-            store.commit(MutationTypes.CHANGE_USER_THEME, cookies.get('nova-language'));
+            store.commit(MutationTypes.CHANGE_LANGUAGE, cookies.get('nova-language'));
         }
     });
 </script>
@@ -67,6 +71,7 @@
         <div class="main-scroll-overflow">
         </div>
         <FooterSection />
+        <cookie-law></cookie-law>
     </div>
 </template>
 
