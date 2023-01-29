@@ -16,11 +16,12 @@
 <style scoped
        lang="scss">
 
-$f-height: calc(100vh - var(--main-scroll-overflow-height));
+$f-height: 100vh;
 $ff-height: 75px;
 
 footer {
     position: sticky;
+    top: 0;
     bottom: 0;
     z-index: -1;
     width: 100%;

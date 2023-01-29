@@ -80,7 +80,7 @@
                 Language
             </ButtonWithIcon>
             <div class="languages"
-                 :class="{invisible: !languagesVisible}">
+                 :class="{hidden: !languagesVisible}">
                 <v-icon name="hi-chevron-down"></v-icon>
                 <LanguagePicker width="100%"
                                 @language-picked="hideLanguages" />
@@ -126,10 +126,6 @@ $view-height: 90vh;
                 gap: 1vh;
                 align-items: center;
                 width: 80%;
-                
-                &.invisible {
-                    display: none;
-                }
             }
             
             > *:last-child {

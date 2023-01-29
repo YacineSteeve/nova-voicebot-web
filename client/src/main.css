@@ -15,6 +15,7 @@
     --background-secondary-transparent: #dfdfdfe5;
     --text-primary: #1a1a1a;
     --text-secondary: #ffffff;
+    --link-blue: #0000ff;
 }
 
 :root.dark {
@@ -23,6 +24,7 @@
     --background-secondary-transparent: #202122e5;
     --text-primary: #ffffff;
     --text-secondary: #1a1a1a;
+    --link-blue: #1166ff;
 }
 
 @font-face {
@@ -86,4 +88,8 @@ body::-webkit-scrollbar-thumb:hover,
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.hidden {
+    display: none !important;
 }
