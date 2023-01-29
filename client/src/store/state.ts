@@ -1,9 +1,9 @@
 import type { LanguageCode, Theme, NovaStatus } from '@/lib/types';
 
 export const state = {
-    language: navigator.language,
-    userTheme: 'light',
-    novaStatus: 'sleeping',
+    language: navigator.language as LanguageCode,
+    userTheme: 'light' as Theme,
+    novaStatus: 'sleeping' as NovaStatus,
     fetchStatus: false,
     userText: '',
     responseText: ''

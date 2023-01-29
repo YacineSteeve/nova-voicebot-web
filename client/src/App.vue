@@ -3,17 +3,37 @@
     import { inject, onMounted } from 'vue';
     import { useStore } from '@/store/store';
     import { MutationTypes } from '@/store/mutations';
+    import cookies from '@/lib/cookies';
     import type { Theme } from '@/lib/types';
     import FooterSection from '@/components/FooterSection.vue';
     
     const store = useStore();
     
     const isMobile = inject<boolean>('isMobile', false);
-    const preferredTheme: Theme = inject('preferredTheme') || 'light';
+    
+    function getPreferredTheme(): Theme {
+        const hasDarkPreference = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+        if (hasDarkPreference) {
+            return 'dark';
+        } else {
+            return 'light';
+        }
+    }
     
     onMounted(() => {
+        const preferredTheme = cookies.isKey('nova-theme')
+            ? cookies.get('nova-theme') as Theme
+            : getPreferredTheme();
+        
+        cookies.set('nova-theme', preferredTheme);
+        document.documentElement.className = `${preferredTheme}`;
         store.commit(MutationTypes.CHANGE_USER_THEME, preferredTheme);
-        document.documentElement.className = preferredTheme;
+        
+        if (cookies.isKey('nova-language')) {
+            store.commit(MutationTypes.CHANGE_USER_THEME, cookies.get('nova-language'));
+        }
     });
 </script>
 
