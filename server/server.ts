@@ -25,13 +25,32 @@ app.get('/api/speech', (request: Request, response: Response) => {
     request.accepts('text/plain');
     response.type('application/json');
 
+    const queryParams = {
+        text: request.query['text'] as string,
+        lang: request.query['lang'] as string
+    };
+
+    if (!queryParams.text || queryParams.text === '') {
+        throw new Error('CLIENT ERROR: Missing `text` parameter to speech request.');
+    }
+
+    if (!queryParams.lang || queryParams.lang === '') {
+        throw new Error('CLIENT ERROR: Missing `lang` parameter to speech request.');
+    }
+
     getSpeech(
-        request.query['text'] as string,
-        request.query['lang'] as string
+        queryParams.text,
+        queryParams.lang
     )
         .then(res => {
-            console.log(res.request, res.data);
             response.send(res.data);
+        })
+        .catch(error => {
+            response
+                .status(error.response.status)
+                .send(`${error.response.statusText.toUpperCase()}: ` +
+                    `Invalid language '${JSON.parse(error.response.config.data).lang}'`
+                );
         });
 });
 

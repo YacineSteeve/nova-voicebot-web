@@ -18,11 +18,8 @@
     });
     
     const apiResponseData = computed(() => data.value);
+    const apiResponseError = computed(() => error.value);
     const apiResponseFetchStatus = computed(() => isFetching.value);
-    
-    watch(apiResponseFetchStatus, () => {
-        store.commit(MutationTypes.UPDATE_FETCH_STATUS, isFetching.value);
-    });
     
     watch(apiResponseData, async () => {
         if (apiResponseData.value) {
@@ -41,9 +38,19 @@
             try {
                 await speech.play();
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
+    });
+    
+    watch(apiResponseError, () => {
+        if (apiResponseError.value) {
+            console.error(apiResponseError.value);
+        }
+    });
+    
+    watch(apiResponseFetchStatus, () => {
+        store.commit(MutationTypes.UPDATE_FETCH_STATUS, isFetching.value);
     });
 </script>
 
