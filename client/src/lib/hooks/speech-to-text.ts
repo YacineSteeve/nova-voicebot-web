@@ -13,13 +13,19 @@ type SttEventHandler = {
         | 'error'
         | 'nomatch'
         | 'result';
-    callback: <T>(
+    callback: (
         this: SttInstance,
-        e: T
+        e?: Event
     ) => void
 }
 
-export type RecognitionEvent = Event | SpeechRecognitionEvent | SpeechRecognitionErrorEvent;
+export function isSpeechRecognitionEvent(event): event is SpeechRecognitionEvent {
+    return 'results' in event;
+}
+
+export function isSpeechRecognitionErrorEvent(event): event is SpeechRecognitionErrorEvent {
+    return event.type === SpeechRecognitionErrorEvent;
+}
 
 export type SttParams = {
     continuous: boolean;
@@ -32,16 +38,16 @@ export type SttParams = {
 export function useStt(params: SttParams): SttInstance {
     const instance = new webkitSpeechRecognition();
 
-    instance.continuous = params.continuous || true;
-    instance.interimResults = params.interimResults || false;
-    instance.lang = params.lang || navigator.language;
-    instance.maxAlternatives = params.maxAlternatives || 1;
-
     if (params.eventHandlers) {
         for (const eventHandler of params.eventHandlers) {
             instance['on' + eventHandler.eventName] = eventHandler.callback;
         }
     }
+
+    instance.continuous = params.continuous || true;
+    instance.interimResults = params.interimResults || false;
+    instance.lang = params.lang || navigator.language;
+    instance.maxAlternatives = params.maxAlternatives || 1;
 
     return instance;
 }
