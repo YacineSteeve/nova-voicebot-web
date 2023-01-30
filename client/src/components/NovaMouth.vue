@@ -28,14 +28,17 @@
                 eventHandlers: [
                     {
                         eventName: 'error',
-                        callback: function () {
-                            console.log();
+                        callback: function handleError(event) {
+                            console.error(`CLIENT ERROR (code-${this.error?.code}): ` +
+                                `Unable to play ${event.target}\n` +
+                                `${this.error?.message}`);
                         }
                     }
                 ]
             });
             
             try {
+                speech.pause();
                 await speech.play();
             } catch (error) {
                 console.error(error);

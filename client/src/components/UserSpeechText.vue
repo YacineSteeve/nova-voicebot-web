@@ -1,10 +1,13 @@
 <script setup
         lang="ts">
     import { ref } from 'vue';
-    import { useStt } from '@/lib/hooks/speech-to-text';
+    import {
+        useStt,
+        isSpeechRecognitionEvent,
+        isSpeechRecognitionErrorEvent
+    } from '@/lib/hooks/speech-to-text';
     import { useStore } from '@/store/store';
     import { MutationTypes } from '@/store/mutations';
-    import type { RecognitionEvent } from '@/lib/hooks/speech-to-text';
     
     interface UserSpeechTextProps {
         language: string;
@@ -24,37 +27,48 @@
         eventHandlers: [
             {
                 eventName: 'result',
-                callback: function <RecognitionEvent>(event) {
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) {
-                            interimTranscript.value = '';
-                            finalTranscript.value += event.results[i][0].transcript;
-                            
-                            event.target.stop();
-                            
-                            if (finalTranscript.value !== '') {
-                                store.commit(MutationTypes.CHANGE_USER_TEXT, finalTranscript.value + ' ?');
+                callback: function (event) {
+                    if (isSpeechRecognitionEvent(event)) {
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            if (event.results[i].isFinal) {
+                                interimTranscript.value = '';
+                                finalTranscript.value += event.results[i][0].transcript;
+                                
+                                (event.target as SpeechRecognition).stop();
+                                
+                                if (finalTranscript.value !== '') {
+                                    store.commit(MutationTypes.CHANGE_USER_TEXT, finalTranscript.value + ' ?');
+                                }
+                                
+                                setTimeout(() => {
+                                    finalTranscript.value = '';
+                                }, 10000);
+                            } else {
+                                interimTranscript.value = event.results[i][0].transcript;
                             }
-                            
-                            setTimeout(() => {
-                                finalTranscript.value = '';
-                            }, 10000);
-                        } else {
-                            interimTranscript.value = event.results[i][0].transcript;
                         }
                     }
                 }
             },
             {
                 eventName: 'audiostart',
-                callback: function <RecognitionEvent>(event) {
+                callback: function () {
                     isRecording.value = true;
                 }
             },
             {
                 eventName: 'audioend',
-                callback: function <RecognitionEvent>(event) {
+                callback: function () {
                     isRecording.value = false;
+                }
+            },
+            {
+                eventName: 'error',
+                callback: function (event) {
+                    if (isSpeechRecognitionErrorEvent(event)) {
+                        console.error(`CLIENT ERROR (${event.error}): ` +
+                            `${event.message}`);
+                    }
                 }
             }
         ]
@@ -65,6 +79,18 @@
         store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
         recognition.start();
     }
+    
+    function stopRecording() {
+        recognition.stop();
+    }
+    
+    function toggleRecording() {
+        if (isRecording.value) {
+            stopRecording();
+        } else {
+            startRecording();
+        }
+    }
 </script>
 
 <template>
@@ -73,7 +99,7 @@
              :class="{recording: isRecording}">
             <v-icon name="fa-microphone"
                     scale="3"
-                    @click="startRecording"></v-icon>
+                    @click="toggleRecording"></v-icon>
         </div>
         <div class="transcript-container">
             <div class="call-to-talk"

@@ -31,11 +31,11 @@ app.get('/api/speech', (request: Request, response: Response) => {
     };
 
     if (!queryParams.text || queryParams.text === '') {
-        throw new Error('CLIENT ERROR: Missing `text` parameter to speech request.');
+        throw new Error('SERVER ERROR: Missing `text` parameter to speech request.');
     }
 
     if (!queryParams.lang || queryParams.lang === '') {
-        throw new Error('CLIENT ERROR: Missing `lang` parameter to speech request.');
+        throw new Error('SERVER ERROR: Missing `lang` parameter to speech request.');
     }
 
     getSpeech(
