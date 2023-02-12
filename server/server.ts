@@ -1,11 +1,13 @@
 import express from 'express';
-import type { Express, Request, Response } from 'express';
+import type {Express, Request, Response} from 'express';
 import cors from 'cors';
 import './config';
-import { getCompletion, getSpeech } from './redirect';
+import {getModeration, getCompletion, getSpeech} from './redirect';
+import highScore from './lib/high-score';
 
 const app: Express = express();
 const port: string | number = process.env.SERVER_PORT || 8000;
+const moderationThreshold: number = 0.001;
 
 app.use(cors());
 app.use(express.json());
@@ -14,10 +16,40 @@ app.get('/api/completion', (request: Request, response: Response) => {
     request.accepts('text/plain');
     response.type('application/json');
 
-    getCompletion(request.query['prompt'] as string)
-        .then(res => {
-            console.log(res.data);
-            response.send(res.data);
+    const queryParams = {
+        prompt: request.query['prompt'] as string,
+    };
+
+    if (!queryParams.prompt || queryParams.prompt === '') {
+        throw new Error('SERVER ERROR: Missing `prompt` parameter to completion request.');
+    }
+
+    getModeration(queryParams.prompt)
+        .then(moderationResponse => {
+            if (moderationResponse.data.results[0].flagged
+                || highScore(
+                    moderationResponse.data.results[0].category_scores,
+                    moderationThreshold)
+            ) {
+                response
+                    .status(400)
+                    .send(moderationResponse.data.results[0].categories)
+            } else {
+                getCompletion(queryParams.prompt)
+                    .then(completionResponse => {
+                        response.send(completionResponse.data);
+                    })
+                    .catch(error => {
+                        response
+                            .status(error.response.status)
+                            .send('Completion went wrong');
+                    });
+            }
+        })
+        .catch(error => {
+            response
+                .status(error.response.status)
+                .send('Moderation went wrong');
         });
 });
 

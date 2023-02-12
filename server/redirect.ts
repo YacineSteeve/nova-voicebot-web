@@ -1,6 +1,6 @@
-import { Configuration, OpenAIApi } from 'openai';
+import {Configuration, OpenAIApi} from 'openai';
 import axios from 'axios';
-import type { AxiosResponse } from 'axios';
+import type {AxiosResponse} from 'axios';
 import * as process from 'process';
 
 const openaiConfiguration = new Configuration({
@@ -12,9 +12,8 @@ export async function getCompletion(prompt: string): Promise<AxiosResponse> {
     return await openai.createCompletion({
         model: 'text-davinci-003',
         prompt: prompt,
-        temperature: 0.9,
+        temperature: 0.5,
         max_tokens: 150,
-        top_p: 1,
         frequency_penalty: 0.0,
         presence_penalty: 0.6
     });
@@ -34,5 +33,11 @@ export async function getSpeech(text: string, lang: string): Promise<AxiosRespon
             lang: lang,
             format: 'mp3'
         })
+    });
+}
+
+export async function getModeration(input: string): Promise<AxiosResponse> {
+    return openai.createModeration({
+        input: input
     });
 }
