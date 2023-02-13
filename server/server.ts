@@ -3,7 +3,7 @@ import type {Express, Request, Response} from 'express';
 import cors from 'cors';
 import './config';
 import {getModeration, getCompletion, getSpeech} from './redirect';
-import highScore from './lib/high-score';
+import highScoreCategories from './lib/high-score-categories';
 
 const app: Express = express();
 const port: string | number = process.env.SERVER_PORT || 8000;
@@ -26,14 +26,17 @@ app.get('/api/completion', (request: Request, response: Response) => {
 
     getModeration(queryParams.prompt)
         .then(moderationResponse => {
+            const highScores = highScoreCategories(
+                moderationResponse.data.results[0].category_scores,
+                moderationThreshold
+            )
+
             if (moderationResponse.data.results[0].flagged
-                || highScore(
-                    moderationResponse.data.results[0].category_scores,
-                    moderationThreshold)
+                || highScores.found
             ) {
                 response
                     .status(400)
-                    .send(moderationResponse.data.results[0].categories)
+                    .send(highScores.categories)
             } else {
                 getCompletion(queryParams.prompt)
                     .then(completionResponse => {
