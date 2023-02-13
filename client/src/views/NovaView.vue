@@ -1,34 +1,34 @@
 <script setup
         lang="ts">
-    import { computed, ref } from 'vue';
-    import type { Ref } from 'vue';
-    import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
-    import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
-    import NovaEye from '@/components/NovaEye.vue';
-    import ContextBloc from '@/components/ContextBloc.vue';
-    import NovaMouth from '@/components/NovaMouth.vue';
-    import UserSpeechText from '@/components/UserSpeechText.vue';
-    import ResponseText from '@/components/ResponseText.vue';
-    import LanguagePicker from '@/components/LanguagePicker.vue';
-    import { useStore } from '@/store/store';
-    
-    const store = useStore();
-    
-    const novaStatus = computed(() => store.state.novaStatus);
-    const currentLanguage = computed(() => store.state.language);
-    
-    const languagesVisible: Ref<boolean> = ref(false);
-    
-    // To be changed (coming feature)
-    const userName = 'YacineSteeve';
-    
-    function toggleLanguagesVisibility() {
-        languagesVisible.value = !languagesVisible.value;
-    }
-    
-    function hideLanguages() {
-        languagesVisible.value = false;
-    }
+import {computed, ref} from 'vue';
+import type {Ref} from 'vue';
+import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
+import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
+import NovaEye from '@/components/NovaEye.vue';
+import ContextBloc from '@/components/ContextBloc.vue';
+import NovaMouth from '@/components/NovaMouth.vue';
+import UserSpeechText from '@/components/UserSpeechText.vue';
+import ResponseText from '@/components/ResponseText.vue';
+import LanguagePicker from '@/components/LanguagePicker.vue';
+import {useStore} from '@/store/store';
+
+const store = useStore();
+
+const novaStatus = computed(() => store.state.novaStatus);
+const currentLanguage = computed(() => store.state.language);
+
+const languagesVisible: Ref<boolean> = ref(false);
+
+// To be changed (coming feature)
+const userName = 'YacineSteeve';
+
+function toggleLanguagesVisibility() {
+    languagesVisible.value = !languagesVisible.value;
+}
+
+function hideLanguages() {
+    languagesVisible.value = false;
+}
 </script>
 
 <template>
@@ -45,29 +45,29 @@
         <div class="glass-card">
             <div class="nova-face eyes">
                 <NovaEye :state="novaStatus"
-                         :userName="userName" />
+                         :userName="userName"/>
                 <NovaEye :state="novaStatus"
-                         :userName="userName" />
+                         :userName="userName"/>
             </div>
             <div class="nova-face mouth total-center">
                 <Suspense>
-                    <NovaMouth />
+                    <NovaMouth/>
                 </Suspense>
             </div>
             <div class="nova-context">
                 <context-bloc>
                     <UserSpeechText :language="currentLanguage"
-                                    :key="currentLanguage" />
+                                    :key="currentLanguage"/>
                 </context-bloc>
                 <context-bloc class="total-center">
                     <Suspense>
-                        <ResponseText />
+                        <ResponseText/>
                     </Suspense>
                 </context-bloc>
             </div>
         </div>
         <div class="button-section right">
-            <ThemeToggleButton width="60%" />
+            <ThemeToggleButton width="60%"/>
             <ButtonWithIcon icon="fa-sliders-h"
                             width="60%"
                             title="Settings">
@@ -83,7 +83,7 @@
                  :class="{hidden: !languagesVisible}">
                 <v-icon name="hi-chevron-down"></v-icon>
                 <LanguagePicker width="100%"
-                                @language-picked="hideLanguages" />
+                                @language-picked="hideLanguages"/>
             </div>
             <ButtonWithIcon icon="md-report-round"
                             width="60%"
@@ -103,7 +103,7 @@ $view-height: 90vh;
     display: flex;
     align-items: center;
     width: 100%;
-    
+
     .button-section {
         display: flex;
         flex-direction: column;
@@ -112,13 +112,13 @@ $view-height: 90vh;
         gap: 5vh;
         width: 15%;
         height: $view-height;
-        
+
         &.left {
             > * {
                 min-width: 35%;
             }
         }
-        
+
         &.right {
             .languages {
                 display: flex;
@@ -127,13 +127,13 @@ $view-height: 90vh;
                 align-items: center;
                 width: 80%;
             }
-            
+
             > *:last-child {
                 margin-top: auto;
             }
         }
     }
-    
+
     .glass-card {
         width: 70%;
         height: $view-height;
@@ -143,7 +143,7 @@ $view-height: 90vh;
         -webkit-backdrop-filter: blur(1px);
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.18);
-        
+
         .nova-face {
             &.eyes {
                 display: flex;
@@ -153,7 +153,7 @@ $view-height: 90vh;
                 width: 100%;
                 height: 30%;
             }
-            
+
             &.mouth {
                 display: flex;
                 flex-direction: column;
@@ -161,7 +161,7 @@ $view-height: 90vh;
                 height: 30%;
             }
         }
-        
+
         .nova-context {
             display: flex;
             width: 100%;

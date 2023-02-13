@@ -1,8 +1,8 @@
 import express from 'express';
 import type {Express, Request, Response} from 'express';
 import cors from 'cors';
-import './config';
-import {getModeration, getCompletion, getSpeech} from './redirect';
+import './src/config';
+import {getModeration, getCompletion, getSpeech} from './src/redirect';
 import highScoreCategories from './lib/high-score-categories';
 
 const app: Express = express();
