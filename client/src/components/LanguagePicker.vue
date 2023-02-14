@@ -29,7 +29,7 @@ const filteredLanguages = computed(() => {
 })
 
 function selectLanguage(index: number) {
-    store.commit(MutationTypes.CHANGE_LANGUAGE, languages[index].code);
+    store.commit(MutationTypes.CHANGE_LANGUAGE, filteredLanguages.value[index].code);
     emit('languagePicked');
 }
 </script>
