@@ -68,11 +68,6 @@ function hideLanguages() {
         </div>
         <div class="button-section right">
             <ThemeToggleButton width="60%"/>
-            <ButtonWithIcon icon="fa-sliders-h"
-                            width="60%"
-                            title="Settings">
-                Settings
-            </ButtonWithIcon>
             <ButtonWithIcon icon="io-language"
                             width="60%"
                             title="Language"

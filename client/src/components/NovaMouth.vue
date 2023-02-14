@@ -1,6 +1,7 @@
 <script setup
         lang="ts">
-import {computed, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
+import type {Ref} from 'vue';
 import {useTts} from '@/lib/hooks/text-to-speech';
 import {useFetch} from '@/lib/hooks/fetch';
 import {useStore} from '@/store/store';
@@ -8,6 +9,7 @@ import {MutationTypes} from '@/store/mutations';
 
 const store = useStore();
 
+const isPlaying: Ref<boolean> = ref(false);
 const apiRequestText = computed(() => store.state.responseText);
 const apiRequestLanguage = computed(() => store.getters.truncatedLanguageCode);
 
@@ -29,6 +31,7 @@ watch(apiResponseData, async () => {
                 {
                     eventName: 'ended',
                     callback: function handleEnd() {
+                        isPlaying.value = false;
                         store.commit(MutationTypes.CHANGE_WARNING_TRIGGERED, false);
                         store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
                     }
@@ -47,6 +50,7 @@ watch(apiResponseData, async () => {
         try {
             speech.pause();
             await speech.play();
+            isPlaying.value = true;
         } catch (error) {
             console.error(error);
         }
@@ -67,20 +71,34 @@ watch(apiResponseFetchStatus, () => {
 <template>
     <div class="nova-mouth">
         <div class="lip left"></div>
-        <div v-for="i of 20"
+        <div v-for="i of 15"
+             :key="i"
              class="tooth"
-             :key="i"></div>
+             :class="{animated: isPlaying}"></div>
         <div class="lip right"></div>
     </div>
 </template>
 
 <style scoped
        lang="scss">
+@mixin animate($animation,$duration,$method,$times) {
+    -webkit-animation: $animation $duration $method $times;
+    animation: $animation $duration $method $times;
+}
+
+@mixin keyframes($name) {
+    @keyframes #{$name}{
+        @content;
+    }
+}
+
+$randomHeight: random(5) + em;
+
 .nova-mouth {
     display: flex;
     align-items: end;
     flex-wrap: nowrap;
-    gap: 3px;
+    gap: 8px;
     width: 250px;
     height: fit-content;
 
@@ -88,8 +106,32 @@ watch(apiResponseFetchStatus, () => {
     .lip {
         flex: 1;
         height: .5em;
-        border-radius: 2px;
+        border-radius: 1px;
         background: white;
+    }
+
+    .tooth {
+        &.animated {
+            @include animate(stretch, .6s, linear, infinite);
+        }
+
+        @for $i from 1 through 15 {
+            &.animated:nth-child(#{$i}) {
+                animation-delay: random($i) * 0.07s;
+            }
+        }
+
+        @include keyframes(stretch) {
+            0% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(7);
+            }
+            100% {
+                transform: scaleY(1);
+            }
+        }
     }
 
     .lip {
