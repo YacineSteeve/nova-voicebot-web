@@ -1,14 +1,7 @@
-import type {LanguageCode, Theme, NovaStatus} from '@/lib/types';
+import type {LanguageCode, NovaStatus, Theme} from '@/lib/types';
+import defaultState from '@/store/default';
 
-export const state = {
-    language: navigator.language as LanguageCode,
-    userTheme: 'light' as Theme,
-    novaStatus: 'sleeping' as NovaStatus,
-    fetchStatus: false,
-    warningTriggered: false,
-    userText: '',
-    responseText: ''
-};
+export const state = defaultState;
 
 export type State = {
     language: LanguageCode,

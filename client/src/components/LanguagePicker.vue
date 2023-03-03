@@ -101,7 +101,7 @@ $height: 300px;
                 }
 
                 &.current {
-                    background: var(--palette-fog);
+                    background: var(--palette-heliotrope);
                 }
 
                 p {

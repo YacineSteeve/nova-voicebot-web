@@ -35,7 +35,8 @@ export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
     };
 
     async function doFetch() {
-        if (request.prompt?.value || request.text?.value) {
+        if ((request.prompt?.value !== '' && request.prompt?.value !== 'idle')
+            || (request.text?.value !== '' && request.text?.value !== 'idle')) {
             state.data.value = null;
             state.error.value = null;
             state.isFetching.value = true;

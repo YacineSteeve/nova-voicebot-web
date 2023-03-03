@@ -1,9 +1,7 @@
 <script setup
         lang="ts">
-import type {Ref} from 'vue';
-
 interface NovaEyeProps {
-    state: Ref<'active' | 'sleeping' | 'loading' | 'warning'>;
+    state: 'active' | 'sleeping' | 'loading' | 'warning';
     userName: string;
 }
 

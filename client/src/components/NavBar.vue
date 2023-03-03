@@ -14,8 +14,9 @@
         </div>
         <ul class="menu">
             <li>Home</li>
-            <li>About</li>
             <li>Contact</li>
+            <li>Log In</li>
+            <li>Sign Up</li>
         </ul>
         <div class="theme-toggle-btn">
             <ThemeToggleButton width="60%" />

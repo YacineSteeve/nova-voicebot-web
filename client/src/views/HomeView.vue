@@ -17,7 +17,7 @@
         <section>
             <ButtonWithIcon icon="io-play-circle"
                             icon-scale="1.5"
-                            width="8em"
+                            width="10em"
                             title="Get Started"
                             class="btn"
                             @click="goToNova">
@@ -55,7 +55,7 @@ $section-button-padding: calc(100vh - 3 * var(--navbar-height));
         .btn {
             position: absolute;
             top: $section-button-padding;
-            font-size: 1.5em;
+            font-size: 1.2em;
         }
     }
 }

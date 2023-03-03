@@ -31,9 +31,11 @@ watch(apiResponseData, async () => {
                 {
                     eventName: 'ended',
                     callback: function handleEnd() {
+                        this.src = '';
                         isPlaying.value = false;
                         store.commit(MutationTypes.CHANGE_WARNING_TRIGGERED, false);
                         store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
+                        store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, 'idle');
                     }
                 },
                 {

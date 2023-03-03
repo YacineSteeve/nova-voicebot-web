@@ -21,7 +21,7 @@ app.get('/api/completion', (request: Request, response: Response) => {
     };
 
     if (!queryParams.prompt || queryParams.prompt === '') {
-        throw new Error('SERVER ERROR: Missing `prompt` parameter to completion request.');
+        return new Error('SERVER ERROR: Missing `prompt` parameter to completion request.');
     }
 
     getModeration(queryParams.prompt)
@@ -66,11 +66,11 @@ app.get('/api/speech', (request: Request, response: Response) => {
     };
 
     if (!queryParams.text || queryParams.text === '') {
-        throw new Error('SERVER ERROR: Missing `text` parameter to speech request.');
+        return new Error('SERVER ERROR: Missing `text` parameter to speech request.');
     }
 
     if (!queryParams.lang || queryParams.lang === '') {
-        throw new Error('SERVER ERROR: Missing `lang` parameter to speech request.');
+        return new Error('SERVER ERROR: Missing `lang` parameter to speech request.');
     }
 
     getSpeech(
