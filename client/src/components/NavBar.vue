@@ -13,10 +13,18 @@
             <h1 class="total-center">OVA</h1>
         </div>
         <ul class="menu">
-            <li>Home</li>
-            <li>Contact</li>
-            <li>Log In</li>
-            <li>Sign Up</li>
+            <li>
+                <router-link to="/">Home</router-link>
+            </li>
+            <li>
+                <router-link to="/contact">Contact</router-link>
+            </li>
+            <li>
+                <router-link to="/user/login">Log In</router-link>
+            </li>
+            <li>
+                <router-link to="/user/signup">Sign Up</router-link>
+            </li>
         </ul>
         <div class="theme-toggle-btn">
             <ThemeToggleButton width="60%" />
@@ -73,6 +81,14 @@
             &:hover {
                 color: black;
                 background: rgba(255, 255, 255, 1);
+            }
+
+            > * {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     }

@@ -3,6 +3,8 @@
     --palette-blue-gem: #460db2;
     --palette-fog: #d8c4ff;
     --palette-heliotrope: #b289ff;
+    --palette-spun-pearl: #afa8ba;
+    --palette-carribean-green: #00c9a5;
     --main-scroll-overflow-height: 20px;
     --button-height: 40px;
     --navbar-height: calc(5vh + 2px + var(--button-height));
@@ -92,4 +94,18 @@ body::-webkit-scrollbar-thumb:hover,
 
 .hidden {
     display: none !important;
+}
+
+.redirect-auth {
+    margin-block: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.3em;
+}
+
+.redirect-auth span {
+        font-weight: 600;
+        color: var(--palette-heliotrope);
 }
