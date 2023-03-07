@@ -41,7 +41,7 @@ export function getUser(request: Request, response: Response) {
 
             const token = JWT.sign(
                 {
-                    username: user.username,
+                    id: user._id,
                     email: user.email
                 },
                 process.env.JWT_SECRET
@@ -76,14 +76,10 @@ export function getUserByToken(request: Request, response: Response) {
     }
 
     const token = request.headers['auth-token'] as string;
+    let decoded: any = null;
 
     try {
-        const decoded = JWT.verify(token, process.env.JWT_SECRET);
-        response
-            .json({
-                success: true,
-                user: decoded
-            });
+        decoded = JWT.verify(token, process.env.JWT_SECRET);
     } catch (error) {
         response
             .status(500)
@@ -91,5 +87,27 @@ export function getUserByToken(request: Request, response: Response) {
                 success: false,
                 error: 'SERVER ERROR: ' + error
             });
+        return
     }
+
+    User.findOne({email: decoded.email}).then(user => {
+        if (!user) {
+            response
+                .status(500)
+                .json({
+                    success: false,
+                    error: 'SERVER ERROR: User not found',
+                });
+            return
+        }
+
+        response
+            .json({
+                success: true,
+                user: {
+                    username: user.username,
+                    email: user.email,
+                }
+            });
+    })
 }
