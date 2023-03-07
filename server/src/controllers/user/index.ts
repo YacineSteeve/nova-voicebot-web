@@ -1,4 +1,4 @@
 import { createUser } from './create';
-import { getUser } from './get';
+import { getUser, getUserByToken } from './get';
 
-export { createUser, getUser };
+export { createUser, getUser, getUserByToken };

@@ -14,6 +14,9 @@ export function createUser(request: Request, response: Response) {
     }
 
     User.create({
+        username: request.body.username
+            ? request.body.username
+            : request.body.email.substring(0, request.body.email.lastIndexOf('@')),
         email: request.body.email,
         password: Bcrypt.hashSync(request.body.password, 10),
     }).then(user => {

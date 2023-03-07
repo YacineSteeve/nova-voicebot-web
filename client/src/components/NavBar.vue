@@ -1,7 +1,37 @@
 <script setup
         lang="ts">
-    import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
+import { ref, watch, onBeforeMount } from 'vue';
+import { useFetch } from '@/lib/hooks/fetch';
+import cookies from '@/lib/cookies';
+import type { User } from '@/lib/client';
+import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 
+const user = ref<User | null>(null);
+
+onBeforeMount(async () => {
+    interface UserResponse {
+        success: boolean;
+        user: User;
+    }
+
+    const { data, error, isFetching } = await useFetch<UserResponse>({
+        type: '',
+        data: {
+            token: cookies.get('nova-auth-token') || ''
+        }
+    });
+
+    watch([data, error, isFetching], () => {
+        if (data.value) {
+            user.value = data.value.user;
+        }
+    });
+});
+
+function logout() {
+    cookies.remove('nova-auth-token');
+    window.location.reload();
+}
 </script>
 
 <template>
@@ -20,10 +50,12 @@
                 <router-link to="/contact">Contact</router-link>
             </li>
             <li>
-                <router-link to="/user/login">Log In</router-link>
+                <router-link to="/" v-if="user">{{ user.username }}</router-link>
+                <router-link to="/user/login" v-else>Log In</router-link>
             </li>
             <li>
-                <router-link to="/user/signup">Sign Up</router-link>
+                <span v-if="user" @click="logout">Log Out</span>
+                <router-link to="/user/signup" v-else>Sign Up</router-link>
             </li>
         </ul>
         <div class="theme-toggle-btn">

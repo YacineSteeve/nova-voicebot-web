@@ -1,16 +1,25 @@
 import { Schema } from 'mongoose';
 
 const userSchema = new Schema({
+    username: {
+        type: String,
+        required: [true, 'Username is required.'],
+    },
     email: {
         type: String,
-        required: true,
+        required: [true, 'Email is required.'],
         unique: true,
         lowercase: true,
         trim: true
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Password is required.'],
+    },
+    role: {
+        type: String,
+        enum: ['normal', 'admin'],
+        default: 'normal'
     },
     createdAt: {
         type: Date,

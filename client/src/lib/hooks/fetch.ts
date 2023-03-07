@@ -1,24 +1,29 @@
 import {ref, watch} from 'vue';
 import type {Ref} from 'vue';
-import {novaApi} from '@/lib/client';
+import { novaApi, novaAuth, UserData } from '@/lib/client';
 import type {ApiResponse} from '@/lib/client';
 
 type ApiEndPoint = 'completion' | 'speech';
+type AuthEndPoint = 'login' | 'signup' | '';
 
-export interface FetchResponse {
-    data: Ref<string | null>;
+const API_ENDPOINTS = ['completion', 'speech'];
+const AUTH_ENDPOINTS = ['login', 'signup', ''];
+
+export interface FetchResponse<T> {
+    data: Ref<T | null>;
     error: Ref;
     isFetching: Ref<boolean>;
 }
 
 export interface FetchOptions {
-    type: ApiEndPoint,
+    type: ApiEndPoint | AuthEndPoint;
     prompt?: Ref<string>;
-    text?: Ref<string>
-    lang?: Ref<string>
+    text?: Ref<string>;
+    lang?: Ref<string>;
+    data?: UserData;
 }
 
-function parseResponse(response: ApiResponse, type: ApiEndPoint): string | null {
+function parseApiResponse(response: ApiResponse, type: ApiEndPoint): string | null {
     if (type === 'completion') {
         return response.data.choices[0].text;
     } else if (type === 'speech') {
@@ -27,34 +32,57 @@ function parseResponse(response: ApiResponse, type: ApiEndPoint): string | null 
     return null;
 }
 
-export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
-    const state: FetchResponse = {
+export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<T>> {
+    const state: FetchResponse<T> = {
         data: ref(null),
         error: ref(null),
         isFetching: ref(false)
     };
 
     async function doFetch() {
-        if ((request.prompt?.value !== '' && request.prompt?.value !== 'idle')
-            || (request.text?.value !== '' && request.text?.value !== 'idle')) {
-            state.data.value = null;
-            state.error.value = null;
-            state.isFetching.value = true;
+        state.data.value = null;
+        state.error.value = null;
+        state.isFetching.value = true;
 
-            novaApi.get(`/${request.type}`, {
-                params: {
-                    prompt: request.prompt?.value,
-                    text: request.text?.value,
-                    lang: request.lang?.value
+        if (API_ENDPOINTS.includes(request.type)) {
+            if (
+                !['', 'idle'].includes(request.prompt?.value as string) ||
+                !['', 'idle'].includes(request.text?.value as string)) {
+                novaApi.get(`/${request.type}`, {
+                    params: {
+                        prompt: request.prompt?.value,
+                        text: request.text?.value,
+                        lang: request.lang?.value
+                    }
+                })
+                    .then(response => {
+                        state.data.value = parseApiResponse(response, request.type as ApiEndPoint) as typeof state.data.value;
+                    })
+                    .catch(error => {
+                        state.error.value = error;
+                    })
+                    .finally(() => {
+                        state.isFetching.value = false;
+                    });
+            }
+        } else if (AUTH_ENDPOINTS.includes(request.type)) {
+            novaAuth.post(`/${request.type}`, {
+                username: request.data?.username,
+                email: request.data?.email,
+                password: request.data?.password
+            }, {
+                headers: {
+                    'auth-token': request.data?.token
                 }
             })
                 .then(response => {
-                    state.isFetching.value = false;
-                    state.data.value = parseResponse(response, request.type);
+                    state.data.value = response.data;
                 })
                 .catch(error => {
+                    state.error.value = error.response || error;
+                })
+                .finally(() => {
                     state.isFetching.value = false;
-                    state.error.value = error;
                 });
         }
     }
@@ -71,6 +99,8 @@ export async function useFetch(request: FetchOptions): Promise<FetchResponse> {
             doFetch,
             {immediate: true}
         );
+    } else {
+        await doFetch();
     }
 
 

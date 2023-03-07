@@ -13,7 +13,7 @@ const isPlaying: Ref<boolean> = ref(false);
 const apiRequestText = computed(() => store.state.responseText);
 const apiRequestLanguage = computed(() => store.getters.truncatedLanguageCode);
 
-const {data, error, isFetching} = await useFetch({
+const {data, error, isFetching} = await useFetch<string>({
     type: 'speech',
     text: apiRequestText,
     lang: apiRequestLanguage

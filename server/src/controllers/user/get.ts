@@ -9,7 +9,8 @@ export function getUser(request: Request, response: Response) {
             .status(500)
             .json({
                 success: false,
-                error: 'SERVER ERROR: Missing credentials parameter to login.'
+                error: 'SERVER ERROR: Missing credentials parameter to login.',
+                fields: ['email', 'password']
             });
         return
     }
@@ -21,7 +22,8 @@ export function getUser(request: Request, response: Response) {
                     .status(500)
                     .json({
                         success: false,
-                        error: 'SERVER ERROR: User not found'
+                        error: 'SERVER ERROR: User not found',
+                        fields: ['email']
                     });
                 return
             }
@@ -31,14 +33,15 @@ export function getUser(request: Request, response: Response) {
                     .status(500)
                     .json({
                         success: false,
-                        error: 'SERVER ERROR: Wrong password'
+                        error: 'SERVER ERROR: Wrong password',
+                        fields: ['password']
                     });
                 return
             }
 
             const token = JWT.sign(
                 {
-                    id: user._id,
+                    username: user.username,
                     email: user.email
                 },
                 process.env.JWT_SECRET
@@ -48,8 +51,7 @@ export function getUser(request: Request, response: Response) {
                 .header('auth-token', token)
                 .json({
                     success: true,
-                    token,
-                    user
+                    token
                 });
         })
         .catch(error => {
@@ -60,4 +62,34 @@ export function getUser(request: Request, response: Response) {
                     error: 'SERVER ERROR: ' + error
                 });
         });
+}
+
+export function getUserByToken(request: Request, response: Response) {
+    if (!request.headers || !request.headers['auth-token'] || request.headers['auth-token'] === '') {
+        response
+            .status(500)
+            .json({
+                success: false,
+                error: 'SERVER ERROR: Missing auth-token header'
+            });
+        return
+    }
+
+    const token = request.headers['auth-token'] as string;
+
+    try {
+        const decoded = JWT.verify(token, process.env.JWT_SECRET);
+        response
+            .json({
+                success: true,
+                user: decoded
+            });
+    } catch (error) {
+        response
+            .status(500)
+            .json({
+                success: false,
+                error: 'SERVER ERROR: ' + error
+            });
+    }
 }

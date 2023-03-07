@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import cookies from '@/lib/cookies';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -21,7 +22,14 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/nova',
         name: 'Nova',
-        component: () => import('@/views/NovaView.vue')
+        component: () => import('@/views/NovaView.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!cookies.get('nova-auth-token')) {
+                next('/user/login');
+                return;
+            }
+            next();
+        }
     },
     {
         path: '/user',

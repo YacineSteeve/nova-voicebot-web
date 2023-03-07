@@ -1,8 +1,78 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { useFetch } from '@/lib/hooks/fetch';
+import cookies from '@/lib/cookies';
 
+const router = useRouter();
 const email = ref('');
 const password = ref('');
+
+const emailError = ref<boolean>(false);
+const passwordError = ref<boolean>(false);
+
+const errors = {
+    email: emailError,
+    password: passwordError
+}
+
+interface Login {
+    success: boolean;
+    token: string;
+}
+
+interface LoginError {
+    success: boolean;
+    error: string;
+    fields?: string[];
+}
+
+const isFieldError = (error: LoginError): error is Omit<LoginError, 'fields'> & { fields: string[] } => {
+    return error.fields !== undefined;
+}
+
+async function submitUser() {
+    const { data, error, isFetching } = await useFetch<Login>({
+        type: 'login',
+        data: {
+            email: email.value,
+            password: password.value
+        }
+    });
+
+    watch([data, error, isFetching], () => {
+        if (data.value && data.value.success) {
+            cookies.set('nova-auth-token', data.value.token, { expires: "30min" });
+            router.push('/');
+
+            return;
+        }
+
+        if (error.value) {
+            const errorInfos = error.value.data as LoginError;
+
+            if (isFieldError(errorInfos)) {
+                errorInfos.fields.forEach(field => {
+                    errors[field].value = true;
+                });
+            } else {
+                console.error(errorInfos.error);
+            }
+        }
+
+        if (isFetching.value) {
+            console.log(isFetching.value);
+        }
+    });
+}
+
+function resetEmailError() {
+    emailError.value = false;
+}
+
+function resetPasswordError() {
+    passwordError.value = false;
+}
 </script>
 
 <template>
@@ -13,20 +83,28 @@ const password = ref('');
         <div class="welcome-message">
             Glad to see you again!
         </div>
-        <form action="/user/login" method="post">
+        <form @submit.prevent="submitUser">
             <div class="group">
-                <input type="email" :class="{used: email !== ''}" v-model="email">
+                <input type="email" :class="{used: email !== '', error: emailError}" v-model="email" @change="resetEmailError" title="Enter your account email address" required>
                 <span class="highlight"></span>
-                <span class="bar"></span>
+                <span class="bar" :class="{error: emailError}"></span>
                 <label>Email</label>
             </div>
+            <div v-if="emailError" class="group-error">
+                Invalid email address
+            </div>
             <div class="group">
-                <input type="password" :class="{used: password !== ''}" v-model="password">
+                <input type="password" :class="{used: password !== '', error: passwordError}" v-model="password" @change="resetPasswordError" title="Enter your password" required>
                 <span class="highlight"></span>
-                <span class="bar"></span>
+                <span class="bar" :class="{error: passwordError}"></span>
                 <label>Password</label>
             </div>
-            <input type="submit" value="Log In" class="submit">
+            <div v-if="passwordError" class="group-error">
+                Wrong password
+            </div>
+        <button type="submit" class="submit">
+                Log In
+            </button>
             <div class="redirect-auth">
                 Don't have an account?
                 <span>
@@ -113,7 +191,9 @@ const password = ref('');
             }
 
             input:focus ~ .bar:before,
-            input:focus ~ .bar:after {
+            input:focus ~ .bar:after,
+            input.error ~ .bar:before,
+            input.error ~ .bar:after {
                 width: 50%;
             }
 
@@ -134,12 +214,23 @@ const password = ref('');
 
                 &:before,
                 &:after {
+                    background: var(--palette-heliotrope);
+                }
+
+                &.error {
+                    &:before,
+                    &:after {
+                        background: red;
+                    }
+                }
+
+                &:before,
+                &:after {
                     content: '';
                     height: 2px;
                     width: 0;
                     bottom: 1px;
                     position: absolute;
-                    background: var(--palette-heliotrope);
                     transition: all 0.2s ease;
                 }
 
@@ -151,6 +242,16 @@ const password = ref('');
                     right: 50%;
                 }
             }
+        }
+
+        .group-error {
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            color: red;
+            margin-top: -2em;
         }
 
         .submit {

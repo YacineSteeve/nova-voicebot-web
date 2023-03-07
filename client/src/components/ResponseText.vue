@@ -10,7 +10,7 @@ const store = useStore();
 const responseText = computed(() => store.state.responseText);
 const apiRequestPrompt = computed(() => store.state.userText);
 
-const {data, error, isFetching} = await useFetch({
+const {data, error, isFetching} = await useFetch<string>({
     type: 'completion',
     prompt: apiRequestPrompt
 });

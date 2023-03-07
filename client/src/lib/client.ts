@@ -9,4 +9,24 @@ export const novaApi: AxiosInstance = axios.create({
     xsrfCookieName: 'csrftoken'
 });
 
+export const novaAuth: AxiosInstance = axios.create({
+    baseURL: 'http://localhost:8000/user',
+    timeout: 2000,
+    maxBodyLength: 2000,
+    xsrfHeaderName: 'X-CSRFTOKEN',
+    xsrfCookieName: 'csrftoken'
+});
+
 export type ApiResponse = AxiosResponse;
+
+export interface User {
+    username: string;
+    email: string;
+}
+
+export interface UserData {
+    token: string;
+    username?: string;
+    email?: string;
+    password?: string;
+}
