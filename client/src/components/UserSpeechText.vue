@@ -69,6 +69,15 @@ const recognition = useStt({
                     console.error(`CLIENT ERROR (${event.error}): ` +
                         `${event.message}`);
                 }
+            },
+            {
+                eventName: 'error',
+                callback: function (event) {
+                    if (isSpeechRecognitionErrorEvent(event)) {
+                        console.error(`CLIENT ERROR (${event.error}): ` +
+                            `${event.message}`);
+                    }
+                }
             }
         }
     ]
