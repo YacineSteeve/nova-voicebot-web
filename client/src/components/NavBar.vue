@@ -49,13 +49,25 @@ function logout() {
             <li>
                 <router-link to="/contact">Contact</router-link>
             </li>
-            <li>
-                <router-link to="/" v-if="user">{{ user.username }}</router-link>
-                <router-link to="/user/login" v-else>Log In</router-link>
+            <li v-if="user" class="separator">
             </li>
-            <li>
-                <span v-if="user" @click="logout">Log Out</span>
-                <router-link to="/user/signup" v-else>Sign Up</router-link>
+            <li v-if="user" class="authenticated username">
+                <router-link to="/">
+                    <v-icon name="fa-user" />
+                    <span>{{ user.username }}</span>
+                </router-link>
+            </li>
+            <li v-else>
+                <router-link to="/user/login">Log In</router-link>
+            </li>
+            <li v-if="user" class="authenticated logout">
+                <div @click="logout">
+                    <v-icon name="md-logout-round" />
+                    <span>Log Out</span>
+                </div>
+            </li>
+            <li v-else>
+                <router-link to="/user/signup">Sign Up</router-link>
             </li>
         </ul>
         <div class="theme-toggle-btn">
@@ -100,7 +112,6 @@ function logout() {
         list-style: none;
         
         li {
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -108,12 +119,6 @@ function logout() {
             width: 20%;
             height: 60%;
             background: rgba(255, 255, 255, 0.15);
-            clip-path: polygon(20% 0%, 100% 0, 80% 100%, 0% 100%);
-            
-            &:hover {
-                color: black;
-                background: rgba(255, 255, 255, 1);
-            }
 
             > * {
                 width: 100%;
@@ -121,6 +126,50 @@ function logout() {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+
+            &.separator {
+                height: 100%;
+                background: transparent;
+            }
+
+            &:not(.authenticated) {
+                clip-path: polygon(20% 0%, 100% 0, 80% 100%, 0% 100%);
+            }
+
+            &.authenticated {
+                border-radius: 10px;
+                width: fit-content;
+                padding-inline: 1em;
+
+                div,
+                a {
+                    display: flex;
+                    align-items: center;
+                    gap: .75em;
+                }
+
+                &.username {
+                    &:hover {
+                        color: var(--palette-electric-violet);
+                    }
+                }
+
+                &.logout {
+
+                    &:hover {
+                        color: red;
+                    }
+                }
+            }
+
+            &:not(.separator) {
+                cursor: pointer;
+            }
+
+            &:not(.separator):hover {
+                color: black;
+                background: white;
             }
         }
     }

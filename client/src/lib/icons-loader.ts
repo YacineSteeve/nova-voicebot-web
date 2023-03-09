@@ -1,16 +1,21 @@
 import {
+    FaEye,
+    FaEyeSlash,
     FaMicrophone,  // Enable listening
     FaMicrophoneSlash, // Disable listening
     FaMoon, // Enable dark mode
     FaSlidersH,  // Settings
+    FaUser,
     GiSpeaker, // Enable speaking
     GiSpeakerOff, // Disable speaking
     HiChevronDown,
     HiChevronLeft,
+    IoCheckmarkCircle,
     IoClose,
     IoLanguage,
     IoPlayCircle,
     IoWarning, // When forbidden request
+    MdLogoutRound,
     MdPanoramafisheyeTwotone,
     MdReportRound,
     PrSun,  // Enable light mode
@@ -21,18 +26,23 @@ import {
 import { addIcons } from 'oh-vue-icons';
 
 addIcons(
+    FaEye,
+    FaEyeSlash,
     FaMicrophone,
     FaMicrophoneSlash,
     FaMoon,
     FaSlidersH,
+    FaUser,
     GiSpeaker,
     GiSpeakerOff,
     HiChevronDown,
     HiChevronLeft,
+    IoCheckmarkCircle,
     IoClose,
     IoLanguage,
     IoPlayCircle,
     IoWarning,
+    MdLogoutRound,
     MdPanoramafisheyeTwotone,
     MdReportRound,
     PrSun,

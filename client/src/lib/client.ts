@@ -25,8 +25,18 @@ export interface User {
 }
 
 export interface UserData {
-    token: string;
+    token?: string;
     username?: string;
     email?: string;
     password?: string;
+}
+
+export interface AuthError {
+    success: boolean;
+    error: string;
+    fields?: string[];
+}
+
+export const isFieldError = (error: AuthError): error is Omit<AuthError, 'fields'> & { fields: string[] } => {
+    return error.fields !== undefined;
 }
