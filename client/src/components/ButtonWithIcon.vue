@@ -31,7 +31,7 @@
     width: fit-content;
     min-width: v-bind('props.width');
     min-height: var(--button-height);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--palette-electric-violet);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     
@@ -45,14 +45,15 @@
     }
     
     p {
+        font-weight: bold;
+        font-size: 1.25em;
         width: fit-content;
         height: fit-content;
     }
 }
 
 .button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: blur(1px);
 }

@@ -1,18 +1,16 @@
 <script setup
         lang="ts">
-    import type { Ref } from 'vue';
-    
-    interface NovaEyeProps {
-        state: Ref<'active' | 'sleeping' | 'loading' | 'warning'>;
-        userName: string;
-    }
-    
-    const props = defineProps<NovaEyeProps>();
+interface NovaEyeProps {
+    state: 'active' | 'sleeping' | 'loading' | 'warning';
+    userName: string;
+}
+
+const props = defineProps<NovaEyeProps>();
 </script>
 
 <template>
     <div class="nova-eye">
-        <v-icon v-show="props.state === 'active'"
+        <v-icon v-if="props.state === 'active'"
                 :title="`Hey ${props.userName} !`"
                 animation="float">
             <v-icon name="md-panoramafisheye-twotone"
@@ -23,18 +21,18 @@
                     fill="#000000"
                     scale="6"></v-icon>
         </v-icon>
-        <v-icon v-show="props.state === 'sleeping'"
+        <v-icon v-else-if="props.state === 'sleeping'"
                 title="zzZ"
                 name="ri-eye-close-line"
                 fill="#000000"
                 scale="6"
                 animation="float"></v-icon>
-        <v-icon v-show="props.state === 'loading'"
+        <v-icon v-else-if="props.state === 'loading'"
                 title="Euh..."
                 name="ri-loader-5-fill"
                 scale="6"
                 animation="spin"></v-icon>
-        <v-icon v-show="props.state === 'warning'"
+        <v-icon v-else-if="props.state === 'warning'"
                 title="I don't do this !"
                 name="io-warning"
                 fill="#EF3625"

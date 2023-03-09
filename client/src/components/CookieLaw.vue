@@ -81,13 +81,13 @@
                 You can see the list of used cookies <span @click="showCookiesList">here</span>.
             </div>
             <div class="buttons-section">
-                <button class="total-center"
+                <button class="close total-center"
                         @click="closeCookieLaw">Close
                 </button>
-                <button class="total-center"
+                <button class="decline total-center"
                         @click="disableCookiesUsage">Decline
                 </button>
-                <button class="total-center"
+                <button class="accept total-center"
                         @click="enableCookiesUsage">Accept All
                 </button>
             </div>
@@ -193,6 +193,10 @@ $spacing: 1vw;
                 text-decoration: underline dashed var(--link-blue);
                 text-underline-offset: 0.25em;
             }
+
+            span:hover {
+                text-decoration: underline solid var(--link-blue) 2px;
+            }
         }
         
         .buttons-section {
@@ -207,15 +211,33 @@ $spacing: 1vw;
                 height: 100%;
                 padding: $spacing;
                 border: none;
-                background: var(--palette-fog);
                 
                 &:hover {
                     cursor: pointer;
-                    background: var(--palette-heliotrope);
                 }
                 
-                &:first-child {
+                &.close {
                     margin-right: auto;
+                }
+
+                &.accept {
+                    background: var(--palette-fog);
+                }
+
+                &.accept:hover {
+                    background: var(--palette-heliotrope);
+                }
+
+                &:not(.accept) {
+                    color: var(--text-primary);
+                    background: transparent;
+                    text-decoration: underline dashed;
+                    text-underline-offset: 0.25em;
+                }
+
+                &:not(.accept):hover {
+                    background: var(--background-secondary);
+                    text-decoration: none;
                 }
             }
         }

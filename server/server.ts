@@ -1,59 +1,32 @@
 import express from 'express';
-import type { Express, Request, Response } from 'express';
+import type { Express } from 'express';
 import cors from 'cors';
-import './config';
-import { getCompletion, getSpeech } from './redirect';
+import './src/config';
+import { connection } from './src/database';
+import { createUser, getUser, getUserByToken } from './src/controllers/user';
+import { getCompletion, getSpeech } from './src/api';
+
+const PORT: string | number = process.env.SERVER_PORT || 8000;
 
 const app: Express = express();
-const port: string | number = process.env.SERVER_PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/completion', (request: Request, response: Response) => {
-    request.accepts('text/plain');
-    response.type('application/json');
+app.post('/user', getUserByToken);
 
-    getCompletion(request.query['prompt'] as string)
-        .then(res => {
-            console.log(res.data);
-            response.send(res.data);
-        });
-});
+app.post('/user/signup', createUser);
 
-app.get('/api/speech', (request: Request, response: Response) => {
-    request.accepts('text/plain');
-    response.type('application/json');
+app.post('/user/login', getUser);
 
-    const queryParams = {
-        text: request.query['text'] as string,
-        lang: request.query['lang'] as string
-    };
+app.get('/api/completion', getCompletion);
 
-    if (!queryParams.text || queryParams.text === '') {
-        throw new Error('SERVER ERROR: Missing `text` parameter to speech request.');
-    }
+app.get('/api/speech', getSpeech);
 
-    if (!queryParams.lang || queryParams.lang === '') {
-        throw new Error('SERVER ERROR: Missing `lang` parameter to speech request.');
-    }
-
-    getSpeech(
-        queryParams.text,
-        queryParams.lang
-    )
-        .then(res => {
-            response.send(res.data);
-        })
-        .catch(error => {
-            response
-                .status(error.response.status)
-                .send(`${error.response.statusText.toUpperCase()}: ` +
-                    `Invalid language '${JSON.parse(error.response.config.data).lang}'`
-                );
-        });
-});
-
-app.listen(port, () => {
-    console.log(`Server app listening on port ${port}`);
+app.listen(PORT, async () => {
+    const db = await connection;
+    console.log(
+        `\n> Connected to database ${db.connection.name.toUpperCase()}` +
+        `\n> Server listening on port ${PORT}\n`
+    );
 });

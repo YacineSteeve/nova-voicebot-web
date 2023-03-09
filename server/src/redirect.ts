@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import axios from 'axios';
-import type { AxiosResponse } from 'axios';
+import type {AxiosResponse} from 'axios';
 import * as process from 'process';
 
 const openaiConfiguration = new Configuration({
@@ -8,19 +8,24 @@ const openaiConfiguration = new Configuration({
 });
 const openai = new OpenAIApi(openaiConfiguration);
 
-export async function getCompletion(prompt: string): Promise<AxiosResponse> {
+export async function redirectCompletion(prompt: string): Promise<AxiosResponse> {
     return await openai.createCompletion({
         model: 'text-davinci-003',
         prompt: prompt,
-        temperature: 0.9,
+        temperature: 0.5,
         max_tokens: 150,
-        top_p: 1,
         frequency_penalty: 0.0,
         presence_penalty: 0.6
     });
 }
 
-export async function getSpeech(text: string, lang: string): Promise<AxiosResponse> {
+export async function redirectModeration(input: string): Promise<AxiosResponse> {
+    return openai.createModeration({
+        input: input
+    });
+}
+
+export async function redirectSpeech(text: string, lang: string): Promise<AxiosResponse> {
     return await axios.request({
         url: 'https://text-to-speech53.p.rapidapi.com/',
         method: 'POST',
