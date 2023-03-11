@@ -2,10 +2,12 @@
         lang="ts">
 import { computed, ref, watch, onBeforeMount } from 'vue';
 import type {Ref} from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import cookies from '@/lib/cookies';
 import type { User } from '@/lib/client';
 import { useFetch } from '@/hooks/fetch';
 import { useStore } from '@/store/store';
+import { MutationTypes } from '@/store/mutations';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 import NovaEye from '@/components/NovaEye.vue';
@@ -48,6 +50,15 @@ onBeforeMount(async () => {
         }
     });
 })
+
+onBeforeRouteLeave((to, from, next) => {
+    store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'sleeping');
+    store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, '');
+    store.commit(MutationTypes.CHANGE_USER_TEXT, '');
+    store.commit(MutationTypes.CHANGE_WARNING_TRIGGERED, false);
+
+    next();
+});
 
 function toggleLanguagesVisibility() {
     languagesVisible.value = !languagesVisible.value;

@@ -1,7 +1,7 @@
 import express from 'express';
 import type { Express } from 'express';
 import cors from 'cors';
-import './src/config';
+import './src/env-config';
 import { connection } from './src/database';
 import { createUser, getUser, getUserByToken } from './src/controllers/user';
 import { getCompletion, getSpeech } from './src/api/endpoints';

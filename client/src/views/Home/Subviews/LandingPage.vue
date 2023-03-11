@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
-
-const router = useRouter();
-
-function goToNova() {
-    router.push('/nova');
-}
 </script>
 
 <template>
     <div class="landing-page total-center">
-        <ButtonWithIcon icon="io-play-circle"
-                        icon-scale="1.5"
-                        width="10em"
-                        title="Get Started"
-                        class="btn"
-                        @click="goToNova">
-            <b>Get Started</b>
-        </ButtonWithIcon>
+        <router-link to="/nova"
+                     class="btn">
+            <ButtonWithIcon icon="io-play-circle"
+                            icon-scale="1.5"
+                            width="10em"
+                            title="Get Started">
+                <b>Get Started</b>
+            </ButtonWithIcon>
+        </router-link>
     </div>
 </template>
 
@@ -26,6 +20,7 @@ function goToNova() {
 $section-button-padding: calc(100vh - 3 * var(--navbar-height));
 
 .landing-page {
+    position: relative;
     width: 100%;
     height: 200vh;
 
