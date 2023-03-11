@@ -1,8 +1,8 @@
 import { GetterTree } from 'vuex';
 import { State } from '@/store/state';
 import type { ShortLanguageCode } from '@/lib/types';
-import { getDictionaryEntry } from '@/lib/utils/dictionary';
-import type { DictionaryEntry } from '@/lib/utils/dictionary';
+import { getDictionaryEntry } from '@/utils/dictionary';
+import type { DictionaryEntry } from '@/utils/dictionary';
 
 export type Getters = {
     truncatedLanguageCode(state: State): ShortLanguageCode;

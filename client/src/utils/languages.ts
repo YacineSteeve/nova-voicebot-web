@@ -1,4 +1,4 @@
-import languages from '@/lib/utils/languages.json';
+import languages from '@/utils/languages.json';
 
 export interface Language {
     name: string;

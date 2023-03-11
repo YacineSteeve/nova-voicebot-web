@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useFetch } from '@/lib/hooks/fetch';
+import { useFetch } from '@/hooks/fetch';
 import { isFieldError } from '@/lib/client';
 import type { AuthError } from '@/lib/client';
 import cookies from '@/lib/cookies';

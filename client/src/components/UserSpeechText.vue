@@ -5,7 +5,7 @@ import {
     useStt,
     isSpeechRecognitionEvent,
     isSpeechRecognitionErrorEvent
-} from '@/lib/hooks/speech-to-text';
+} from '@/hooks/speech-to-text';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 

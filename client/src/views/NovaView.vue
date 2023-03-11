@@ -4,7 +4,7 @@ import { computed, ref, watch, onBeforeMount } from 'vue';
 import type {Ref} from 'vue';
 import cookies from '@/lib/cookies';
 import type { User } from '@/lib/client';
-import { useFetch } from '@/lib/hooks/fetch';
+import { useFetch } from '@/hooks/fetch';
 import { useStore } from '@/store/store';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';

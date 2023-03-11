@@ -1,7 +1,7 @@
 <script setup
         lang="ts">
 import {computed, watch} from 'vue';
-import {useFetch} from '@/lib/hooks/fetch';
+import {useFetch} from '@/hooks/fetch';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 

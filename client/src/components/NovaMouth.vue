@@ -2,8 +2,8 @@
         lang="ts">
 import {computed, ref, watch} from 'vue';
 import type {Ref} from 'vue';
-import {useTts} from '@/lib/hooks/text-to-speech';
-import {useFetch} from '@/lib/hooks/fetch';
+import {useTts} from '@/hooks/text-to-speech';
+import {useFetch} from '@/hooks/fetch';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 
