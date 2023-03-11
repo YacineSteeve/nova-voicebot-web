@@ -1,7 +1,11 @@
 <script setup
         lang="ts">
-import {computed, ref} from 'vue';
+import { computed, ref, watch, onBeforeMount } from 'vue';
 import type {Ref} from 'vue';
+import cookies from '@/lib/cookies';
+import type { User } from '@/lib/client';
+import { useFetch } from '@/lib/hooks/fetch';
+import { useStore } from '@/store/store';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 import NovaEye from '@/components/NovaEye.vue';
@@ -10,7 +14,6 @@ import NovaMouth from '@/components/NovaMouth.vue';
 import UserSpeechText from '@/components/UserSpeechText.vue';
 import ResponseText from '@/components/ResponseText.vue';
 import LanguagePicker from '@/components/LanguagePicker.vue';
-import {useStore} from '@/store/store';
 
 const store = useStore();
 
@@ -19,8 +22,32 @@ const currentLanguage = computed(() => store.state.language);
 
 const languagesVisible: Ref<boolean> = ref(false);
 
-// To be changed (coming feature)
-const userName = 'YacineSteeve';
+const userToken = cookies.get('nova-auth-token') || ''
+const userEmail: Ref<string> = ref(userToken);
+
+onBeforeMount(async () => {
+    interface UserResponse {
+        success: boolean;
+        user: User;
+    }
+
+    const { data, error, isFetching } = await useFetch<UserResponse>({
+        type: 'userinfo',
+        data: {
+            token: userToken
+        }
+    });
+
+    watch([data, error, isFetching], () => {
+        if (data.value && data.value.success) {
+            userEmail.value = data.value.user.email;
+        }
+
+        if (error.value) {
+            console.error(error.value);
+        }
+    });
+})
 
 function toggleLanguagesVisibility() {
     languagesVisible.value = !languagesVisible.value;
@@ -45,10 +72,8 @@ function hideLanguages() {
         </div>
         <div class="glass-card">
             <div class="nova-face eyes">
-                <NovaEye :state="novaStatus"
-                         :userName="userName"/>
-                <NovaEye :state="novaStatus"
-                         :userName="userName"/>
+                <NovaEye :state="novaStatus" />
+                <NovaEye :state="novaStatus" />
             </div>
             <div class="nova-face mouth total-center">
                 <Suspense>
@@ -62,7 +87,7 @@ function hideLanguages() {
                 </context-bloc>
                 <context-bloc class="total-center">
                     <Suspense>
-                        <ResponseText/>
+                        <ResponseText :user="userEmail"/>
                     </Suspense>
                 </context-bloc>
             </div>

@@ -23,19 +23,21 @@ const apiResponseData = computed(() => data.value);
 const apiResponseError = computed(() => error.value);
 const apiResponseFetchStatus = computed(() => isFetching.value);
 
-watch(apiResponseData, async () => {
-    if (apiResponseData.value) {
+watch([apiResponseData, apiResponseError], async () => {
+    if (apiResponseError.value) {
+        console.error(apiResponseError.value);
+    }
+
+    if (apiResponseData.value && !isPlaying.value) {
         const speech = useTts({
             url: apiResponseData.value,
             eventHandlers: [
                 {
                     eventName: 'ended',
                     callback: function handleEnd() {
-                        this.src = '';
                         isPlaying.value = false;
                         store.commit(MutationTypes.CHANGE_WARNING_TRIGGERED, false);
                         store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
-                        store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, 'idle');
                     }
                 },
                 {
@@ -56,12 +58,6 @@ watch(apiResponseData, async () => {
         } catch (error) {
             console.error(error);
         }
-    }
-});
-
-watch(apiResponseError, () => {
-    if (apiResponseError.value) {
-        console.error(apiResponseError.value);
     }
 });
 

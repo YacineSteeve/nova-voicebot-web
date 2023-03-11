@@ -1,8 +1,9 @@
 <script setup
         lang="ts">
+import type { NovaStatus } from '@/lib/types';
+
 interface NovaEyeProps {
-    state: 'active' | 'sleeping' | 'loading' | 'warning';
-    userName: string;
+    state: NovaStatus;
 }
 
 const props = defineProps<NovaEyeProps>();
@@ -11,7 +12,7 @@ const props = defineProps<NovaEyeProps>();
 <template>
     <div class="nova-eye">
         <v-icon v-if="props.state === 'active'"
-                :title="`Hey ${props.userName} !`"
+                title="Hey !"
                 animation="float">
             <v-icon name="md-panoramafisheye-twotone"
                     fill="#ffffff"

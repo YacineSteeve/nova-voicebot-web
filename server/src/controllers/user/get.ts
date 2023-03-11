@@ -9,7 +9,7 @@ export function getUser(request: Request, response: Response) {
             .status(500)
             .json({
                 success: false,
-                error: 'SERVER ERROR: Missing credentials parameter to login.',
+                error: 'SERVER ERROR: Missing credentials (email or password) to login.',
                 fields: ['email', 'password']
             });
         return
@@ -48,7 +48,6 @@ export function getUser(request: Request, response: Response) {
             );
 
             response
-                .header('auth-token', token)
                 .json({
                     success: true,
                     token
@@ -65,17 +64,17 @@ export function getUser(request: Request, response: Response) {
 }
 
 export function getUserByToken(request: Request, response: Response) {
-    if (!request.headers || !request.headers['auth-token'] || request.headers['auth-token'] === '') {
+    if (!request.body.token || request.body.token === '') {
         response
             .status(500)
             .json({
                 success: false,
-                error: 'SERVER ERROR: Missing auth-token header'
+                error: 'SERVER ERROR: Missing authentication token. Use /user/login to get one.'
             });
         return
     }
 
-    const token = request.headers['auth-token'] as string;
+    const token = request.body.token as string;
     let decoded: any = null;
 
     try {

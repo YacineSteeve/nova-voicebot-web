@@ -84,7 +84,8 @@ const recognition = useStt({
 });
 
 function startRecording() {
-    store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, '');
+    finalTranscript.value = '';
+    interimTranscript.value = '';
     store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
     recognition.start();
 }
