@@ -1,34 +1,88 @@
 <script setup
         lang="ts">
-    import { ref } from 'vue';
+    import { reactive, ref } from 'vue';
     import cookies from '@/lib/cookies';
+
+    interface Cookie {
+        name: string;
+        description: string;
+        isEssential: boolean;
+        isChecked: boolean;
+    }
     
     const cookieLawIsVisible = cookies.isKey('nova-use-cookies')
         ? ref(false)
         : ref(true);
-    
     const cookiesListIsVisible = ref(false);
+    const saveButtonIsVisible = ref(false);
+
+    const cookiesList = reactive<Cookie[]>([
+        {
+            name: 'cookies-cookie',
+            description: 'Cookies usage authorization cookie',
+            isEssential: true,
+            isChecked: true,
+        },
+        {
+            name: 'nova-auth-token',
+            description: 'Authentication cookie',
+            isEssential: true,
+            isChecked: true,
+        },
+        {
+            name: 'nova-language',
+            description: 'Speech\'s language cookie',
+            isEssential: false,
+            isChecked: true,
+        },
+        {
+            name: 'nova-theme',
+            description: 'Preferred theme cookie',
+            isEssential: false,
+            isChecked: true,
+        },
+    ]);
     
     function closeCookieLaw() {
         cookiesListIsVisible.value = false;
         cookieLawIsVisible.value = false;
     }
-    
-    function disableCookiesUsage() {
-        closeCookieLaw();
-    }
-    
-    function enableCookiesUsage() {
-        cookies.set('nova-use-cookies', true);
-        closeCookieLaw();
-    }
-    
+
     function showCookiesList() {
         cookiesListIsVisible.value = true;
     }
-    
+
     function hideCookiesList() {
         cookiesListIsVisible.value = false;
+        saveButtonIsVisible.value = false;
+    }
+
+    function setCookiesPreferences() {
+        saveButtonIsVisible.value = true;
+        showCookiesList();
+    }
+
+    function enablePreferredCookies() {
+        cookies.set(
+            'nova-use-cookies',
+            cookiesList.filter(cookie => cookie.isChecked).map(cookie => cookie.name));
+        closeCookieLaw();
+    }
+    
+    function enableEssentialCookies() {
+        cookies.set(
+            'nova-use-cookies',
+            cookiesList.filter(cookie => cookie.isEssential).map(cookie => cookie.name)
+        );
+        closeCookieLaw();
+    }
+    
+    function enableAllCookies() {
+        cookies.set(
+            'nova-use-cookies',
+            cookiesList.map(cookie => cookie.name)
+        );
+        closeCookieLaw();
     }
 </script>
 
@@ -47,28 +101,25 @@
                 </span>
             </h4>
             <ul>
-                <li class="total-center">
+                <li class="total-center"
+                    v-for="cookie in cookiesList"
+                    :key="cookie.name">
                     <input type="checkbox"
-                           id="cookies-cookie"
-                           checked
-                           disabled>
-                    <label for="cookies-cookie">Cookies usage authorization cookie</label>
-                </li>
-                <li class="total-center">
-                    <input type="checkbox"
-                           id="language-cookie"
-                           checked
-                           disabled>
-                    <label for="language-cookie">Speech language cookie</label>
-                </li>
-                <li class="total-center">
-                    <input type="checkbox"
-                           id="theme-cookie"
-                           checked
-                           disabled>
-                    <label for="theme-cookie">Preferred theme cookie</label>
+                           :id="cookie.name"
+                           :checked="cookie.isChecked"
+                           :disabled="cookie.isEssential"
+                           v-model="cookie.isChecked">
+                    <label :for="cookie.name">{{cookie.description}}</label>
                 </li>
             </ul>
+            <button
+                v-if="saveButtonIsVisible"
+                class="save-button total-center"
+                @click="enablePreferredCookies">
+                <v-icon name="io-checkmark"
+                        scale="1.5"></v-icon>
+                Save Preferences
+            </button>
         </div>
         <div class="cookie-logo total-center">
             <img src="@/assets/biscuit.png"
@@ -82,13 +133,13 @@
             </div>
             <div class="buttons-section">
                 <button class="close total-center"
-                        @click="closeCookieLaw">Close
+                        @click="setCookiesPreferences">Set Preferences
                 </button>
                 <button class="decline total-center"
-                        @click="disableCookiesUsage">Decline
+                        @click="enableEssentialCookies">Essentials only
                 </button>
                 <button class="accept total-center"
-                        @click="enableCookiesUsage">Accept All
+                        @click="enableAllCookies">Accept All
                 </button>
             </div>
         </div>
@@ -123,7 +174,7 @@ $spacing: 1vw;
         display: flex;
         flex-direction: column;
         width: 20vw;
-        height: 150px;
+        height: fit-content;
         background: var(--background-primary);
         border: 2px solid var(--background-secondary);
         
@@ -146,6 +197,7 @@ $spacing: 1vw;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: $spacing;
             flex: 1;
             padding: $spacing;
             
@@ -157,6 +209,21 @@ $spacing: 1vw;
                 }
             }
             
+        }
+
+        .save-button {
+            width: fit-content;
+            margin-inline: auto;
+            margin-block: calc($spacing / 2);
+            padding-inline: $spacing;
+            padding-block: calc($spacing / 2);
+            cursor: pointer;
+            border: none;
+            background: var(--palette-fog);
+
+            &:hover {
+                background: var(--palette-heliotrope);
+            }
         }
     }
     

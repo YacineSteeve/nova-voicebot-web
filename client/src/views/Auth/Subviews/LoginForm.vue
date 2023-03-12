@@ -42,7 +42,11 @@ async function submitUser() {
 
     watch([data, error, isFetching], () => {
         if (data.value && data.value.success) {
-            cookies.set('nova-auth-token', data.value.token, { expires: "30min" });
+            cookies.set(
+                'nova-auth-token',
+                data.value.token,
+                { expires: "30min", secure: true }
+            );
             router.push('/');
 
             return;
