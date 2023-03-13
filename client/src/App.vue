@@ -121,6 +121,8 @@ main {
 }
 
 .other-devices {
+    min-width: 1100px;
+
     main {
         position: relative;
         color: white;
@@ -136,6 +138,7 @@ main {
     .main-scroll-overflow {
         position: sticky;
         top: 0;
+        z-index: 1;
         height: var(--main-scroll-overflow-height);
         box-shadow: 0 1px 15px 5px black;
         background: var(--palette-electric-violet);

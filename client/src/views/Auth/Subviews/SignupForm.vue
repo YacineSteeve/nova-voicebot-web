@@ -8,12 +8,18 @@ import useTerms from '@/utils/use-terms';
 import ProgressBar from '@/components/ProgressBar.vue';
 import FormWrapper from '@/components/FormWrapper.vue';
 
+interface SignupProps {
+    email?: string;
+}
+
+const props = defineProps<SignupProps>();
+
 const router = useRouter();
 
 const TOTAL_STEPS = 3;
 const currentStep = ref(1);
 
-const email = ref('');
+const email = ref(props.email || '');
 const password = ref('');
 const passwordConfirmation = ref('');
 const agreement = ref(false);

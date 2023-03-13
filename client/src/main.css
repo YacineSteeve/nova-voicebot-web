@@ -9,6 +9,12 @@
     --button-height: 40px;
     --navbar-height: calc(5vh + 2px + var(--button-height));
     --text-grey: #a9a9a9;
+    --github: #0a66c2;
+    --linkedin: #0077b5;
+    --instagram: #e4405f;
+    --mail: #d44638;
+    --whatsapp: #25d366;
+    --facebook: #4267b2;
 }
 
 :root.light {
@@ -90,6 +96,12 @@ body::-webkit-scrollbar-thumb:hover,
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.center-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .hidden {

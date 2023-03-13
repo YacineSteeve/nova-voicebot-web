@@ -39,7 +39,8 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'signup',
                 name: 'Signup',
-                component: () => import('@/views/Auth/Subviews/SignupForm.vue')
+                component: () => import('@/views/Auth/Subviews/SignupForm.vue'),
+                props: route => ({ email: route.query.email }),
             },
             {
                 path: 'login',

@@ -3,7 +3,7 @@ import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 </script>
 
 <template>
-    <div class="landing-page total-center">
+    <div class="landing-page total-center" id="features">
         <router-link to="/nova"
                      class="btn">
             <ButtonWithIcon icon="io-play-circle"

@@ -103,7 +103,7 @@ function hideLanguages() {
                 </context-bloc>
             </div>
         </div>
-        <div class="button-section right">
+        <div class="button-section right center-start">
             <ThemeToggleButton width="60%"/>
             <ButtonWithIcon icon="io-language"
                             width="60%"
@@ -137,10 +137,7 @@ $view-height: 90vh;
     width: 100%;
 
     .button-section {
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
         gap: 5vh;
         width: 15%;
         height: $view-height;
