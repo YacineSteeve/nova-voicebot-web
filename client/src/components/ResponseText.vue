@@ -1,9 +1,15 @@
 <script setup
         lang="ts">
 import {computed, watch} from 'vue';
-import {useFetch} from '@/lib/hooks/fetch';
+import {useFetch} from '@/hooks/fetch';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
+
+interface ResponseTextProps {
+    user: string;
+}
+
+const props = defineProps<ResponseTextProps>();
 
 const store = useStore();
 
@@ -12,7 +18,8 @@ const apiRequestPrompt = computed(() => store.state.userText);
 
 const {data, error, isFetching} = await useFetch<string>({
     type: 'completion',
-    prompt: apiRequestPrompt
+    prompt: apiRequestPrompt,
+    user: props.user
 });
 
 const apiResponseData = computed(() => {
@@ -21,19 +28,15 @@ const apiResponseData = computed(() => {
 const apiResponseFetchStatus = computed(() => isFetching.value);
 const apiResponseError = computed(() => error.value);
 
-watch(apiResponseFetchStatus, () => {
+watch([apiResponseData, apiResponseError, apiResponseFetchStatus], () => {
     store.commit(MutationTypes.UPDATE_FETCH_STATUS, isFetching.value);
-});
 
-watch(apiResponseData, () => {
     if (apiResponseData.value) {
         store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, apiResponseData.value);
     }
-});
 
-watch(apiResponseError, () => {
     if (apiResponseError.value && apiResponseError.value.response?.status === 400) {
-        const violationCategories: string[] = apiResponseError.value.response.data;
+        const violationCategories: string[] = apiResponseError.value.response.data.categories;
         let message = 'Sorry, your request cannot be processed due to policy violation.' +
             'The content detected in your request is ' +
             `${violationCategories.join(', ')}.`;

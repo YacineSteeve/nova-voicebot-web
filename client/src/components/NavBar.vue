@@ -1,7 +1,7 @@
 <script setup
         lang="ts">
 import { ref, watch, onBeforeMount } from 'vue';
-import { useFetch } from '@/lib/hooks/fetch';
+import { useFetch } from '@/hooks/fetch';
 import cookies from '@/lib/cookies';
 import type { User } from '@/lib/client';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
@@ -15,7 +15,7 @@ onBeforeMount(async () => {
     }
 
     const { data, error, isFetching } = await useFetch<UserResponse>({
-        type: '',
+        type: 'userinfo',
         data: {
             token: cookies.get('nova-auth-token') || ''
         }

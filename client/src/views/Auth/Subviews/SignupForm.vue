@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useFetch } from '@/lib/hooks/fetch';
+import { useFetch } from '@/hooks/fetch';
 import { isFieldError } from '@/lib/client';
 import type { AuthError } from '@/lib/client';
-import useTerms from '@/lib/utils/use-terms';
+import useTerms from '@/utils/use-terms';
 import ProgressBar from '@/components/ProgressBar.vue';
 import FormWrapper from '@/components/FormWrapper.vue';
 

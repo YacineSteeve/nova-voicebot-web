@@ -5,7 +5,7 @@ import {
     useStt,
     isSpeechRecognitionEvent,
     isSpeechRecognitionErrorEvent
-} from '@/lib/hooks/speech-to-text';
+} from '@/hooks/speech-to-text';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 
@@ -69,14 +69,14 @@ const recognition = useStt({
                     console.error(`CLIENT ERROR (${event.error}): ` +
                         `${event.message}`);
                 }
-            },
-            {
-                eventName: 'error',
-                callback: function (event) {
-                    if (isSpeechRecognitionErrorEvent(event)) {
-                        console.error(`CLIENT ERROR (${event.error}): ` +
-                            `${event.message}`);
-                    }
+            }
+        },
+        {
+            eventName: 'error',
+            callback: function (event) {
+                if (isSpeechRecognitionErrorEvent(event)) {
+                    console.error(`CLIENT ERROR (${event.error}): ` +
+                        `${event.message}`);
                 }
             }
         }
@@ -84,7 +84,8 @@ const recognition = useStt({
 });
 
 function startRecording() {
-    store.commit(MutationTypes.CHANGE_RESPONSE_TEXT, '');
+    finalTranscript.value = '';
+    interimTranscript.value = '';
     store.commit(MutationTypes.CHANGE_NOVA_STATUS, 'active');
     recognition.start();
 }

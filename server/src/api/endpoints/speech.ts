@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { redirectSpeech } from '../redirect';
+import { redirectSpeech } from '../redirections';
 
 export function getSpeech(request: Request, response: Response) {
     request.accepts('text/plain');
@@ -14,8 +14,8 @@ export function getSpeech(request: Request, response: Response) {
         response
             .status(500)
             .json({
-                error: true,
-                message: 'SERVER ERROR: Missing `text` parameter to speech request.'
+                success: false,
+                error: 'SERVER ERROR: Missing `text` parameter to speech request.'
             });
         return
     }
@@ -24,24 +24,26 @@ export function getSpeech(request: Request, response: Response) {
         response
             .status(500)
             .json({
-                error: true,
-                message: 'SERVER ERROR: Missing `lang` parameter to speech request.'
+                success: false,
+                error: 'SERVER ERROR: Missing `lang` parameter to speech request.'
             });
         return
     }
 
-    redirectSpeech(
-        queryParams.text,
-        queryParams.lang
-    )
-        .then(res => {
-            response.send(res.data);
+    redirectSpeech(queryParams)
+        .then(speechResponse => {
+            response.json({
+                success: true,
+                speech: speechResponse.data
+            });
         })
         .catch(error => {
             response
                 .status(error.response.status)
-                .send(`${error.response.statusText.toUpperCase()}: ` +
+                .json({
+                    success: false,
+                    error: `${error.response.statusText.toUpperCase()}: ` +
                     `Invalid language '${JSON.parse(error.response.config.data).lang}'`
-                );
+                });
         });
 }

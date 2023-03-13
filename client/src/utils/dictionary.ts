@@ -1,4 +1,4 @@
-import dictionary from '@/lib/utils/dictionary.json';
+import dictionary from '@/utils/dictionary.json';
 import type { ShortLanguageCode } from '@/lib/types';
 
 export interface DictionaryEntry {

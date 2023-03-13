@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useFetch } from '@/lib/hooks/fetch';
+import { useFetch } from '@/hooks/fetch';
 import { isFieldError } from '@/lib/client';
 import type { AuthError } from '@/lib/client';
 import cookies from '@/lib/cookies';
@@ -42,7 +42,11 @@ async function submitUser() {
 
     watch([data, error, isFetching], () => {
         if (data.value && data.value.success) {
-            cookies.set('nova-auth-token', data.value.token, { expires: "30min" });
+            cookies.set(
+                'nova-auth-token',
+                data.value.token,
+                { expires: "30min", secure: true }
+            );
             router.push('/');
 
             return;

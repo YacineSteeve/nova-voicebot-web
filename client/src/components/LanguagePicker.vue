@@ -2,7 +2,7 @@
         lang="ts">
 import {computed, ref} from 'vue';
 import type {Ref} from 'vue';
-import {getLanguages} from '@/lib/utils/languages';
+import {getLanguages} from '@/utils/languages';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 

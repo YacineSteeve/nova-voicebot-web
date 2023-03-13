@@ -1,8 +1,12 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosResponse } from 'axios';
 
+const SERVER_URL = import.meta.env.PROD
+    ? 'https://server-url'
+    : `http://localhost:${import.meta.env.VITE_SERVER_PORT || 8000}`;
+
 export const novaApi: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: `${SERVER_URL}/api`,
     timeout: 10000,
     maxBodyLength: 2000,
     xsrfHeaderName: 'X-CSRFTOKEN',
@@ -10,7 +14,7 @@ export const novaApi: AxiosInstance = axios.create({
 });
 
 export const novaAuth: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/user',
+    baseURL: `${SERVER_URL}/user`,
     timeout: 2000,
     maxBodyLength: 2000,
     xsrfHeaderName: 'X-CSRFTOKEN',

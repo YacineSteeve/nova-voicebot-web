@@ -2,7 +2,7 @@
     "name": "server",
     "version": "0.1.0",
     "private": true,
-    "main": "dist/server.js",
+    "main": "dist/main.js",
     "scripts": {
         "build": "tsc",
         "prestart": "yarn run build",
