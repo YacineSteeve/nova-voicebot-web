@@ -7,6 +7,7 @@ import type { User } from '@/lib/client';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 
 const user = ref<User | null>(null);
+const askingDelete = ref(false);
 
 onBeforeMount(async () => {
     interface UserResponse {
@@ -32,6 +33,26 @@ function logout() {
     cookies.remove('nova-auth-token');
     window.location.reload();
 }
+
+function askDelete() {
+    askingDelete.value = !askingDelete.value;
+}
+/*
+function deleteAccount() {
+    interface DeleteResponse {
+        success: boolean;
+    }
+
+    useFetch<DeleteResponse>({
+        type: 'delete',
+        data: {
+            token: cookies.get('nova-auth-token') || ''
+        }
+    });
+
+    logout();
+}
+*/
 </script>
 
 <template>
@@ -51,11 +72,14 @@ function logout() {
             </li>
             <li v-if="user" class="separator">
             </li>
-            <li v-if="user" class="authenticated username">
-                <router-link to="/">
+            <li v-if="user" class="authenticated user">
+                <div @click="askDelete" class="username">
                     <v-icon name="fa-user" />
                     <span>{{ user.username }}</span>
-                </router-link>
+                </div>
+                <div v-if="askingDelete" class="delete" @click="deleteAccount">
+                    Delete Account
+                </div>
             </li>
             <li v-else>
                 <router-link to="/user/login">Log In</router-link>
@@ -149,9 +173,32 @@ function logout() {
                     gap: .75em;
                 }
 
-                &.username {
-                    &:hover {
-                        color: var(--palette-electric-violet);
+                &.user {
+                    position: relative;
+
+                    .username {
+                        &:hover {
+                            color: var(--palette-electric-violet);
+                        }
+                    }
+
+                    .delete {
+                        position: absolute;
+                        top: 150%;
+                        z-index: 2;
+                        width: 100%;
+                        height: fit-content;
+                        background: white;
+                        padding: 1em;
+                        font-size: 1em;
+                        color: black;
+                        cursor: pointer;
+                        transition: all .2s ease-in-out;
+
+                        &:hover {
+                            background: red;
+                            color: white;
+                        }
                     }
                 }
 

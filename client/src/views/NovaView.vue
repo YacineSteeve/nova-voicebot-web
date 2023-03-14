@@ -71,9 +71,8 @@ function hideLanguages() {
 
 <template>
     <div class="nova-view">
-        <div class="button-section left">
+        <div class="button-section left center-start">
             <router-link to="/"
-                         replace
                          title="Close Nova">
                 <ButtonWithIcon icon="hi-chevron-left"
                                 width="100%">
@@ -117,11 +116,14 @@ function hideLanguages() {
                 <LanguagePicker width="100%"
                                 @language-picked="hideLanguages"/>
             </div>
-            <ButtonWithIcon icon="md-report-round"
-                            width="60%"
-                            title="Report">
-                Report abuse
-            </ButtonWithIcon>
+            <router-link to="/contact"
+                         title="Report abuse">
+                <ButtonWithIcon icon="md-report-round"
+                                width="100%"
+                                title="Report">
+                    Report abuse
+                </ButtonWithIcon>
+            </router-link>
         </div>
     </div>
 </template>
@@ -158,6 +160,7 @@ $view-height: 90vh;
             }
 
             > *:last-child {
+                width: 60%;
                 margin-top: auto;
             }
         }
