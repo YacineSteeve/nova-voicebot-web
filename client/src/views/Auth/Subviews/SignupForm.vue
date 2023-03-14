@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useFetch } from '@/hooks/fetch';
-import { isFieldError } from '@/lib/client';
-import type { AuthError } from '@/lib/client';
-import useTerms from '@/utils/use-terms';
+import {ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
+import {useToast} from 'vue-toastification';
+import {useFetch} from '@/hooks/fetch';
+import POLICIES, {POLICIES_NAMES} from '@/lib/policies';
+import {isFieldError} from '@/lib/client';
+import type {AuthError} from '@/lib/client';
 import ProgressBar from '@/components/ProgressBar.vue';
 import FormWrapper from '@/components/FormWrapper.vue';
 
@@ -13,8 +14,10 @@ interface SignupProps {
 }
 
 const props = defineProps<SignupProps>();
-
 const router = useRouter();
+const toast = useToast();
+
+const termsOfUse = POLICIES[POLICIES_NAMES.TERMS_OF_USE].fileContent;
 
 const TOTAL_STEPS = 3;
 const currentStep = ref(1);
@@ -65,7 +68,7 @@ async function submitUser() {
         return;
     }
 
-    const { data, error, isFetching } = await useFetch<SignupResponse>({
+    const {data, error, isFetching} = await useFetch<SignupResponse>({
         type: 'signup',
         data: {
             email: email.value,
@@ -73,9 +76,19 @@ async function submitUser() {
         }
     })
 
-    watch([data, error, isFetching], () => {
+    watch([data, isFetching], () => {
+        if (data.value && data.value.success) {
+            currentStep.value = 3;
+
+            setTimeout(() => {
+                router.push('/user/login');
+            }, 2000);
+        }
+    });
+
+    watch([error], () => {
         if (error.value) {
-            const errorInfos = error.value.data as AuthError;
+            const errorInfos = error.value as AuthError;
 
             if (isFieldError(errorInfos)) {
                 errorInfos.fields.forEach(field => {
@@ -86,19 +99,15 @@ async function submitUser() {
                 });
 
                 currentStep.value = 1;
-            } else {
+            } else if (errorInfos.error) {
+                toast.error(errorInfos.error);
                 console.error(errorInfos.error);
+            } else {
+                toast.error('An error occurred. Please try again later.');
+                console.error(errorInfos);
             }
 
             return;
-        }
-
-        if (data.value && data.value.success) {
-            currentStep.value = 3;
-
-            setTimeout(() => {
-                router.push('/user/login');
-            }, 2000);
         }
     });
 }
@@ -135,12 +144,13 @@ function togglePasswordConfirmationVisibility() {
         <div class="title total-center">
             Sign Up
         </div>
-        <ProgressBar :current-step="currentStep" :total-steps="TOTAL_STEPS" />
+        <ProgressBar :current-step="currentStep" :total-steps="TOTAL_STEPS"/>
         <form @submit.prevent="goToTerms">
             <div class="page page-1" :class="{current: currentStep === 1}">
                 <FormWrapper>
                     <div class="group">
-                        <input id="email" type="email" :class="{used: email !== ''}" v-model="email" title="Enter your account email address" @change="resetEmailError" autofocus required>
+                        <input id="email" type="email" :class="{used: email !== ''}" v-model="email"
+                               title="Enter your account email address" @change="resetEmailError" autofocus required>
                         <span class="highlight"></span>
                         <span class="bar" :class="{error: emailError}"></span>
                         <label>Email</label>
@@ -149,10 +159,11 @@ function togglePasswordConfirmationVisibility() {
                         {{ emailErrorMessage }}
                     </div>
                     <div class="group">
-                        <input id="password" :type="showPassword ? 'text' : 'password'" :class="{used: password !== ''}" v-model="password" title="Enter your password" @change="resetPasswordError" required>
+                        <input id="password" :type="showPassword ? 'text' : 'password'" :class="{used: password !== ''}"
+                               v-model="password" title="Enter your password" @change="resetPasswordError" required>
                         <span class="field-icon" @click="togglePasswordVisibility">
-                            <v-icon v-if="showPassword" name="fa-eye-slash" />
-                            <v-icon v-else name="fa-eye" />
+                            <v-icon v-if="showPassword" name="fa-eye-slash"/>
+                            <v-icon v-else name="fa-eye"/>
                         </span>
                         <span class="highlight"></span>
                         <span class="bar" :class="{error: passwordError}"></span>
@@ -162,10 +173,12 @@ function togglePasswordConfirmationVisibility() {
                         {{ passwordErrorMessage }}
                     </div>
                     <div class="group">
-                        <input id="confirm-password" :type="showPasswordConfirmation ? 'text' : 'password'" :class="{used: passwordConfirmation !== ''}" v-model="passwordConfirmation" @change="resetPasswordConfirmationError" title="Confirm your password" required>
+                        <input id="confirm-password" :type="showPasswordConfirmation ? 'text' : 'password'"
+                               :class="{used: passwordConfirmation !== ''}" v-model="passwordConfirmation"
+                               @change="resetPasswordConfirmationError" title="Confirm your password" required>
                         <span class="field-icon" @click="togglePasswordConfirmationVisibility">
-                            <v-icon v-if="showPasswordConfirmation" name="fa-eye-slash" />
-                            <v-icon v-else name="fa-eye" />
+                            <v-icon v-if="showPasswordConfirmation" name="fa-eye-slash"/>
+                            <v-icon v-else name="fa-eye"/>
                         </span>
                         <span class="highlight"></span>
                         <span class="bar" :class="{error: passwordConfirmationError}"></span>
@@ -181,16 +194,17 @@ function togglePasswordConfirmationVisibility() {
                 <div class="redirect-auth">
                     Already have an account?
                     <span>
-                        <router-link to="/user/login">Log In</router-link>
+                        <router-link to="/user/login" title="Log In">Log In</router-link>
                     </span>
                 </div>
             </div>
             <div class="page page-2" :class="{current: currentStep === 2}">
                 <div class="terms scrolled">
-                    {{ useTerms }}
+                    {{ termsOfUse }}
                 </div>
                 <div class="agree">
-                    <input type="checkbox" v-model="agreement" :class="{error: agreementError}" @change="resetAgreementError"/>
+                    <input type="checkbox" v-model="agreement" :class="{error: agreementError}"
+                           @change="resetAgreementError"/>
                     <label>I agree to these terms and conditions</label>
                 </div>
                 <FormWrapper>
@@ -205,7 +219,7 @@ function togglePasswordConfirmationVisibility() {
                     scale="2.5"
                     animation="wrench"
                     speed="slow"
-                    color="var(--text-primary)" />
+                    color="var(--text-primary)"/>
                 <div class="message total-center">
                     Account created successfully!
                     <span>You will be redirected soon...</span>

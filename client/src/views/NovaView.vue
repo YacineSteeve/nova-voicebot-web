@@ -1,13 +1,14 @@
 <script setup
         lang="ts">
-import { computed, ref, watch, onBeforeMount } from 'vue';
+import {computed, ref, watch, onBeforeMount} from 'vue';
 import type {Ref} from 'vue';
-import { onBeforeRouteLeave } from 'vue-router';
+import {onBeforeRouteLeave} from 'vue-router';
+import {useToast} from 'vue-toastification';
 import cookies from '@/lib/cookies';
-import type { User } from '@/lib/client';
-import { useFetch } from '@/hooks/fetch';
-import { useStore } from '@/store/store';
-import { MutationTypes } from '@/store/mutations';
+import type {User} from '@/lib/client';
+import {useFetch} from '@/hooks/fetch';
+import {useStore} from '@/store/store';
+import {MutationTypes} from '@/store/mutations';
 import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 import NovaEye from '@/components/NovaEye.vue';
@@ -18,6 +19,7 @@ import ResponseText from '@/components/ResponseText.vue';
 import LanguagePicker from '@/components/LanguagePicker.vue';
 
 const store = useStore();
+const toast = useToast();
 
 const novaStatus = computed(() => store.state.novaStatus);
 const currentLanguage = computed(() => store.state.language);
@@ -33,7 +35,7 @@ onBeforeMount(async () => {
         user: User;
     }
 
-    const { data, error, isFetching } = await useFetch<UserResponse>({
+    const {data, error, isFetching} = await useFetch<UserResponse>({
         type: 'userinfo',
         data: {
             token: userToken
@@ -46,6 +48,7 @@ onBeforeMount(async () => {
         }
 
         if (error.value) {
+            toast.error(error.value.response?.data.message);
             console.error(error.value);
         }
     });
@@ -82,8 +85,8 @@ function hideLanguages() {
         </div>
         <div class="glass-card">
             <div class="nova-face eyes">
-                <NovaEye :state="novaStatus" />
-                <NovaEye :state="novaStatus" />
+                <NovaEye :state="novaStatus"/>
+                <NovaEye :state="novaStatus"/>
             </div>
             <div class="nova-face mouth total-center">
                 <Suspense>

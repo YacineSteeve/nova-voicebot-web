@@ -2,12 +2,14 @@
         lang="ts">
 import {computed, ref, watch} from 'vue';
 import type {Ref} from 'vue';
+import {useToast} from 'vue-toastification';
 import {useTts} from '@/hooks/text-to-speech';
 import {useFetch} from '@/hooks/fetch';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
 
 const store = useStore();
+const toast = useToast();
 
 const isPlaying: Ref<boolean> = ref(false);
 const apiRequestText = computed(() => store.state.responseText);
@@ -23,11 +25,14 @@ const apiResponseData = computed(() => data.value);
 const apiResponseError = computed(() => error.value);
 const apiResponseFetchStatus = computed(() => isFetching.value);
 
-watch([apiResponseData, apiResponseError], async () => {
+watch(apiResponseError, () => {
     if (apiResponseError.value) {
+        toast('Nova cannot speak right now');
         console.error(apiResponseError.value);
     }
+});
 
+watch(apiResponseData, async () => {
     if (apiResponseData.value && !isPlaying.value) {
         const speech = useTts({
             url: apiResponseData.value,
@@ -43,6 +48,7 @@ watch([apiResponseData, apiResponseError], async () => {
                 {
                     eventName: 'error',
                     callback: function handleError(event) {
+                        toast('Nova cannot speak right now');
                         console.error(`CLIENT ERROR (code-${this.error?.code}): ` +
                             `Unable to play ${event.target}\n` +
                             `${this.error?.message}`);
@@ -56,6 +62,7 @@ watch([apiResponseData, apiResponseError], async () => {
             await speech.play();
             isPlaying.value = true;
         } catch (error) {
+            toast('Nova cannot speak right now');
             console.error(error);
         }
     }

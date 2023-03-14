@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type {AxiosInstance, AxiosResponse} from 'axios';
 
 const SERVER_URL = import.meta.env.PROD
     ? 'https://server-url'
@@ -42,5 +42,5 @@ export interface AuthError {
 }
 
 export const isFieldError = (error: AuthError): error is Omit<AuthError, 'fields'> & { fields: string[] } => {
-    return error.fields !== undefined;
+    return error && error.fields !== undefined;
 }

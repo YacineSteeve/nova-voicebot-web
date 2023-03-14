@@ -1,6 +1,6 @@
 import {ref, watch} from 'vue';
 import type {Ref} from 'vue';
-import { novaApi, novaAuth, UserData } from '@/lib/client';
+import {novaApi, novaAuth, UserData} from '@/lib/client';
 import type {ApiResponse} from '@/lib/client';
 import cookies from '@/lib/cookies';
 
@@ -68,7 +68,7 @@ export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<
                         state.data.value = parseApiResponse(response, request.type as ApiEndPoint) as typeof state.data.value;
                     })
                     .catch(error => {
-                        state.error.value = error.response.data.error || error;
+                        state.error.value = error.response?.data || error;
                     })
                     .finally(() => {
                         state.isFetching.value = false;
@@ -85,7 +85,7 @@ export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<
                     state.data.value = response.data;
                 })
                 .catch(error => {
-                    state.error.value = error.response.data.error || error;
+                    state.error.value = error.response?.data || error;
                 })
                 .finally(() => {
                     state.isFetching.value = false;

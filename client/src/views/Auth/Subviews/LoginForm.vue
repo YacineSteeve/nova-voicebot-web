@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useFetch } from '@/hooks/fetch';
-import { isFieldError } from '@/lib/client';
-import type { AuthError } from '@/lib/client';
+import {ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
+import {useToast} from 'vue-toastification';
+import {useFetch} from '@/hooks/fetch';
+import {isFieldError} from '@/lib/client';
+import type {AuthError} from '@/lib/client';
 import cookies from '@/lib/cookies';
 import FormWrapper from '@/components/FormWrapper.vue';
 
 const router = useRouter();
+const toast = useToast();
+
 const email = ref<string>('');
 const password = ref<string>('');
 
@@ -32,7 +35,7 @@ interface LoginResponse {
 }
 
 async function submitUser() {
-    const { data, error, isFetching } = await useFetch<LoginResponse>({
+    const {data, error, isFetching} = await useFetch<LoginResponse>({
         type: 'login',
         data: {
             email: email.value,
@@ -40,32 +43,34 @@ async function submitUser() {
         }
     });
 
-    watch([data, error, isFetching], () => {
+    watch([data, isFetching], () => {
         if (data.value && data.value.success) {
             cookies.set(
                 'nova-auth-token',
                 data.value.token,
-                { expires: "30min", secure: true }
+                {expires: "30min", secure: true}
             );
             router.push('/');
 
             return;
         }
+    });
 
+    watch([error], () => {
         if (error.value) {
-            const errorInfos = error.value.data as AuthError;
+            const errorInfos = error.value as AuthError;
 
             if (isFieldError(errorInfos)) {
                 errorInfos.fields.forEach(field => {
                     errors[field].value = true;
                 });
-            } else {
+            } else if (errorInfos.error) {
+                toast.error(errorInfos.error);
                 console.error(errorInfos.error);
+            } else {
+                toast.error('An error occurred. Please try again later.');
+                console.error(errorInfos);
             }
-        }
-
-        if (isFetching.value) {
-            console.log(isFetching.value);
         }
     });
 }
@@ -94,7 +99,8 @@ function togglePasswordVisibility() {
         <form @submit.prevent="submitUser">
             <FormWrapper>
                 <div class="group">
-                    <input id="email" type="email" :class="{used: email !== '', error: emailError}" v-model="email" @change="resetEmailError" title="Enter your account email address" autofocus required>
+                    <input id="email" type="email" :class="{used: email !== '', error: emailError}" v-model="email"
+                           @change="resetEmailError" title="Enter your account email address" autofocus required>
                     <span class="highlight"></span>
                     <span class="bar" :class="{error: emailError}"></span>
                     <label>Email</label>
@@ -103,10 +109,12 @@ function togglePasswordVisibility() {
                     {{ errorMessages.email }}
                 </div>
                 <div class="group">
-                    <input id="password" :type="showPassword ? 'text' : 'password'" :class="{used: password !== '', error: passwordError}" v-model="password" @change="resetPasswordError" title="Enter your password" required>
+                    <input id="password" :type="showPassword ? 'text' : 'password'"
+                           :class="{used: password !== '', error: passwordError}" v-model="password"
+                           @change="resetPasswordError" title="Enter your password" required>
                     <span class="field-icon" @click="togglePasswordVisibility">
-                        <v-icon v-if="showPassword" name="fa-eye-slash" />
-                        <v-icon v-else name="fa-eye" />
+                        <v-icon v-if="showPassword" name="fa-eye-slash"/>
+                        <v-icon v-else name="fa-eye"/>
                     </span>
                     <span class="highlight"></span>
                     <span class="bar" :class="{error: passwordError}"></span>
@@ -122,7 +130,7 @@ function togglePasswordVisibility() {
             <div class="redirect-auth">
                 Don't have an account?
                 <span>
-                    <router-link to="/user/signup">Sign Up</router-link>
+                    <router-link to="/user/signup" title="Sign Up">Sign Up</router-link>
                 </span>
             </div>
         </form>

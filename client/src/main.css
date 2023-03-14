@@ -118,6 +118,13 @@ body::-webkit-scrollbar-thumb:hover,
 }
 
 .redirect-auth span {
-        font-weight: 600;
-        color: var(--palette-heliotrope);
+    font-weight: 600;
+    color: var(--palette-heliotrope);
+}
+
+.Vue-Toastification__toast--default.top-left {
+    border: var(--background-secondary);
+    min-width: fit-content;
+    color: var(--text-primary);
+    background: var(--palette-heliotrope);
 }

@@ -5,7 +5,8 @@ import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 <template>
     <div class="landing-page total-center" id="features">
         <router-link to="/nova"
-                     class="btn">
+                     class="btn"
+                     title="Go to Nova">
             <ButtonWithIcon icon="io-play-circle"
                             icon-scale="1.5"
                             width="10em"

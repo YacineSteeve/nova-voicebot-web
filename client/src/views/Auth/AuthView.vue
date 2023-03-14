@@ -11,12 +11,12 @@
                 <h1 class="total-center">OVA</h1>
             </div>
             <div class="return">
-                <router-link to="/">
+                <router-link to="/" title="Go to Home">
                     <v-icon name="hi-chevron-left"></v-icon>
                     Go back home
                 </router-link>
             </div>
-            <router-view />
+            <router-view/>
         </section>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup
         lang="ts">
 import {ref} from 'vue';
+import {useToast} from 'vue-toastification';
 import {
     useStt,
     isSpeechRecognitionEvent,
@@ -15,6 +16,7 @@ interface UserSpeechTextProps {
 
 const props = defineProps<UserSpeechTextProps>();
 const store = useStore();
+const toast = useToast();
 
 const isRecording = ref<boolean>(false);
 const finalTranscript = ref<string>('');
@@ -66,20 +68,12 @@ const recognition = useStt({
             eventName: 'error',
             callback: function (event) {
                 if (isSpeechRecognitionErrorEvent(event)) {
+                    toast.error('Unable to record speech');
                     console.error(`CLIENT ERROR (${event.error}): ` +
                         `${event.message}`);
                 }
             }
         },
-        {
-            eventName: 'error',
-            callback: function (event) {
-                if (isSpeechRecognitionErrorEvent(event)) {
-                    console.error(`CLIENT ERROR (${event.error}): ` +
-                        `${event.message}`);
-                }
-            }
-        }
     ]
 });
 

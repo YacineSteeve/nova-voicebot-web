@@ -1,9 +1,9 @@
 <script setup
         lang="ts">
-import { ref, watch, onBeforeMount } from 'vue';
-import { useFetch } from '@/hooks/fetch';
+import {ref, watch, onBeforeMount} from 'vue';
+import {useFetch} from '@/hooks/fetch';
 import cookies from '@/lib/cookies';
-import type { User } from '@/lib/client';
+import type {User} from '@/lib/client';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 
 const user = ref<User | null>(null);
@@ -15,7 +15,7 @@ onBeforeMount(async () => {
         user: User;
     }
 
-    const { data, error, isFetching } = await useFetch<UserResponse>({
+    const {data, error, isFetching} = await useFetch<UserResponse>({
         type: 'userinfo',
         data: {
             token: cookies.get('nova-auth-token') || ''
@@ -37,6 +37,7 @@ function logout() {
 function askDelete() {
     askingDelete.value = !askingDelete.value;
 }
+
 /*
 function deleteAccount() {
     interface DeleteResponse {
@@ -65,16 +66,16 @@ function deleteAccount() {
         </div>
         <ul class="menu">
             <li>
-                <router-link to="/">Home</router-link>
+                <router-link to="/" title="Home">Home</router-link>
             </li>
             <li>
-                <router-link to="/contact">Contact</router-link>
+                <router-link to="/contact" title="Contact">Contact</router-link>
             </li>
             <li v-if="user" class="separator">
             </li>
             <li v-if="user" class="authenticated user">
                 <div @click="askDelete" class="username">
-                    <v-icon name="fa-user" />
+                    <v-icon name="fa-user"/>
                     <span>{{ user.username }}</span>
                 </div>
                 <div v-if="askingDelete" class="delete" @click="deleteAccount">
@@ -82,20 +83,20 @@ function deleteAccount() {
                 </div>
             </li>
             <li v-else>
-                <router-link to="/user/login">Log In</router-link>
+                <router-link to="/user/login" title="Log In">Log In</router-link>
             </li>
             <li v-if="user" class="authenticated logout">
                 <div @click="logout">
-                    <v-icon name="md-logout-round" />
+                    <v-icon name="md-logout-round"/>
                     <span>Log Out</span>
                 </div>
             </li>
             <li v-else>
-                <router-link to="/user/signup">Sign Up</router-link>
+                <router-link to="/user/signup" title="Sign Up">Sign Up</router-link>
             </li>
         </ul>
         <div class="theme-toggle-btn">
-            <ThemeToggleButton width="60%" />
+            <ThemeToggleButton width="60%"/>
         </div>
     </div>
 </template>
@@ -107,25 +108,25 @@ function deleteAccount() {
     align-items: center;
     width: 100%;
     height: var(--navbar-height);
-    
+
     .logo {
         display: flex;
         justify-content: center;
         align-items: flex-end;
         width: 15%;
         height: 100%;
-        
+
         img {
             height: 80%;
         }
-        
+
         h1 {
             font-size: 3em;
             height: fit-content;
             margin: 0;
         }
     }
-    
+
     .menu {
         font-size: 1.5em;
         display: flex;
@@ -134,7 +135,7 @@ function deleteAccount() {
         width: 70%;
         height: 100%;
         list-style: none;
-        
+
         li {
             display: flex;
             align-items: center;
@@ -220,7 +221,7 @@ function deleteAccount() {
             }
         }
     }
-    
+
     .theme-toggle-btn {
         display: flex;
         justify-content: center;

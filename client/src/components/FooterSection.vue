@@ -1,6 +1,38 @@
 <script setup
         lang="ts">
+import {useToast, POSITION} from 'vue-toastification';
+import {POLICIES_NAMES} from '@/lib/policies';
 import FooterLoginForm from '@/components/FooterLoginForm.vue';
+import LegalStuff from '@/components/LegalStuff.vue';
+
+const toast = useToast();
+
+function showLegalStuff(name: POLICIES_NAMES) {
+    const content = {
+        component: LegalStuff,
+        props: {
+            policyName: name,
+        },
+    }
+    toast(content, {
+        closeOnClick: false,
+        position: POSITION.TOP_LEFT,
+        timeout: false,
+        hideProgressBar: true,
+    });
+}
+
+function showPrivacyPolicy() {
+    showLegalStuff(POLICIES_NAMES.PRIVACY_POLICY);
+}
+
+function showTermsAndConditions() {
+    showLegalStuff(POLICIES_NAMES.TERMS_OF_USE);
+}
+
+function showCookiePolicy() {
+    showLegalStuff(POLICIES_NAMES.COOKIE_POLICY);
+}
 </script>
 
 <template>
@@ -17,22 +49,23 @@ import FooterLoginForm from '@/components/FooterLoginForm.vue';
                     <h2 class="center-start">Site Map</h2>
                     <ul>
                         <li>
-                            <router-link to="/">
+                            <router-link to="/" title="Home">
                                 Home
                             </router-link>
                         </li>
                         <li>
-                            <a href="/#features">
+                            <a href="/#features" title="Features">
                                 Features
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/YacineSteeve/nova-voicebot-web#readme" target="_blank">
+                            <a href="https://github.com/YacineSteeve/nova-voicebot-web#readme" target="_blank"
+                               title="APi Documentation">
                                 API Documentation
                             </a>
                         </li>
                         <li>
-                            <router-link to="/contact">
+                            <router-link to="/contact" title="Support">
                                 Support
                             </router-link>
                         </li>
@@ -41,29 +74,32 @@ import FooterLoginForm from '@/components/FooterLoginForm.vue';
 
                 <div class="registration total-center">
                     <h2 class="center-start">Try Nova now !</h2>
-                    <FooterLoginForm />
+                    <FooterLoginForm/>
                 </div>
 
                 <div class="contact total-center">
                     <h2 class="center-start">Contact me</h2>
                     <div class="socials">
-                        <a id="github" href="https://github.com/YacineSteeve" target="_blank">
-                            <v-icon name="fa-github" scale="2" />
+                        <a id="github" href="https://github.com/YacineSteeve" target="_blank" title="GitHub">
+                            <v-icon name="fa-github" scale="2"/>
                         </a>
-                        <a id="linkedin" href="https://www.linkedin.com/in/yacine-boukari-585465226/" target="_blank">
-                            <v-icon name="fa-linkedin" scale="2" />
+                        <a id="linkedin" href="https://www.linkedin.com/in/yacine-boukari-585465226/" target="_blank"
+                           title="LinkedIn">
+                            <v-icon name="fa-linkedin" scale="2"/>
                         </a>
-                        <a id="instagram" href="https://www.instagram.com/yacine.b_612/" target="_blank">
-                            <v-icon name="fa-instagram" scale="2" />
+                        <a id="instagram" href="https://www.instagram.com/yacine.b_612/" target="_blank"
+                           title="Instagram">
+                            <v-icon name="fa-instagram" scale="2"/>
                         </a>
-                        <a id="mail" href="mailto:steeveboukari9@gmail.com" target="_blank">
-                            <v-icon name="fa-envelope" scale="2" />
+                        <a id="mail" href="mailto:steeveboukari9@gmail.com" target="_blank" title="Mail">
+                            <v-icon name="fa-envelope" scale="2"/>
                         </a>
-                        <a id="whatsapp" href="https://wa.me/33753038294" target="_blank">
-                            <v-icon name="fa-whatsapp" scale="2" />
+                        <a id="whatsapp" href="https://wa.me/33753038294" target="_blank" title="Whatsapp">
+                            <v-icon name="fa-whatsapp" scale="2"/>
                         </a>
-                        <a id="facebook" href="https://www.facebook.com/yacine.boukari.315/" target="_blank">
-                            <v-icon name="fa-facebook-f" scale="2" />
+                        <a id="facebook" href="https://www.facebook.com/yacine.boukari.315/" target="_blank"
+                           title="Facebook">
+                            <v-icon name="fa-facebook-f" scale="2"/>
                         </a>
                     </div>
                 </div>
@@ -71,9 +107,9 @@ import FooterLoginForm from '@/components/FooterLoginForm.vue';
                 <div class="terms-and-conditions total-center">
                     <h2 class="center-start"></h2>
                     <ul>
-                        <li>Terms and Conditions</li>
-                        <li>Privacy Policy</li>
-                        <li>Cookie Policy</li>
+                        <li @click="showTermsAndConditions">Terms and Conditions</li>
+                        <li @click="showPrivacyPolicy">Privacy Policy</li>
+                        <li @click="showCookiePolicy">Cookie Policy</li>
                     </ul>
                 </div>
             </div>
@@ -100,7 +136,7 @@ footer {
     height: $f-height;
     color: var(--text-primary);
     background: var(--background-primary);
-    
+
     .footer-main {
         position: absolute;
         bottom: $fb-height;
@@ -226,7 +262,7 @@ footer {
             }
         }
     }
-    
+
     .footer-bottom {
         position: absolute;
         bottom: 0;
