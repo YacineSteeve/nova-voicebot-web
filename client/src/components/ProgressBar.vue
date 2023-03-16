@@ -36,7 +36,7 @@ const props = defineProps<ProgressBarProps>();
     width: 2em;
     height: 2em;
     border-radius: 50%;
-    background-color: var(--palette-spun-pearl);
+    background: var(--palette-spun-pearl);
 }
 
 .separator {
@@ -45,11 +45,11 @@ const props = defineProps<ProgressBarProps>();
         (50vw - v-bind('props.totalSteps') * 2em) / 4
     );
     height: 2px;
-    background-color: var(--palette-spun-pearl);
+    background: var(--palette-spun-pearl);
 }
 
 .step.passed .indicator,
 .step.passed .separator {
-    background-color: var(--palette-carribean-green);
+    background: var(--palette-carribean-green);
 }
 </style>

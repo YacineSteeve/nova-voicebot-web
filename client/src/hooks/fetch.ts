@@ -5,10 +5,10 @@ import type {ApiResponse} from '@/lib/client';
 import cookies from '@/lib/cookies';
 
 type ApiEndPoint = 'completion' | 'speech';
-type AuthEndPoint = 'login' | 'signup' | 'userinfo';
+type AuthEndPoint = 'login' | 'signup' | 'userinfo' | 'delete';
 
 const API_ENDPOINTS = ['completion', 'speech'];
-const AUTH_ENDPOINTS = ['login', 'signup', 'userinfo'];
+const AUTH_ENDPOINTS = ['login', 'signup', 'userinfo', 'delete'];
 
 export interface FetchResponse<T> {
     data: Ref<T | null>;

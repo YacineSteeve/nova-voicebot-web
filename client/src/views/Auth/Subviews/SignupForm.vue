@@ -319,7 +319,7 @@ function togglePasswordConfirmationVisibility() {
                             }
 
                             &:checked {
-                                background-color: var(--palette-heliotrope);
+                                background: var(--palette-heliotrope);
                                 opacity: 1;
                             }
 

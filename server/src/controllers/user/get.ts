@@ -84,7 +84,7 @@ export function getUserByToken(request: Request, response: Response) {
             .status(500)
             .json({
                 success: false,
-                error: 'SERVER ERROR: ' + error
+                error: 'SERVER ERROR: Unable to verify token. ' + error
             });
         return
     }

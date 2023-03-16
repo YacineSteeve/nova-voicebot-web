@@ -1,11 +1,14 @@
 <script setup
         lang="ts">
-import {ref, watch, onBeforeMount} from 'vue';
+import {onBeforeMount, ref, watch} from 'vue';
+import {useToast} from 'vue-toastification';
 import {useFetch} from '@/hooks/fetch';
 import cookies from '@/lib/cookies';
 import type {User} from '@/lib/client';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
+import NavBarDeleteForm from "@/components/NavBarDeleteForm.vue";
 
+const toast = useToast();
 const user = ref<User | null>(null);
 const askingDelete = ref(false);
 
@@ -38,22 +41,30 @@ function askDelete() {
     askingDelete.value = !askingDelete.value;
 }
 
-/*
-function deleteAccount() {
-    interface DeleteResponse {
-        success: boolean;
+function fillDeletePassword() {
+    askingDelete.value = false;
+
+    const toastContent = {
+        component: NavBarDeleteForm,
+        props: {
+            user: user.value,
+            onDeleted: () => {
+                toast.dismiss('delete-account');
+                logout();
+            },
+            onCanceled: () => {
+                toast.dismiss('delete-account');
+            }
+        }
     }
 
-    useFetch<DeleteResponse>({
-        type: 'delete',
-        data: {
-            token: cookies.get('nova-auth-token') || ''
-        }
+    toast(toastContent, {
+        id: 'delete-account',
+        timeout: false,
+        closeOnClick: false,
+        hideProgressBar: true,
     });
-
-    logout();
 }
-*/
 </script>
 
 <template>
@@ -78,7 +89,7 @@ function deleteAccount() {
                     <v-icon name="fa-user"/>
                     <span>{{ user.username }}</span>
                 </div>
-                <div v-if="askingDelete" class="delete" @click="deleteAccount">
+                <div v-if="askingDelete" class="delete" @click="fillDeletePassword">
                     Delete Account
                 </div>
             </li>
@@ -197,7 +208,7 @@ function deleteAccount() {
                         transition: all .2s ease-in-out;
 
                         &:hover {
-                            background: red;
+                            background: var(--main-red);
                             color: white;
                         }
                     }

@@ -8,13 +8,14 @@ import LegalStuff from '@/components/LegalStuff.vue';
 const toast = useToast();
 
 function showLegalStuff(name: POLICIES_NAMES) {
-    const content = {
+    const toastContent = {
         component: LegalStuff,
         props: {
             policyName: name,
         },
     }
-    toast(content, {
+
+    toast(toastContent, {
         closeOnClick: false,
         position: POSITION.TOP_LEFT,
         timeout: false,

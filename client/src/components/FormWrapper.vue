@@ -152,6 +152,14 @@
         border: none;
         transition: all 0.2s ease;
 
+        &.delete {
+            background: var(--main-red);
+
+            &:hover {
+                background: red;
+            }
+        }
+
         &:hover {
             background: var(--palette-electric-violet);
         }

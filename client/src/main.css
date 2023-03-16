@@ -9,6 +9,7 @@
     --button-height: 40px;
     --navbar-height: calc(5vh + 2px + var(--button-height));
     --text-grey: #a9a9a9;
+    --main-red: #b22222;
     --github: #0a66c2;
     --linkedin: #0077b5;
     --instagram: #e4405f;
@@ -127,4 +128,8 @@ body::-webkit-scrollbar-thumb:hover,
     min-width: fit-content;
     color: var(--text-primary);
     background: var(--palette-heliotrope);
+}
+
+.Vue-Toastification__toast--default.top-center {
+    max-width: unset;
 }
