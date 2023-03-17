@@ -127,7 +127,6 @@ body::-webkit-scrollbar-thumb:hover,
     border: var(--background-secondary);
     min-width: fit-content;
     color: var(--text-primary);
-    background: var(--palette-heliotrope);
 }
 
 .Vue-Toastification__toast--default.top-center {

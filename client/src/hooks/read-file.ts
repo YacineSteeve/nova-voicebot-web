@@ -30,9 +30,10 @@ export async function useReadFile(path: string): Promise<ReadFileState> {
             })
             .catch(error => {
                 state.error = error;
-            }).finally(() => {
-            state.loading = false;
-        });
+            })
+            .finally(() => {
+                state.loading = false;
+            });
     }
 
     await loadContent();

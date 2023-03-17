@@ -8,6 +8,7 @@ import {isFieldError} from '@/lib/client';
 import type {AuthError} from '@/lib/client';
 import ProgressBar from '@/components/ProgressBar.vue';
 import FormWrapper from '@/components/FormWrapper.vue';
+import MarkdownFormatted from '@/components/MarkdownFormatted.vue';
 
 interface SignupProps {
     email?: string;
@@ -200,7 +201,7 @@ function togglePasswordConfirmationVisibility() {
             </div>
             <div class="page page-2" :class="{current: currentStep === 2}">
                 <div class="terms scrolled">
-                    {{ termsOfUse }}
+                    <MarkdownFormatted :source="termsOfUse"/>
                 </div>
                 <div class="agree">
                     <input type="checkbox" v-model="agreement" :class="{error: agreementError}"
