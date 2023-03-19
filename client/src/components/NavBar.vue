@@ -18,6 +18,10 @@ onBeforeMount(async () => {
         user: User;
     }
 
+    if (!cookies.get('nova-auth-token')) {
+        return;
+    }
+
     const {data, error, isFetching} = await useFetch<UserResponse>({
         type: 'userinfo',
         data: {

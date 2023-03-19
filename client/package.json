@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint src/ --fix"
+    "lint": "eslint src/ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@types/node": "^18.11.18",

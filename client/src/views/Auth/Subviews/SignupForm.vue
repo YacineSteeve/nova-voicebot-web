@@ -248,7 +248,7 @@ function togglePasswordConfirmationVisibility() {
         flex-wrap: nowrap;
         width: 100%;
         margin-block: 3em;
-        padding-block: 1em;
+        padding-block: 1.5em;
         overflow: hidden;
 
         .page {

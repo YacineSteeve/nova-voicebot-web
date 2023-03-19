@@ -1,14 +1,16 @@
 import {ref, watch} from 'vue';
 import type {Ref} from 'vue';
-import {novaApi, novaAuth, UserData} from '@/lib/client';
-import type {ApiResponse} from '@/lib/client';
+import {novaApi, novaAuth, novaSupport} from '@/lib/client';
+import type {ApiResponse, UserData, SupportData} from '@/lib/client';
 import cookies from '@/lib/cookies';
 
 type ApiEndPoint = 'completion' | 'speech';
 type AuthEndPoint = 'login' | 'signup' | 'userinfo' | 'delete';
+type SupportEndPoint = 'contact' | '';
 
 const API_ENDPOINTS = ['completion', 'speech'];
 const AUTH_ENDPOINTS = ['login', 'signup', 'userinfo', 'delete'];
+const SUPPORT_ENDPOINTS = ['contact'];
 
 export interface FetchResponse<T> {
     data: Ref<T | null>;
@@ -17,12 +19,13 @@ export interface FetchResponse<T> {
 }
 
 export interface FetchOptions {
-    type: ApiEndPoint | AuthEndPoint;
+    type: ApiEndPoint | AuthEndPoint | SupportEndPoint;
     prompt?: Ref<string>;
     user?: string;
     text?: Ref<string>;
     lang?: Ref<string>;
     data?: UserData;
+    details?: SupportData;
 }
 
 function parseApiResponse(response: ApiResponse, type: ApiEndPoint): string | null {
@@ -90,6 +93,24 @@ export async function useFetch<T>(request: FetchOptions): Promise<FetchResponse<
                 .finally(() => {
                     state.isFetching.value = false;
                 });
+        } else if (SUPPORT_ENDPOINTS.includes(request.type)) {
+            novaSupport.post(`/${request.type}`, {
+                email: request.details?.email,
+                name: request.details?.name,
+                subject: request.details?.subject,
+                message: request.details?.message
+            })
+                .then(response => {
+                    state.data.value = response.data;
+                })
+                .catch(error => {
+                    state.error.value = error.response?.data || error;
+                })
+                .finally(() => {
+                    state.isFetching.value = false;
+                });
+        } else {
+            state.error.value = 'Invalid request type';
         }
     }
 

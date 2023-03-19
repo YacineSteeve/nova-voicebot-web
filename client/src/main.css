@@ -25,6 +25,7 @@
     --text-primary: #1a1a1a;
     --text-secondary: #ffffff;
     --link-blue: #0000ff;
+    --form-label: #460db2;
 }
 
 :root.dark {
@@ -34,6 +35,7 @@
     --text-primary: #ffffff;
     --text-secondary: #1a1a1a;
     --link-blue: #1166ff;
+    --form-label:#b289ff;
 }
 
 @font-face {
