@@ -21,6 +21,14 @@ export const novaAuth: AxiosInstance = axios.create({
     xsrfCookieName: 'csrftoken'
 });
 
+export const novaSupport: AxiosInstance = axios.create({
+    baseURL: `${SERVER_URL}/support`,
+    timeout: 2000,
+    maxBodyLength: 2000,
+    xsrfHeaderName: 'X-CSRFTOKEN',
+    xsrfCookieName: 'csrftoken'
+});
+
 export type ApiResponse = AxiosResponse;
 
 export interface User {
@@ -33,6 +41,13 @@ export interface UserData {
     username?: string;
     email?: string;
     password?: string;
+}
+
+export interface SupportData {
+    email: string;
+    message: string;
+    name: string;
+    subject: string;
 }
 
 export interface AuthError {

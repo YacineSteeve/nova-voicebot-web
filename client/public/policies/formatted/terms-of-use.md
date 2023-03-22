@@ -1,0 +1,87 @@
+# Terms of Use
+
+<br/>
+
+Welcome to Nova-Voice-Bot! By using our website, you agree to be bound by the following terms and
+conditions. Please read these terms carefully before using our website.
+<br/>
+
+#### Use of Our Website
+
+<br/>
+
+You may use our website for lawful purposes only. You agree not to:
+<br/>
+
+* Use our website in any way that violates any applicable laws or regulations
+  <br/>
+
+* Use our website to transmit or distribute any harmful code or software
+  <br/>
+
+* Use our website to impersonate any person or entity, or falsely represent your affiliation with
+  any person or entity
+  <br/>
+
+* Use our website to harass, intimidate, or threaten any person
+  <br/>
+
+* Use our website to collect or store personal information about other users without their consent
+  <br/>
+
+#### Account Registration
+
+<br/>
+
+To access certain features of our website, you may be required to create an account. When creating
+an account, you agree to provide accurate and complete information. You are solely responsible for
+maintaining the confidentiality of your account and password, and for any activities that occur
+under your account. We reserve the right to suspend or terminate your account if we believe that
+you have violated these terms or our privacy policy.
+<br/>
+
+#### Intellectual Property
+
+All content and materials on our website, including but not limited to text, images, logos, and
+software, are the property of Nova-Voice-Bot or our licensors, and are protected by copyright,
+trademark, and other intellectual property laws. You may not use, reproduce, or distribute any
+content or materials from our website without our prior written consent.
+<br/>
+
+#### Disclaimer of Warranties
+
+<br/>
+
+Our website is provided on an "as is" and "as available" basis. We make no representations or
+warranties of any kind, express or implied, as to the operation of our website or the information,
+content, materials, or products included on our website. To the full extent permissible by applicable
+law, we disclaim all warranties, express or implied, including but not limited to implied warranties
+of merchantability, fitness for a particular purpose, and non-infringement.
+<br/>
+
+#### Limitation of Liability
+
+<br/>
+
+To the maximum extent permitted by applicable law, Nova-Voice-Bot and its affiliates, officers,
+employees, agents, partners, and licensors shall not be liable for any direct, indirect, incidental,
+special, or consequential damages arising from the use of our website or the inability to use our
+website, including but not limited to damages for loss of profits, goodwill, data, or other intangible
+losses, resulting from (i) the use or inability to use our website, (ii) unauthorized access to or
+alteration of your transmissions or data, or (iii) any other matter relating to our website.
+<br/>
+
+#### Changes to These Terms
+
+<br/>
+
+We may update these terms from time to time. We will notify you of any significant changes by posting
+a prominent notice on our website. Your continued use of our website after any such changes constitutes
+your acceptance of the new terms.
+<br/>
+
+#### Contact Us
+
+<br/>
+
+If you have any questions or concerns about these terms, please contact us at __*steeveboukari9@gmail.com*__.

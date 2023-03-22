@@ -1,4 +1,5 @@
 import {
+    FaDownload,
     FaEnvelope,
     FaEye,
     FaEyeSlash,
@@ -29,9 +30,10 @@ import {
     RiEyeCloseLine, // Sleeping, before hearing 'Hey Nova'
     RiLoader5Fill, // While processing the request
 } from 'oh-vue-icons/icons';
-import { addIcons } from 'oh-vue-icons';
+import {addIcons} from 'oh-vue-icons';
 
 addIcons(
+    FaDownload,
     FaEnvelope,
     FaEye,
     FaEyeSlash,

@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "lint": "eslint src/ --fix"
+    "lint": "eslint src/ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@types/node": "^18.11.18",
@@ -20,6 +21,7 @@
     "oh-vue-icons": "^1.0.0-rc3",
     "vite": "^4.0.4",
     "vue": "^3.2.13",
+    "vue-markdown-render": "^2.0.1",
     "vue-router": "^4.0.3",
     "vue-toastification": "^2.0.0-rc.5",
     "vue-tsc": "^1.0.21",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@types/dom-speech-recognition": "^0.0.1",
+    "@types/markdown-it": "^12.2.3",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-eslint": "~5.0.0",

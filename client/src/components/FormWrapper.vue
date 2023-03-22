@@ -8,6 +8,7 @@
 </template>
 
 <style lang="scss">
+$input-height: 2.4em;
 
 .container {
     display: flex;
@@ -20,21 +21,23 @@
         position: relative;
         font-size: 1.5em;
         width: 100%;
-        height: 2.5em;
+        height: fit-content;
         background: var(--background-secondary);
 
         label {
+            $font-size: 1em;
+
             position: absolute;
-            bottom: -0.75em;
+            top: .75em;
             left: 0;
-            color: var(--palette-heliotrope);
+            color: var(--form-label);
             pointer-events: none;
             display: block;
             font-size: 1em;
-            height: 100%;
+            height: $input-height;
             width: 100%;
             padding-left: 0.75em;
-            transition: all 0.2s linear;
+            transition: all 0.05s ease;
         }
 
         input {
@@ -43,8 +46,8 @@
             align-items: center;
             font-size: 1.1em;
             color: var(--text-primary);
-            width: 85%;
-            height: 100%;
+            width: calc(100% - 2.5em);
+            height: $input-height;
             margin-inline: auto;
             padding-right: 1.25em;
             border: none;
@@ -57,13 +60,23 @@
                     animation: inputHighlighter 0.3s ease;
                 }
             }
+
+            &:-webkit-autofill,
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 1000px var(--background-secondary) inset;
+                -webkit-text-fill-color: var(--text-primary) !important;
+            }
         }
 
         input:focus ~ label,
-        input.used ~ label {
-            font-size: 0.75em;
-            padding-left: 0;
-            transform: translateY(-1.75em);
+        input.used ~ label,
+        textarea:focus ~ label,
+        textarea.used ~ label {
+            font-size: 0.8em;
+            font-weight: bold;
+            transform: translate(-0.75em, -1.75em);
             color: var(--palette-heliotrope);
         }
 
@@ -72,6 +85,21 @@
         input.error ~ .bar:before,
         input.error ~ .bar:after {
             width: 50%;
+        }
+
+        textarea {
+            $padding: 0.75em;
+
+            font-size: 1.1em;
+            width: calc(100% - 2 * $padding);
+            margin-inline: auto;
+            padding: $padding;
+            border: none;
+            background: transparent;
+
+            &:focus {
+                outline: 1px solid black;
+            }
         }
 
         .field-icon {
@@ -101,7 +129,7 @@
 
             &:before,
             &:after {
-                background: var(--palette-heliotrope);
+                background: var(--form-label);
             }
 
             &.error {
@@ -116,7 +144,7 @@
                 content: '';
                 height: 2px;
                 width: 0;
-                bottom: 1px;
+                bottom: 0;
                 position: absolute;
                 transition: all 0.2s ease;
             }
@@ -147,7 +175,7 @@
         font-size: 1.5em;
         font-weight: 600;
         width: 100%;
-        height: 2.5em;
+        height: $input-height;
         cursor: pointer;
         border: none;
         transition: all 0.2s ease;

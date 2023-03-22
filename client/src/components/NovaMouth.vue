@@ -28,7 +28,7 @@ const apiResponseFetchStatus = computed(() => isFetching.value);
 watch(apiResponseError, () => {
     if (apiResponseError.value) {
         toast('Nova cannot speak right now');
-        console.error(apiResponseError.value);
+        console.error(apiResponseError.value.error);
     }
 });
 
