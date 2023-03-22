@@ -1,6 +1,7 @@
 import {
     FaDownload,
     FaEnvelope,
+    FaEraser,
     FaEye,
     FaEyeSlash,
     FaFacebookF,
@@ -21,11 +22,13 @@ import {
     IoClose,
     IoLanguage,
     IoPlayCircle,
+    IoText,
     IoWarning, // When forbidden request
     MdLogoutRound,
     MdPanoramafisheyeTwotone,
     MdReportRound,
     PrSun,  // Enable light mode
+    PrSend,
     RiEye2Line, // While running, after hearing 'Hey Nova'
     RiEyeCloseLine, // Sleeping, before hearing 'Hey Nova'
     RiLoader5Fill, // While processing the request
@@ -35,6 +38,7 @@ import {addIcons} from 'oh-vue-icons';
 addIcons(
     FaDownload,
     FaEnvelope,
+    FaEraser,
     FaEye,
     FaEyeSlash,
     FaFacebookF,
@@ -55,11 +59,13 @@ addIcons(
     IoClose,
     IoLanguage,
     IoPlayCircle,
+    IoText,
     IoWarning,
     MdLogoutRound,
     MdPanoramafisheyeTwotone,
     MdReportRound,
     PrSun,
+    PrSend,
     RiEye2Line,
     RiEyeCloseLine,
     RiLoader5Fill

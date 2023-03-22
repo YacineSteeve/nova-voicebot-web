@@ -48,7 +48,7 @@ async function submitUser() {
             cookies.set(
                 'nova-auth-token',
                 data.value.token,
-                {expires: "30min", secure: true}
+                {expires: "1d", secure: true}
             );
             router.push('/');
 
