@@ -4,6 +4,7 @@ import {computed, ref, watch, onBeforeMount} from 'vue';
 import type {Ref} from 'vue';
 import {onBeforeRouteLeave} from 'vue-router';
 import {useToast} from 'vue-toastification';
+import {supportsSpeechRecognition} from '@/lib/browser-support';
 import cookies from '@/lib/cookies';
 import type {User} from '@/lib/client';
 import {useFetch} from '@/hooks/fetch';
@@ -15,6 +16,7 @@ import NovaEye from '@/components/NovaEye.vue';
 import ContextBloc from '@/components/ContextBloc.vue';
 import NovaMouth from '@/components/NovaMouth.vue';
 import UserSpeechText from '@/components/UserSpeechText.vue';
+import UserInputText from '@/components/UserInputText.vue';
 import ResponseText from '@/components/ResponseText.vue';
 import LanguagePicker from '@/components/LanguagePicker.vue';
 
@@ -24,6 +26,7 @@ const toast = useToast();
 const novaStatus = computed(() => store.state.novaStatus);
 const currentLanguage = computed(() => store.state.language);
 
+const speechMode: Ref<boolean> = ref(true);
 const languagesVisible: Ref<boolean> = ref(false);
 
 const userToken = cookies.get('nova-auth-token') || ''
@@ -63,6 +66,10 @@ onBeforeRouteLeave((to, from, next) => {
     next();
 });
 
+function toggleUserTextMode() {
+    speechMode.value = !speechMode.value;
+}
+
 function toggleLanguagesVisibility() {
     languagesVisible.value = !languagesVisible.value;
 }
@@ -95,8 +102,13 @@ function hideLanguages() {
             </div>
             <div class="nova-context">
                 <context-bloc>
-                    <UserSpeechText :language="currentLanguage"
-                                    :key="currentLanguage"/>
+                    <UserSpeechText
+                        v-if="supportsSpeechRecognition && speechMode"
+                        :language="currentLanguage"
+                        :key="currentLanguage"/>
+                    <UserInputText
+                        v-else
+                        :key="currentLanguage"/>
                 </context-bloc>
                 <context-bloc class="total-center">
                     <Suspense>
@@ -107,6 +119,14 @@ function hideLanguages() {
         </div>
         <div class="button-section right center-start">
             <ThemeToggleButton width="60%"/>
+            <ButtonWithIcon
+                v-if="supportsSpeechRecognition"
+                :icon="`${speechMode ? 'io-text' : 'fa-microphone'}`"
+                width="60%"
+                title="Language"
+                @click="toggleUserTextMode">
+                {{`${speechMode ? 'Write Mode' : 'Speech Mode'}`}}
+            </ButtonWithIcon>
             <ButtonWithIcon icon="io-language"
                             width="60%"
                             title="Language"
