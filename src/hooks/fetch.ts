@@ -32,7 +32,7 @@ function parseApiResponse(response: ApiResponse, type: ApiEndPoint): string | nu
     if (type === 'completion') {
         return response.data.completion.choices[0].text;
     } else if (type === 'speech') {
-        return response.data.speech.speech;
+        return response.data.speech;
     }
     return null;
 }
