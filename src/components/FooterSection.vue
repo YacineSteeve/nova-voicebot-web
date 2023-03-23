@@ -60,7 +60,7 @@ function showCookiePolicy() {
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/YacineSteeve/nova-voicebot-web#readme" target="_blank"
+                            <a href="https://github.com/YacineSteeve/nova-voicebot-api#readme" target="_blank"
                                title="APi Documentation">
                                 API Documentation
                             </a>
@@ -116,7 +116,7 @@ function showCookiePolicy() {
             </div>
         </div>
         <div class="footer-bottom total-center">
-            &copy; Copyright - Yacine BOUKARI - Nova Voice Bot
+            &copy; Copyright 2023 - Yacine BOUKARI - Nova Voice Bot
         </div>
     </footer>
 </template>
