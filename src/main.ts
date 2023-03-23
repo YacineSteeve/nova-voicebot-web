@@ -4,6 +4,7 @@ import {OhVueIcon} from 'oh-vue-icons';
 import {isMobile} from 'is-mobile';
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import './main.css';
 import {store, key} from '@/store/store';
 import router from '@/router/';
 import '@/lib/icons-loader';
