@@ -125,7 +125,7 @@ function hideLanguages() {
                 width="60%"
                 title="Language"
                 @click="toggleUserTextMode">
-                {{`${speechMode ? 'Write Mode' : 'Speech Mode'}`}}
+                {{ `${speechMode ? 'Write Mode' : 'Speech Mode'}` }}
             </ButtonWithIcon>
             <ButtonWithIcon icon="io-language"
                             width="60%"
@@ -202,7 +202,7 @@ $view-height: 90vh;
         .nova-face {
             &.eyes {
                 display: flex;
-                align-items: end;
+                align-items: flex-end;
                 justify-content: center;
                 gap: 75px;
                 width: 100%;
