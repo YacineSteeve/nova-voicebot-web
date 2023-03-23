@@ -13,7 +13,7 @@ const toast = useToast();
 
 const isPlaying: Ref<boolean> = ref(false);
 const apiRequestText = computed(() => store.state.responseText);
-const apiRequestLanguage = computed(() => store.getters.truncatedLanguageCode);
+const apiRequestLanguage = computed(() => store.state.language.toUpperCase());
 
 const {data, error, isFetching} = await useFetch<string>({
     type: 'speech',
