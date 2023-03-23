@@ -101,7 +101,7 @@ $randomHeight: random(5) + em;
 
 .nova-mouth {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     flex-wrap: nowrap;
     gap: 8px;
     width: 250px;

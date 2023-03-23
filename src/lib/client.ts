@@ -1,9 +1,7 @@
 import axios from 'axios';
 import type {AxiosInstance, AxiosResponse} from 'axios';
 
-const SERVER_URL = import.meta.env.PROD
-    ? 'https://api-nova-voicebot.herokuapp.com'
-    : `http://localhost:${import.meta.env.VITE_SERVER_PORT || 8000}`;
+const SERVER_URL = 'https://api-nova-voicebot.herokuapp.com';
 
 export const novaApi: AxiosInstance = axios.create({
     baseURL: `${SERVER_URL}/api`,

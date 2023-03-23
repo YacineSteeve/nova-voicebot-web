@@ -240,7 +240,7 @@ function fillDeletePassword() {
     .theme-toggle-btn {
         display: flex;
         justify-content: center;
-        align-items: end;
+        align-items: flex-end;
         width: 15%;
         height: 100%;
     }
