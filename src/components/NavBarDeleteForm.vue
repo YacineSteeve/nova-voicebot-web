@@ -5,7 +5,7 @@ import {POSITION, useToast} from 'vue-toastification';
 import {useFetch} from '@/hooks/fetch';
 import cookies from '@/lib/cookies';
 import {isFieldError} from '@/lib/client';
-import type {User, AuthError} from '@/lib/client';
+import type {User, DeleteResponse, ResponseError} from '@/lib/client';
 import FormWrapper from '@/components/FormWrapper.vue';
 
 interface NavBarDeleteFormProps {
@@ -31,10 +31,6 @@ function togglePasswordVisibility() {
 }
 
 async function deleteAccount() {
-    interface DeleteResponse {
-        success: boolean;
-    }
-
     const {data, error} = await useFetch<DeleteResponse>({
         type: 'delete',
         data: {
@@ -58,7 +54,7 @@ async function deleteAccount() {
 
     watch([error], () => {
         if (error.value) {
-            const errorInfos = error.value as AuthError;
+            const errorInfos = error.value as ResponseError;
 
             if (isFieldError(errorInfos)) {
                 passwordError.value = true;

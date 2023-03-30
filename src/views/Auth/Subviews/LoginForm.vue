@@ -4,7 +4,7 @@ import {useRouter} from 'vue-router';
 import {useToast} from 'vue-toastification';
 import {useFetch} from '@/hooks/fetch';
 import {isFieldError} from '@/lib/client';
-import type {AuthError} from '@/lib/client';
+import type {LoginResponse, ResponseError} from '@/lib/client';
 import cookies from '@/lib/cookies';
 import FormWrapper from '@/components/FormWrapper.vue';
 
@@ -27,11 +27,6 @@ const errors = {
 const errorMessages = {
     email: 'Invalid email address',
     password: 'Wrong password'
-}
-
-interface LoginResponse {
-    success: boolean;
-    token: string;
 }
 
 async function submitUser() {
@@ -58,7 +53,7 @@ async function submitUser() {
 
     watch([error], () => {
         if (error.value) {
-            const errorInfos = error.value as AuthError;
+            const errorInfos = error.value as ResponseError;
 
             if (isFieldError(errorInfos)) {
                 errorInfos.fields.forEach(field => {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref, watch} from 'vue';
 import {POSITION, useToast} from 'vue-toastification';
+import type {ContactResponse} from '@/lib/client';
 import {useFetch} from '@/hooks/fetch';
 import FormWrapper from '@/components/FormWrapper.vue';
 
@@ -12,15 +13,9 @@ const subject = ref<string>('');
 const message = ref<string>('');
 
 async function sendMessage() {
-    interface ContactResponse {
-        success: boolean;
-        message: string;
-        info: string;
-    }
-
     const {data, error} = await useFetch<ContactResponse>({
         type: 'contact',
-        details: {
+        data: {
             name: name.value,
             email: email.value,
             subject: subject.value,

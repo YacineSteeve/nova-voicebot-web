@@ -4,7 +4,7 @@ import {onBeforeMount, ref, watch} from 'vue';
 import {useToast} from 'vue-toastification';
 import {useFetch} from '@/hooks/fetch';
 import cookies from '@/lib/cookies';
-import type {User} from '@/lib/client';
+import type {User, UserInfoResponse} from '@/lib/client';
 import ThemeToggleButton from '@/components/ThemeToggleButton.vue';
 import NavBarDeleteForm from "@/components/NavBarDeleteForm.vue";
 
@@ -13,16 +13,11 @@ const user = ref<User | null>(null);
 const askingDelete = ref(false);
 
 onBeforeMount(async () => {
-    interface UserResponse {
-        success: boolean;
-        user: User;
-    }
-
     if (!cookies.get('nova-auth-token')) {
         return;
     }
 
-    const {data, error, isFetching} = await useFetch<UserResponse>({
+    const {data, error, isFetching} = await useFetch<UserInfoResponse>({
         type: 'userinfo',
         data: {
             token: cookies.get('nova-auth-token') || ''
