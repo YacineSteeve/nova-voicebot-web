@@ -17,8 +17,10 @@ const apiRequestLanguage = computed(() => store.state.language.toLowerCase());
 
 const {data, error, isFetching} = await useFetch<string>({
     type: 'speech',
-    text: apiRequestText,
-    lang: apiRequestLanguage
+    data: {
+        text: apiRequestText,
+        lang: apiRequestLanguage,
+    },
 });
 
 const apiResponseData = computed(() => data.value);

@@ -6,7 +6,7 @@ import {onBeforeRouteLeave} from 'vue-router';
 import {useToast} from 'vue-toastification';
 import {supportsSpeechRecognition} from '@/lib/browser-support';
 import cookies from '@/lib/cookies';
-import type {User} from '@/lib/client';
+import type {UserInfoResponse} from '@/lib/client';
 import {useFetch} from '@/hooks/fetch';
 import {useStore} from '@/store/store';
 import {MutationTypes} from '@/store/mutations';
@@ -33,12 +33,7 @@ const userToken = cookies.get('nova-auth-token') || ''
 const userEmail: Ref<string> = ref(userToken);
 
 onBeforeMount(async () => {
-    interface UserResponse {
-        success: boolean;
-        user: User;
-    }
-
-    const {data, error, isFetching} = await useFetch<UserResponse>({
+    const {data, error, isFetching} = await useFetch<UserInfoResponse>({
         type: 'userinfo',
         data: {
             token: userToken

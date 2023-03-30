@@ -14,6 +14,7 @@ function wakeNova() {
 
 function sendText() {
     if (inputText.value !== '') {
+        wakeNova();
         store.commit(MutationTypes.CHANGE_USER_TEXT, inputText.value);
     }
 }
@@ -35,7 +36,6 @@ function clearInput() {
             v-model="inputText"
             :placeholder="store.getters.translationsDictionary.callToTalk"
             @keydown="handleKeydown"
-            @change="wakeNova"
         ></textarea>
         <div class="button-container">
             <ButtonWithIcon

@@ -14,13 +14,17 @@ const props = defineProps<ResponseTextProps>();
 const store = useStore();
 const toast = useToast();
 
+const ERROR_CODE_FOR_VIOLATION = 451;
+
 const responseText = computed(() => store.state.responseText);
 const apiRequestPrompt = computed(() => store.state.userText);
 
 const {data, error, isFetching} = await useFetch<string>({
     type: 'completion',
-    prompt: apiRequestPrompt,
-    user: props.user
+    data: {
+        prompt: apiRequestPrompt,
+        user: props.user
+    },
 });
 
 const apiResponseData = computed(() => {
@@ -42,7 +46,7 @@ watch(apiResponseError, () => {
         return;
     }
 
-    if (apiResponseError.value.response?.status === 400) {
+    if (apiResponseError.value.response?.status === ERROR_CODE_FOR_VIOLATION) {
         const violationCategories: string[] = apiResponseError.value.response.data.categories;
         let message = 'Sorry, your request cannot be processed due to policy violation.' +
             'The content detected in your request is ' +

@@ -5,7 +5,7 @@ import {useToast} from 'vue-toastification';
 import {useFetch} from '@/hooks/fetch';
 import POLICIES, {POLICIES_NAMES} from '@/lib/policies';
 import {isFieldError} from '@/lib/client';
-import type {AuthError} from '@/lib/client';
+import type {SignupResponse, ResponseError} from '@/lib/client';
 import ProgressBar from '@/components/ProgressBar.vue';
 import FormWrapper from '@/components/FormWrapper.vue';
 import MarkdownFormatted from '@/components/MarkdownFormatted.vue';
@@ -49,10 +49,6 @@ const errorMessages = {
     password: passwordErrorMessage
 }
 
-interface SignupResponse {
-    success: boolean;
-}
-
 function goToTerms() {
     currentStep.value = 2;
 }
@@ -89,7 +85,7 @@ async function submitUser() {
 
     watch([error], () => {
         if (error.value) {
-            const errorInfos = error.value as AuthError;
+            const errorInfos = error.value as ResponseError;
 
             if (isFieldError(errorInfos)) {
                 errorInfos.fields.forEach(field => {
