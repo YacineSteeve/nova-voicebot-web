@@ -14,6 +14,7 @@ import {
     FaSlidersH,  // Settings
     FaWhatsapp,
     FaUser,
+    GiConversation,
     GiSpeaker, // Enable speaking
     GiSpeakerOff, // Disable speaking
     HiChevronDown,
@@ -51,6 +52,7 @@ addIcons(
     FaSlidersH,
     FaWhatsapp,
     FaUser,
+    GiConversation,
     GiSpeaker,
     GiSpeakerOff,
     HiChevronDown,
