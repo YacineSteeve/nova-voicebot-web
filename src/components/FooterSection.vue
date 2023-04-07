@@ -1,39 +1,8 @@
 <script setup
         lang="ts">
-import {useToast, POSITION} from 'vue-toastification';
 import {POLICIES_NAMES} from '@/lib/policies';
 import FooterLoginForm from '@/components/FooterLoginForm.vue';
-import LegalStuff from '@/components/LegalStuff.vue';
-
-const toast = useToast();
-
-function showLegalStuff(name: POLICIES_NAMES) {
-    const toastContent = {
-        component: LegalStuff,
-        props: {
-            policyName: name,
-        },
-    }
-
-    toast(toastContent, {
-        closeOnClick: false,
-        position: POSITION.TOP_LEFT,
-        timeout: false,
-        hideProgressBar: true,
-    });
-}
-
-function showPrivacyPolicy() {
-    showLegalStuff(POLICIES_NAMES.PRIVACY_POLICY);
-}
-
-function showTermsAndConditions() {
-    showLegalStuff(POLICIES_NAMES.TERMS_OF_USE);
-}
-
-function showCookiePolicy() {
-    showLegalStuff(POLICIES_NAMES.COOKIE_POLICY);
-}
+import LegalStuffToasted from '@/components/LegalStuffToasted.vue';
 </script>
 
 <template>
@@ -108,9 +77,21 @@ function showCookiePolicy() {
                 <div class="terms-and-conditions total-center">
                     <h2 class="center-start"></h2>
                     <ul>
-                        <li @click="showTermsAndConditions">Terms and Conditions</li>
-                        <li @click="showPrivacyPolicy">Privacy Policy</li>
-                        <li @click="showCookiePolicy">Cookie Policy</li>
+                        <li>
+                            <LegalStuffToasted :policy-name="POLICIES_NAMES.TERMS_OF_USE">
+                                Terms and Conditions
+                            </LegalStuffToasted>
+                        </li>
+                        <li>
+                            <LegalStuffToasted :policy-name="POLICIES_NAMES.PRIVACY_POLICY">
+                                Privacy Policy
+                            </LegalStuffToasted>
+                        </li>
+                        <li>
+                            <LegalStuffToasted :policy-name="POLICIES_NAMES.COOKIE_POLICY">
+                                Cookie Policy
+                            </LegalStuffToasted>
+                        </li>
                     </ul>
                 </div>
             </div>
