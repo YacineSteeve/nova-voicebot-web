@@ -1,5 +1,7 @@
 # Nova Voicebot - Website
 
+[![Website nova-voicebot.vercel.app](https://img.shields.io/website-up-down-green-red/https/nova-voicebot.vercel.app.svg)](https://nova-voicebot.vercel.app)
+
 <div align="center">
     <img alt="Logo" src="https://user-images.githubusercontent.com/64146788/229367526-bf42c308-7362-4c45-b50d-4dbe5ee1da88.svg" width="200px" />
 </div>

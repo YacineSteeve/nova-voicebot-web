@@ -191,6 +191,11 @@ $input-height: 2.4em;
         &:hover {
             background: var(--palette-electric-violet);
         }
+
+        &:disabled {
+            cursor: default;
+            background: var(--palette-fog);
+        }
     }
 }
 </style>

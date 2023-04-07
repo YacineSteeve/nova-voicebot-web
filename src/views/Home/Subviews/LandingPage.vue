@@ -3,7 +3,7 @@ import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
 </script>
 
 <template>
-    <div class="landing-page" id="features">
+    <div class="landing-page">
         <section class="first total-center">
             <div class="section-step left first"></div>
 
@@ -28,7 +28,7 @@ import ButtonWithIcon from '@/components/ButtonWithIcon.vue';
             <img src="@/assets/nova.png" alt="Nova Image">
         </section>
 
-        <section class="second total-center">
+        <section class="second total-center" id="features">
             <div class="section-step right"></div>
 
             <div class="conv">
@@ -191,6 +191,19 @@ $section-padding: calc(100vh - 3 * var(--navbar-height));
                 border-radius: 20px;
                 border: 2px solid white;
                 transform: rotate(-20deg);
+                animation: float 2s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: rotate(-20deg) translateY(0);
+                }
+                50% {
+                    transform: rotate(-20deg) translateY(-10px);
+                }
+                100% {
+                    transform: rotate(-20deg) translateY(0);
+                }
             }
         }
 
@@ -245,6 +258,16 @@ $section-padding: calc(100vh - 3 * var(--navbar-height));
                 background: var(--palette-carribean-green);
                 border-radius: 50%;
                 border: 5px solid white;
+                animation: slide 1s ease-out;
+            }
+
+            @keyframes slide {
+                from {
+                    top: 25%;
+                }
+                to {
+                    top: 50%;
+                }
             }
 
             &.first {
